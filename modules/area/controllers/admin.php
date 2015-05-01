@@ -241,6 +241,15 @@ $data['delete_flag'] = $this->input->post('delete_flag');
         return $data;
    }
 
+    public function detail($id)
+    {
+        // Display Page
+        $data['header'] = lang('area');
+        $data['page'] = $this->config->item('template_admin') . "detail";
+        $data['module'] = 'area';
+        $this->load->view($this->_container,$data);
+    }
+
    
 
 }
