@@ -26,9 +26,6 @@
 // KTM 27.7076762, 85.3148882
 
 var map = L.map('map').setView([27.700588, 85.311894], 16);
-
-		
-
 		var baseballIcon = L.icon({
 			iconUrl: 'rescue.png',
 			iconSize: [32, 37],
@@ -95,6 +92,54 @@ var rescue = {
                 "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
             },
             "id": 51
+        },
+         {
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  85.322697, 27.711794
+                ]
+            },
+            "type": "Feature",
+            "district": "Kathamndu",
+            "vdc": "Jitpur Phadi",
+            "ward":"5",            
+            "properties": {
+                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
+            },
+            "id": 51
+        },
+         {
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  85.313697, 27.704794
+                ]
+            },
+            "type": "Feature",
+            "district": "Kathamndu",
+            "vdc": "Jitpur Phadi",
+            "ward":"5",            
+            "properties": {
+                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
+            },
+            "id": 51
+        },
+         {
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  85.313799, 27.704898
+                ]
+            },
+            "type": "Feature",
+            "district": "Kathamndu",
+            "vdc": "Jitpur Phadi",
+            "ward":"5",            
+            "properties": {
+                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
+            },
+            "id": 51
         }
          
     ]
@@ -102,40 +147,28 @@ var rescue = {
 
 
 
-		L.geoJson([rescue], {
+	L.geoJson([rescue], {
 
-			style: function (feature) {
-				return feature.properties && feature.properties.style;
-			},
+		style: function (feature) {
+			return feature.properties && feature.properties.style;
+		},
 
-			onEachFeature: onEachFeature,
+		onEachFeature: onEachFeature,
 
-			pointToLayer: function (feature, latlng) {
-				return L.circleMarker(latlng, {
-					radius: 8,
-					fillColor: "#ff7800",
-					color: "#000",
-					weight: 1,
-					opacity: 1,
-					fillOpacity: 0.8
-				});
-			}
-		}).addTo(map);
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker(latlng, {
+				radius: 8,
+				fillColor: "#ff7800",
+				color: "#000",
+				weight: 1,
+				opacity: 1,
+				fillOpacity: 0.8
+			});
+		}
+	}).addTo(map);
 
 
-		// L.marker([27.7076762, 85.3148882]	, {icon:logistic } ).addTo(map)
-		// 	.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-									
-		// var popup = L.popup();
-
-		// function onMapClick(e) {
-		// 	popup
-		// 		.setLatLng(e.latlng)
-		// 		.setContent("You clicked the map at " + e.latlng.toString())
-		// 		.openOn(map);
-		// }
-
-		// map.on('click', onMapClick);
+		
 
 
 	</script>
