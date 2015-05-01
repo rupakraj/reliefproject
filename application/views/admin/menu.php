@@ -61,6 +61,8 @@
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/area_type'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_area_type');?></a></li>
                     <?php $css = (isset($uri[1]) && $uri[1] == 'obstruction_type') ? 'class="active"' : ''; ?> 
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/obstruction_type'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_obstruction_type');?></a></li>
+                    <?php $css = (isset($uri[1]) && $uri[1] == 'district_vdc') ? 'class="active"' : ''; ?> 
+                    <li <?php echo $css; ?>><a href="<?php echo site_url('admin/district_vdc'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_district_vdc');?></a></li>
                 </ul>
             </li>
 
