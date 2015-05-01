@@ -66,13 +66,13 @@ $(document).ready(function () {
 		$(".date_box").jqxDateTimeInput({ width: 195, height: 25, formatString: formatString_yyyy_MM_dd, theme: theme_combo });
 	}
 	if ($(".number_general")[0]){
-		$(".number_general").jqxNumberInput({ width: 195,height: 25, inputMode: 'simple', spinButtons: false, min: 0, digits:10, max: 9999999999, decimalDigits: 0, spinButtonsStep: 100, theme: theme_input });
+		$(".number_general").jqxNumberInput({ width: 195,height: 25, inputMode: 'simple', spinButtons: true, min: 0, digits:10, max: 9999999999, decimalDigits: 0, spinButtonsStep: 1, theme: theme_input });
 	}
 	if ($(".number_percentage")[0]){
-		$(".number_percentage").jqxNumberInput({ width: 195,height: 25, inputMode: 'simple', spinButtons: true, min: 0, digits:2, decimalDigits: 1, spinButtonsStep: 50, theme: theme_input });
+		$(".number_percentage").jqxNumberInput({ width: 195,height: 25, inputMode: 'simple', spinButtons: true, min: 0, digits:2, decimalDigits: 1, spinButtonsStep: 1, theme: theme_input });
 	}
 	if ($(".number_currency")[0]){
-		$(".number_currency").jqxNumberInput({ width: 195,height: 25, inputMode: 'simple', spinButtons: false, min: -9999999999, decimalDigits: 2, theme: theme_input });
+		$(".number_currency").jqxNumberInput({ width: 195,height: 25, inputMode: 'simple', spinButtons: true, min: -9999999999, decimalDigits: 2, theme: theme_input });
 	}
 	if ($(".jqxTabs")[0]){
 		$('.jqxTabs').jqxTabs({ width: '100%', height: 235, position: 'top', theme: theme_tab});
