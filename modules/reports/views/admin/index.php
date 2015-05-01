@@ -3,8 +3,8 @@
 	<section class="content-header">
 		<h1>Reports</h1>
 		<div class="breadcrumb" style="top:7px">
-            <span class="label label-status-active">Active Records</span>
-            <span class="label label-status-inactive">Inactive Records</span>
+            <!-- <span class="label label-status-active">Active Records</span>
+            <span class="label label-status-inactive">Inactive Records</span> -->
         </div>
 	</section>
 
@@ -24,14 +24,50 @@
 				
 				<div>
 					<form>
-						<p>District :  <input id="district" name="district" /></p>
-						<p>VDC/ MUN :  <input id="vdc-mun" name="vdc-mun" /></p>
-						<p>Ward :  <input id="ward" name="ward" /></p>
+						<p>
+							District :  <input id="district" name="district" />
+						 	VDC/ MUN :  <input id="vdc_mun" name="vdc_mun" />
+					 	</p>
+						<p>
+							Ward :  <input id="ward" name="ward" />
+							Male : <input id="male" name="male" />
+						</p>
+						<p>
+							Female : <input id="female" name="female" />
+							Child : <input id="child" name="child" />
+						</p>	
+						<p>
+							Death : <input id="death" name="death" />	
+							Trapped : <input id="trapped" name="trapped" />
+						</p>	
+						<p>
+							Injured : <input id="injured" name="injured" />
+							Damage : <input id="damage" name="damage" />
+						</p>
+						<p>
+							Collapsed : <input id="collapsed" name="collapsed" />
+							Cracked : <input id="cracked" name="cracked" />
+						</p>
+						<p> 
+							Accesibility : <input id="accesibility" name="accesibility" />
+							Area_type : <input id="area_type" name="area_type" />
+						</p>
+						<p>
+							Priority : <input id="Priority" name="Priority" />
+							Road Obstruction : <input id="road_obstruction" name="road_obstruction" />
+						</p>
+						<p>
+							Food : <input id="Priority" name="Priority" />
+							Medicine : <input id="road_obstruction" name="road_obstruction" />
+						</p>
+						
 						<button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridDistrict_vdcFilterClear">Submit</button>
 					</form>
 				</div>
 
-				<div id="jqxGrid_reports"></div>
+				<div id="jqxGrid_reports">
+					
+				</div>
 
 			</div><!-- /.col -->
 		</div>

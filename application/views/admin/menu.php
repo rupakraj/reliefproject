@@ -106,7 +106,7 @@
                 <ul class="treeview-menu">
                     <?php $css = (isset($uri[1]) && $uri[1] == 'change_password') ? 'class="active"' : ''; ?> 
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/reports'); ?>"><i class="fa fa-angle-double-right"></i>All</a></li>
-                    <li><a href="<?php echo site_url('auth/logout'); ?>"><i class="fa fa-angle-double-right"></i>Logout</a></li>
+                    
                 </ul>
             </li>
 
