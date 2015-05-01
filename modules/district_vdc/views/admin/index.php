@@ -76,8 +76,8 @@
 
 $(function(){
 
-	//$("#hierarchy_name").jqxComboBox({ source: array_hierarchy_names });
-	//$("#location_type").jqxComboBox({ source: array_location_types });
+	$("#hierarchy_name").jqxComboBox({ source: array_hierarchy_names });
+	$("#location_type").jqxComboBox({ source: array_location_types });
 
 	var locationDataSource = {
 		url : base_url + 'admin/district_vdc/combo_json',
@@ -91,26 +91,34 @@ $(function(){
         async: false
 	};
 
-	var locationDataAdapter = new $.jqx.dataAdapter(locationDataSource, {autoBind:true});
+	var locationDataAdapter = new $.jqx.dataAdapter(locationDataSource,{
+		autoBind: true,
+		beforeLoadComplete: function (records) {
+	        var data = new Array();
+	        for (var i = 0; i < records.length; i++) {
+	            var r = records[i];
+	            r.rec = r.id + ": " + r.name_en + " (" + r.name_np + ")";
+	            r.id = r.id;
+	            data.push(r);
+	        }
+	        return data;
+	    }
+	});
 
-	$("#parent_location_id").jqxComboBox({ 
-	    	theme: theme_combo, 
-	    	width: 195, 
-			height: 25, 
-			selectionMode: 'dropDownList', 
-			autoComplete: true, 
-			searchMode: 'containsignorecase',
-			source: locationDataAdapter, 
-			displayMember: "name_en", 
-			valueMember: "id", 
-			dropDownWidth: 600, 
-			dropDownHorizontalAlignment: 'right', 
-	        /*renderer: function (index, label, value) {
-                var datarecord = areaDataAdapter.records[index];
-                var table = '<table style="width: 600px;"><tr><td><b>' + datarecord.name  + '</b></td></tr><tr><td>' + datarecord.coverage + '</td></tr></table>';
-                return table;
-            }*/
-	    });
+	
+	$("#parent_location_id").jqxComboBox({
+		theme: theme_combo, 
+    	width: 195, 
+		height: 25, 
+		selectionMode: 'dropDownList', 
+		source: locationDataAdapter, 
+		autoComplete: true, 
+		displayMember: "rec", 
+		valueMember: "id", 
+		dropDownWidth: 400, 
+		dropDownHorizontalAlignment: 'left'
+	});
+	
 
 	var district_vdcDataSource =
 	{
@@ -270,6 +278,23 @@ $(function(){
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
+            { input: '#id', message: 'Location ID already exists', action: 'blur', 
+                rule: function(input, commit) {
+                    val = $("#product_code").val();
+                    $.ajax({
+                        url: "<?php echo site_url('admin/district_vdc/check_duplicate'); ?>",
+                        type: 'POST',
+                        data: {field: 'id', value:val, id: $('input#id').val()},
+                        success: function (result) {
+                            var result = eval('('+result+')');
+                            return commit(result.success);
+                        },
+                        error: function(result) {
+                            return commit(false);
+                        }
+                    });
+                }
+            },
 			{ input: '#code', message: 'Required', action: 'blur', 
 				rule: function(input) {
 					val = $('#code').val();
