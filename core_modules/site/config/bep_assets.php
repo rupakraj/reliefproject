@@ -137,6 +137,8 @@ $config['asset'][] = array('file' => 'jquery.cookie.js', 'needs' => 'jquery.js')
 $config['asset'][] = array('file' => 'jquery.treeview.js', 'needs' => 'jquery.cookie');
 $config['asset'][] = array('file' => 'treeview.css');
 
+$config['asset'][]= array('file' => 'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css', 'name' => 'leaflet.css', 'position' => 'header');
+$config['asset'][]= array('file' => 'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js', 'name' => 'leaflet.js', 'position' => 'header');
 
 $config['asset_group']['SITE'] 		= 'jquery.js|jqueryui.js|bootstrap.js|adminlte.js|bootstrap.css|font-awesome.css|ionicons.css|AdminLTE.css|AdminLTE-extended.css|app.css|app.js';
 $config['asset_group']['PUBLIC'] 	= '';
@@ -159,6 +161,8 @@ $config['asset_group']['DASHBOARD'] = 'dashboard.js';
 $config['asset_group']['APP'] = 'app.css|app.js|date.js|jquery.cookie|jquery.treeview|treeview';
 
 $config['asset_group']['FANCYBOX'] = 'fancybox.css|fancybox.js';
+
+$config['asset_group']['LEAFLET'] = 'leaflet.css|leaflet.js';
 
 
 

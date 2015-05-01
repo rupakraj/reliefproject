@@ -65,7 +65,7 @@
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/district_vdc'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_district_vdc');?></a></li>
                 </ul>
             </li>
-
+            <?php /*
             <li>
                 <a href="<?php echo site_url('admin/volunteer'); ?>">
                     <i class="fa fa-tag"></i> <span>Volunteer</span>
@@ -77,6 +77,7 @@
                     <i class="fa fa-tag"></i> <span>Vehicle</span>
                 </a>
             </li>
+            */?>
 
             <li>
                 <a href="<?php echo site_url('admin/area'); ?>">
@@ -86,6 +87,12 @@
             <li>
                 <a href="<?php echo site_url('admin/organization'); ?>">
                     <i class="fa fa-tag"></i> <span>Organization</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="<?php echo site_url('admin/map'); ?>" target="_blank">
+                    <i class="fa fa-tag"></i> <span>Map</span>
                 </a>
             </li>
 
