@@ -156,11 +156,14 @@
 				</tr>
 				<tr>
 					<td><label for='road_obstructed'><?php echo lang('road_obstructed')?></label></td>
-					<td><div id='road_obstructed' class='number_general' name='road_obstructed'></div></td>
+					<td>
+                        <input type="radio" value="1" name="road_obstructed" id="road_obstructed1" />&nbsp;<?php echo lang("general_yes")?> &nbsp;
+                        <input type="radio" value="0" name="road_obstructed" id="road_obstructed0" checked="checked" />&nbsp;<?php echo lang("general_no")?>
+                    </td>
 				</tr>
 				<tr>
 					<td><label for='road_obstruct_detail'><?php echo lang('road_obstruct_detail')?></label></td>
-					<td><input id='road_obstruct_detail' class='text_input' name='road_obstruct_detail'></td>
+					<td><div id='road_obstruct_detail' class='number_general' name='road_obstruct_detail'></div></td>
 				</tr>
 				<tr>
 					<td><label for='reported_date'><?php echo lang('reported_date')?></label></td>
@@ -176,19 +179,19 @@
 				</tr>
 				<tr>
 					<td><label for='contact_detail'><?php echo lang('contact_detail')?></label></td>
-					<td><input id='contact_detail' class='text_input' name='contact_detail'></td>
+					<td><textarea id='contact_detail' class='text_input' name='contact_detail'></textarea></td>
 				</tr>
 				<tr>
 					<td><label for='internal_contact'><?php echo lang('internal_contact')?></label></td>
-					<td><input id='internal_contact' class='text_input' name='internal_contact'></td>
+					<td><textarea id='internal_contact' class='text_input' name='internal_contact'></textarea></td>
 				</tr>
 				<tr>
 					<td><label for='security_contact'><?php echo lang('security_contact')?></label></td>
-					<td><input id='security_contact' class='text_input' name='security_contact'></td>
+					<td><textarea id='security_contact' class='text_input' name='security_contact'></textarea></td>
 				</tr>
 				<tr>
 					<td><label for='nearest_hospital_distance'><?php echo lang('nearest_hospital_distance')?></label></td>
-					<td><input id='nearest_hospital_distance' class='text_input' name='nearest_hospital_distance'></td>
+					<td><input id='nearest_hospital_distance' class='text_input' name='nearest_hospital_distance'> (in km.)</td>
 				</tr>
 				<tr>
 					<td><label for='nearest_hospital_name'><?php echo lang('nearest_hospital_name')?></label></td>
@@ -196,7 +199,7 @@
 				</tr>
 				<tr>
 					<td><label for='nearest_hospital_contact'><?php echo lang('nearest_hospital_contact')?></label></td>
-					<td><input id='nearest_hospital_contact' class='text_input' name='nearest_hospital_contact'></td>
+					<td><textarea id='nearest_hospital_contact' class='text_input' name='nearest_hospital_contact'></textarea></td>
 				</tr>
 				<tr>
 					<td><label for='longitude'><?php echo lang('longitude')?></label></td>
@@ -310,6 +313,36 @@ $(function(){
     $.each(districtDataAdapter.records, function(key,val) {
         array_district.push(val.name);
     });
+    //obstruction type
+    var obstructionDataSource = {
+        url : base_url + 'admin/obstruction_type/combo_json',
+        datatype: 'json',
+        datafields: [
+            { name: 'id', type: 'number' },
+            { name: 'name', type: 'string' },
+        ],
+        async: false
+    }
+
+    var obstructionDataAdapter = new $.jqx.dataAdapter(obstructionDataSource);
+
+    $("#road_obstruct_detail").jqxComboBox({
+        theme: theme_combo,
+        width: 195,
+        height: 25,
+        selectionMode: 'dropDownList',
+        autoComplete: true,
+        searchMode: 'containsignorecase',
+        source: obstructionDataAdapter,
+        displayMember: "name",
+        valueMember: "id"
+    });
+
+    var array_obstruction = new Array();
+    $.each(obstructionDataAdapter.records, function(key,val) {
+        array_obstruction.push(val.name);
+    });
+
 
     var areaDataSource =
 	{
@@ -504,6 +537,7 @@ $(function(){
 
 	$('#jqxGridAreaInsert').on('click', function(){
 		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
+        $('#first_followup').jqxDateTimeInput('setDate', null);
     });
 
 	// initialize the popup window
@@ -526,7 +560,7 @@ $(function(){
     });
 
 
-    $('#form-area').jqxValidator({
+    /*$('#form-area').jqxValidator({
         hintType: 'label',
         animationDuration: 500,
         rules: [
@@ -811,17 +845,18 @@ $(function(){
 			},
 
         ]
-    });
+    });*/
 
     $("#jqxAreaSubmitButton").on('click', function () {
+        saveRecord();
 
-        var validationResult = function (isValid) {
+        /*var validationResult = function (isValid) {
                 if (isValid) {
                    saveRecord();
                 }
             };
 
-        $('#form-area').jqxValidator('validate', validationResult);
+        $('#form-area').jqxValidator('validate', validationResult);*/
        
     });
 
@@ -862,10 +897,20 @@ function editRecord(index){
 		$('#accessibility_id').jqxNumberInput('val', row.accessibility_id);
 		$('#distance_ktm').jqxNumberInput('val', row.distance_ktm);
 		$('#area_type').val(row.area_type);
-		$('#road_obstructed').jqxNumberInput('val', row.road_obstructed);
+		//$('#road_obstructed').jqxNumberInput('val', row.road_obstructed);
+        if(row.road_obstructed == true) {
+            $('#road_obstructed').prop('checked', 'checked');
+        } else {
+            $('#road_obstructed').prop('checked', 'checked');
+        }
 		$('#road_obstruct_detail').val(row.road_obstruct_detail);
-		$('#reported_date').jqxDateTimeInput('setDate', row.reported_date);
-		$('#first_followup').jqxDateTimeInput('setDate', row.first_followup);
+        if (row.reported_date != null && row.reported_date != '0000-00-00 00:00:00' && row.reported_date != '') {
+            $('#reported_date').jqxDateTimeInput('setDate', row.reported_date);
+        }
+        if (row.first_followup != null && row.first_followup != '0000-00-00 00:00:00' && row.first_followup != '') {
+            $('#first_followup').jqxDateTimeInput('setDate', row.first_followup);
+        }
+
 		$('#priority').val(row.priority);
 		$('#contact_detail').val(row.contact_detail);
 		$('#internal_contact').val(row.internal_contact);
