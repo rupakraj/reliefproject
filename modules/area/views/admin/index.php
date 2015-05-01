@@ -351,7 +351,7 @@ $(function(){
 			{ name: 'id', type: 'number' },
 			{ name: 'code', type: 'string' },
 			{ name: 'name', type: 'string' },
-			{ name: 'district', type: 'string' },
+			{ name: 'district', type: 'string',values: { source: districtDataAdapter.records, value: 'id', name: 'name_en'} },
 			{ name: 'ward', type: 'number' },
 			{ name: 'address', type: 'string' },
 			{ name: 'location_category', type: 'string' },
@@ -375,11 +375,11 @@ $(function(){
 			{ name: 'death', type: 'number' },
 			{ name: 'trapped', type: 'number' },
 			{ name: 'sick', type: 'number' },
-			{ name: 'accessibility_id', type: 'number' },
+			{ name: 'accessibility_id', type: 'string',values: { source: accessibilityDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'distance_ktm', type: 'number' },
-			{ name: 'area_type', type: 'string' },
-			{ name: 'road_obstructed', type: 'number' },
-			{ name: 'road_obstruct_detail', type: 'string' },
+			{ name: 'area_type', type: 'string',values: { source: areatypeDataAdapter.records, value: 'id', name: 'name'} },
+			{ name: 'road_obstructed', type: 'bool' },
+			{ name: 'road_obstruct_detail', type: 'string',values: { source: obstructionDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
@@ -465,15 +465,16 @@ $(function(){
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
-					var e = '', d='', row =  $("#jqxGridArea").jqxGrid('getrowdata', index);
+					var e = '', d='', detail = '', row =  $("#jqxGridArea").jqxGrid('getrowdata', index);
 					e = '<a href="javascript:void(0)" onclick="editRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
 					if (row.delete_flag == 0) {
 						d = '<a href="javascript:void(0)" onclick="deleteRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
 					} else {
 						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
 					}
+                    detail = '<a href="#" title="Detail"><i class="glyphicon glyphicon-edit"></i></a>';
 					
-					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
+					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '&nbsp;' + detail + '</div>';
 				}
 			},
 			{ text: '<?php echo lang("code"); ?>',datafield: 'code',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -505,7 +506,7 @@ $(function(){
 			{ text: '<?php echo lang("accessibility_id"); ?>',datafield: 'accessibility_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("distance_ktm"); ?>',datafield: 'distance_ktm',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("area_type"); ?>',datafield: 'area_type',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("road_obstructed"); ?>',datafield: 'road_obstructed',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("road_obstructed"); ?>',datafield: 'road_obstructed',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'checkbox', filtertype: 'bool' },
 			{ text: '<?php echo lang("road_obstruct_detail"); ?>',datafield: 'road_obstruct_detail',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("reported_date"); ?>',datafield: 'reported_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("first_followup"); ?>',datafield: 'first_followup',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
@@ -867,6 +868,7 @@ function editRecord(index){
 
     var row =  $("#jqxGridArea").jqxGrid('getrowdata', index);
   	if (row) {
+        console.log(row.road_obstructed);
         $('#id').val(row.id);
 		$('#code').val(row.code);
 		$('#name').val(row.name);
@@ -898,10 +900,10 @@ function editRecord(index){
 		$('#distance_ktm').jqxNumberInput('val', row.distance_ktm);
 		$('#area_type').val(row.area_type);
 		//$('#road_obstructed').jqxNumberInput('val', row.road_obstructed);
-        if(row.road_obstructed == true) {
-            $('#road_obstructed').prop('checked', 'checked');
+        if(row.road_obstructed == 1) {
+            $('#road_obstructed1').prop('checked', 'checked');
         } else {
-            $('#road_obstructed').prop('checked', 'checked');
+            $('#road_obstructed0').prop('checked', 'checked');
         }
 		$('#road_obstruct_detail').val(row.road_obstruct_detail);
         if (row.reported_date != null && row.reported_date != '0000-00-00 00:00:00' && row.reported_date != '') {
