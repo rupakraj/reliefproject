@@ -1,0 +1,7 @@
+application/cache/*
+application/logs/*
+application/config/database.php
+gen-modules/*
+documents/
+.idea/
+.projects/

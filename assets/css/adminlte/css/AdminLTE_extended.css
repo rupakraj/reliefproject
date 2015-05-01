@@ -1,0 +1,82 @@
+/************************************
+* AdminLTE Extened
+*************************************/
+.dropdown-menu > li > a:hover {
+	background-color: #3c8dbc;
+	color: #f9f9f9!important;
+}
+
+.right-side > .content-header > h1 {
+	font-size: 20px;
+}
+.right-side > .content-header > h1 > small {
+	font-size: 15px;
+	padding-left: 4px;
+}
+
+.sidebar .sidebar-menu .treeview-menu > li > a > .fa,
+.sidebar .sidebar-menu .treeview-menu > li > a > .glyphicon,
+.sidebar .sidebar-menu .treeview-menu > li > a > .ion {
+	width: 15px;
+}
+
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header {
+	height: 75px;
+	padding: 5px;
+}
+
+.small-box {
+
+	border: 1px solid #ccc;
+}
+.small-box > .access-control {
+	text-align: right;
+}
+
+.small-box h3.access-control {
+	font-size: 18px;
+}
+
+.small-box p.access-control {
+	font-size: 14px;
+}
+
+
+
+.small-box:hover {
+	color: #000;
+	cursor: pointer;
+}
+
+.alert {
+	padding-left: 15px;
+	margin-left: 0px;
+}
+
+.form-box .header {
+	background: #367fa9;
+	font-weight: bold;
+}
+
+.form-box .body > .form-group > input,
+.form-box .footer > .form-group > input {
+	border: #ccc;
+}
+
+.allow {
+	color: green;
+}
+
+.deny {
+	color: red;
+}
+
+.label {
+	font-size: 90% !important;
+	font-weight: normal;
+}
+
+.skin-blue .treeview-menu > li.active > a,
+.skin-blue .treeview-menu > li > a:hover {
+  font-weight: bold;
+}

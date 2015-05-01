@@ -1,0 +1,43 @@
+.grid-column-center {
+    text-align: center;
+}
+
+#footer {
+    width: 100%;
+    padding: 5px 5px 5px 0px;
+    text-align: right;
+    font-size: 12px;
+    color: #FFF;
+    background-color: #357ca5;
+    position: fixed;
+    bottom: 0;
+    right: 0
+}
+.icon_tick { padding: 1px 0 1px 25px; background: url(../icons/tick.png) no-repeat 0px 50%;}
+.icon_cross { padding: 1px 0 1px 25px; background: url(../icons/cross.png) no-repeat 0px 50%;}
+
+div.advanced_view_tree {
+    height: 400px;
+    overflow: auto;
+}
+
+div.scrollable_tree {
+    height: 400px;
+    overflow: auto;
+    float: left;
+}
+
+#access_resources span { cursor: pointer; display: block; }
+
+#access_resources span:hover { font-weight: bold; }
+
+.status-active   { background-color: #D6FCD4!important;  }
+.status-inactive { background-color: #FCD4D4!important;  }
+
+.label-status-active    { background-color: #D6FCD4!important; color:#555!important; font-size: 12px!important; font-weight: normal; border: 1px #999 solid; }
+.label-status-inactive  { background-color: #FCD4D4!important; color:#555!important; font-size: 12px!important; font-weight: normal; border: 1px #999 solid; }
+
+table.form-table {width:100%;}
+table.form-table td:nth-child(even){ width: 30%; padding: 5px 0px 5px 0px ;}
+table.form-table td:nth-child(odd){ width: 20%; padding:  5px 0px 5px 0px;}
+table.form-table td label { margin: 0px 5px 0px 5px; font-weight: bold; }

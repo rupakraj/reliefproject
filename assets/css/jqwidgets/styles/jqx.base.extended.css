@@ -1,0 +1,112 @@
+﻿
+/*applied to a pinned grid cell.*/
+.jqx-grid-cell-pinned {
+    background-color: #f5f5f5;
+ }
+ /*applied to a pinned grid cell. Represents the alternating cell background.*/
+.jqx-grid-cell-pinned-alt {
+    background-color: #f5f5f5;
+}
+
+.jqx-grid-cell-filter-row {
+	background-color: #f5f5f5;
+	border-bottom: none!important;
+}
+
+
+/*
+input[type=text].jqx-input, input[type=password].jqx-input, .jqx-combobox-input {
+	padding: 0 0 0 5px!important;
+}
+
+.jqx-validator-hint {
+	border: 1px solid #942724;
+	background-color: #942724;
+	font-size: 11px;
+	color: #FFFFFF;
+}
+
+.jqx-widget-custom .jqx-grid-cell-custom a i{
+    margin: 5px 0px;
+    color: #424242;
+}
+
+/*.jqx-window-header-custom { background: #3b9c6b!important }
+
+.jqx-grid-pager-input  { text-align: center!important; margin-right: 5px!important;}
+*/
+
+
+
+.jqx-rc-tl-bootstrap
+{
+  -moz-border-radius-topleft: 0px;
+  -webkit-border-radius-topleft: 0px;
+  border-radius-topleft: 0px;
+}
+.jqx-rc-tr-bootstrap
+{
+  -moz-border-radius-topright: 0px;
+  -webkit-border-radius-topright: 0px;
+  border-radius-topright: 0px;
+}
+.jqx-rc-bl-bootstrap
+{
+  -moz-border-radius-bottomleft: 0px;
+  -webkit-border-radius-bottomleft: 0px;
+  border-radius-bottomleft: 0px;
+}
+.jqx-rc-br-bootstrap
+{
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-radius-bottomright: 0px;
+  border-radius-bottomright: 0px;
+}
+.jqx-rc-t-bootstrap
+{
+  -moz-border-radius-topleft: 0px;
+  -webkit-border-top-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -webkit-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.jqx-rc-b-bootstrap
+{
+  -moz-border-radius-bottomleft: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.jqx-rc-r-bootstrap
+{
+  -moz-border-radius-topright: 0px;
+  -webkit-border-top-right-radius: 0px;
+  border-top-right-radius: 0px;
+  -moz-border-radius-bottomright: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.jqx-rc-l-bootstrap
+{
+  -moz-border-radius-topleft: 0px;
+  -webkit-border-top-left-radius: 0px;
+  border-top-left-radius: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.jqx-radiobutton-default-bootstrap, .jqx-radiobutton-bootstrap, .jqx-radiobutton-check-checked-bootstrap, .jqx-radiobutton-hover-bootstrap, .jqx-radiobutton-check-indeterminate-bootstrap, .jqx-radiobutton-check-indeterminate-disabled-bootstrap, .jqx-slider-button-bootstrap
+{
+  -moz-border-radius: 100% !important;
+  -webkit-border-radius: 100% !important;
+  border-radius: 100% !important;
+}
+.jqx-rc-all-bootstrap, .jqx-tooltip-bootstrap, .jqx-tooltip-text-bootstrap, .jqx-tooltip-main-bootstrap
+{
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}

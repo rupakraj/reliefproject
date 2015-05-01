@@ -1,0 +1,1 @@
+<footer id="footer"><?php echo $this->preference->item("site_name"); ?> © <?php echo date("Y");?> All Rights Reserved.</footer>
