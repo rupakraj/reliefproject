@@ -5,3 +5,4 @@ gen-modules/*
 documents/
 .idea/
 .projects/
+/application/config/database.php
