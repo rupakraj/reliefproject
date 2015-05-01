@@ -16,4 +16,10 @@ class Accessibility extends Public_Controller
 		$data['module'] = 'accessibility';
 		$this->load->view($this->_container,$data);
 	}
+
+    public function combo_json()
+    {
+        $rows=$this->accessibility_model->getItems()->result_array();
+        echo json_encode($rows);
+    }
 }
