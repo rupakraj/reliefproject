@@ -48,7 +48,7 @@
 				</tr>
 				<tr>
 					<td><label for='district'><?php echo lang('district')?></label></td>
-					<td><input id='district' class='text_input' name='district'></td>
+					<td><div id='district' class='number_general' name='district'></div></td>
 				</tr>
 				<tr>
 					<td><label for='ward'><?php echo lang('ward')?></label></td>
@@ -152,7 +152,7 @@
 				</tr>
 				<tr>
 					<td><label for='area_type'><?php echo lang('area_type')?></label></td>
-					<td><input id='area_type' class='text_input' name='area_type'></td>
+					<td><div id='area_type' class='number_general' name='area_type'></div></td>
 				</tr>
 				<tr>
 					<td><label for='road_obstructed'><?php echo lang('road_obstructed')?></label></td>
@@ -223,7 +223,95 @@
 
 $(function(){
 
-	var areaDataSource =
+    //accessibility
+    var accessibilityDataSource = {
+        url : base_url + 'admin/accessibility/combo_json',
+        datatype: 'json',
+        datafields: [
+            { name: 'id', type: 'number' },
+            { name: 'name', type: 'string' },
+        ],
+        async: false
+    }
+
+    var accessibilityDataAdapter = new $.jqx.dataAdapter(accessibilityDataSource);
+
+    $("#accessibility_id").jqxComboBox({
+        theme: theme_combo,
+        width: 195,
+        height: 25,
+        selectionMode: 'dropDownList',
+        autoComplete: true,
+        searchMode: 'containsignorecase',
+        source: accessibilityDataAdapter,
+        displayMember: "name",
+        valueMember: "id"
+    });
+
+    var array_accessibility = new Array();
+    $.each(accessibilityDataAdapter.records, function(key,val) {
+        array_accessibility.push(val.name);
+    });
+    //area types
+    var areatypeDataSource = {
+        url : base_url + 'admin/area_type/combo_json',
+        datatype: 'json',
+        datafields: [
+            { name: 'id', type: 'number' },
+            { name: 'name', type: 'string' },
+        ],
+        async: false
+    }
+
+    var areatypeDataAdapter = new $.jqx.dataAdapter(areatypeDataSource);
+
+    $("#area_type").jqxComboBox({
+        theme: theme_combo,
+        width: 195,
+        height: 25,
+        selectionMode: 'dropDownList',
+        autoComplete: true,
+        searchMode: 'containsignorecase',
+        source: areatypeDataAdapter,
+        displayMember: "name",
+        valueMember: "id"
+    });
+
+    var array_areatype = new Array();
+    $.each(areatypeDataAdapter.records, function(key,val) {
+        array_areatype.push(val.name);
+    });
+    //districts
+    var districtDataSource = {
+        url : base_url + 'admin/district_vdc/district_combo_json',
+        datatype: 'json',
+        datafields: [
+            { name: 'id', type: 'number' },
+            { name: 'name_en', type: 'string' },
+        ],
+        async: false
+    }
+
+    var districtDataAdapter = new $.jqx.dataAdapter(districtDataSource);
+
+    $("#district").jqxComboBox({
+        theme: theme_combo,
+        width: 195,
+        height: 25,
+        selectionMode: 'dropDownList',
+        autoComplete: true,
+        searchMode: 'containsignorecase',
+        source: districtDataAdapter,
+        displayMember: "name_en",
+        valueMember: "id"
+    });
+
+    var array_district = new Array();
+    $.each(districtDataAdapter.records, function(key,val) {
+        array_district.push(val.name);
+    });
+
+    var areaDataSource =
 	{
 		datatype: "json",
 		datafields: [

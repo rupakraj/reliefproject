@@ -223,6 +223,12 @@ $data['delete_flag'] = $this->input->post('delete_flag');
     	else
     		echo json_encode(array('success' => false));
     }
+
+    public function district_combo_json()
+    {
+        $rows=$this->district_vdc_model->getDistricts()->result_array();
+        echo json_encode($rows);
+    }
    
 
 }
