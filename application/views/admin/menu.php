@@ -96,16 +96,16 @@
                 </a>
             </li>
 
-            <?php $css = ((isset($uri[0]) && $uri[0] == 'account') && (isset($uri[1]) && $uri[1] == 'change_password') )? 'active' : ''; ?> 
-            <li class="sidetreeview <?php echo $css; ?>">
+            <li class="sidetreeview ">
                 <a href="javascript:void(0)">
                     <i class="fa fa-user"></i>
                     <span>Reports</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <?php $css = (isset($uri[1]) && $uri[1] == 'change_password') ? 'class="active"' : ''; ?> 
-                    <li <?php echo $css; ?>><a href="<?php echo site_url('admin/reports'); ?>"><i class="fa fa-angle-double-right"></i>All</a></li>
+                    <li><a href="<?php echo site_url('admin/reports'); ?>"><i class="fa fa-angle-double-right"></i>Table</a></li>
+                    <li><a href="<?php echo site_url('admin/reports/gis'); ?>"><i class="fa fa-angle-double-right"></i>GIS</a></li>
+                    <li><a href="<?php echo site_url('admin/reports'); ?>"><i class="fa fa-angle-double-right"></i>Charts</a></li>
                     
                 </ul>
             </li>
