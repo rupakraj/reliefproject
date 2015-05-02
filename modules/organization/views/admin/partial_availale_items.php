@@ -287,13 +287,9 @@ function editOrgAvailableRecord(index){
     var row =  $("#jqxGridOrganization_available_item").jqxGrid('getrowdata', index);
   	if (row) {
         $('#available_item_pk_id').val(row.id);
-		$('#area_id').jqxNumberInput('val', row.area_id);
-		$('#organization_id').jqxNumberInput('val', row.organization_id);
-		$('#start_date').jqxDateTimeInput('setDate', row.start_date);
-		$('#end_date').jqxDateTimeInput('setDate', row.end_date);
-		$('#item_id').jqxNumberInput('val', row.item_id);
+		$('#available_item_area_id').jqxComboBox('val', row.area_id);
+		$('#available_item_item_id').jqxComboBox('val', row.item_id);
 		$('#quantity').jqxNumberInput('val', row.quantity);
-		$('#deliver_quantity').jqxNumberInput('val', row.deliver_quantity);
 		
         openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
