@@ -628,19 +628,22 @@ CREATE TABLE IF NOT EXISTS `tbl_items` (
 -- Table structure for table `tbl_next_delivery`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_next_delivery` (
-`id` int(11) NOT NULL,
+CREATE TABLE `tbl_next_delivery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `organization_id` int(11) NOT NULL,
   `area_id` int(11) DEFAULT NULL,
   `vehicle_id` int(11) DEFAULT NULL,
-  `district` int(11) NOT NULL,
-  `from_vdc` int(11) NOT NULL,
+  `district_vdc_id` int(11) NOT NULL,
   `street` varchar(255) NOT NULL,
-  `contact_detail` text NOT NULL,
+  `contact_name` text NOT NULL,
+  `contact_phone` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `reporting_time` datetime DEFAULT NULL,
   `created_by` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
-  `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
