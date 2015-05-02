@@ -185,7 +185,12 @@ $(function(){
 				cellsrenderer: function (index) {
 					var e = '', d='', row =  $("#jqxGridVehicle").jqxGrid('getrowdata', index);
 					e = '<a href="javascript:void(0)" onclick="editVehicleRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
-					d = '<a href="javascript:void(0)" onclick="deleteVehicleRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+					//d = '<a href="javascript:void(0)" onclick="deleteVehicleRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+					if (row.delete_flag == 0) {
+						d = '<a href="javascript:void(0)" onclick="deleteVehicleRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+					} else {
+						d = '<a href="javascript:void(0)" onclick="restoreVehicleRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
+					}
 					
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
@@ -244,6 +249,24 @@ function deleteVehicleRecord(index){
 		if (r == true) {
 			$.ajax({
                 url: "<?php echo site_url('admin/vehicle/delete_json'); ?>",
+                type: 'POST',
+                data: {id:[row.id]},
+                success: function (result) {
+                   $('#jqxGridVehicle').jqxGrid('updatebounddata');
+                }
+            });
+		}  
+    }
+}
+
+function restoreVehicleRecord(index){
+
+    var row =  $("#jqxGridVehicle").jqxGrid('getrowdata', index);
+  	if (row) {
+		var r = confirm("Do you want to restore this Record???");
+		if (r == true) {
+			$.ajax({
+                url: "<?php echo site_url('admin/vehicle/restore_json'); ?>",
                 type: 'POST',
                 data: {id:[row.id]},
                 success: function (result) {

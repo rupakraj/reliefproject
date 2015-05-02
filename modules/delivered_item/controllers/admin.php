@@ -129,11 +129,7 @@ class Admin extends Rsys_Controller
 		if($id && is_array($id))
 		{
         	foreach($id as $row):
-        		$data = array();
-        		$data['delete_flag'] = 1;
-        		$data['modified_by'] = $this->user_id;
-        		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->delivered_item_model->update('DELIVERED_ITEMS',$data,array('id'=>$row));
+				$success=$this->delivered_item_model->delete('DELIVERED_ITEMS',array('id'=>$row));
             endforeach;
 		}
 	}

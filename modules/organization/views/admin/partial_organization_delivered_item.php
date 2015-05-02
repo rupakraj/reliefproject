@@ -249,11 +249,7 @@ $(function(){
 				cellsrenderer: function (index) {
 					var e = '', d='', row =  $("#jqxGridDelivered_item").jqxGrid('getrowdata', index);
 					e = '<a href="javascript:void(0)" onclick="editOrgDeliveredRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
-					if (row.delete_flag == 0) {
-						d = '<a href="javascript:void(0)" onclick="deleteOrgDeliveredRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
-					} else {
-						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
-					}
+					d = '<a href="javascript:void(0)" onclick="deleteOrgDeliveredRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
 					
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}

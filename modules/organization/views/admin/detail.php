@@ -43,7 +43,7 @@
                                 <?php echo $this->load->view('partial_vehicles');?>
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="tab_7">
-                                777777777
+                                <?php echo $this->load->view('partial_next_delivery');?>
                             </div><!-- /.tab-pane -->
                             <?php /*
                             <div class="tab-pane" id="tab_12">

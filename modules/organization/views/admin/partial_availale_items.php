@@ -65,9 +65,6 @@ $(function(){
 		dropDownHorizontalAlignment: 'left'
 	});
 
-
-
-
 	var availableItemItemDataSource = {
 		url : base_url + 'admin/item/combo_json',
         datatype: 'json',

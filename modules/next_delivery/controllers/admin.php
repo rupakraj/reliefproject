@@ -6,29 +6,29 @@ class Admin extends Rsys_Controller
 
 	public function __construct(){
     	parent::__construct();
-        $this->load->model('district_vdc/district_vdc_model');
-        $this->lang->load('district_vdc/district_vdc');
+        $this->load->model('next_delivery/next_delivery_model');
+        $this->lang->load('next_delivery/next_delivery');
         //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
     }
 
 	public function index()
 	{
 		// Display Page
-		$data['header'] = lang('district_vdc');
+		$data['header'] = lang('next_delivery');
 		$data['page'] = $this->config->item('template_admin') . "index";
-		$data['module'] = 'district_vdc';
+		$data['module'] = 'next_delivery';
 		$this->load->view($this->_container,$data);
 	}
 
 	public function json()
 	{
-		//$this->db->where('district_vdcs.delete_flag', 0);
+		//$this->db->where('next_deliveries.delete_flag', 0);
 		$this->_get_search_param();
-		$total=$this->district_vdc_model->count();
+		$total=$this->next_delivery_model->count();
 		paging('id');
-		//$this->db->where('district_vdcs.delete_flag', 0);
+		//$this->db->where('next_deliveries.delete_flag', 0);
 		$this->_get_search_param();
-		$rows=$this->district_vdc_model->getDistrictVdcs()->result_array();
+		$rows=$this->next_delivery_model->getNextDeliveries()->result_array();
 		echo json_encode(array('total'=>$total,'rows'=>$rows));
 	}
 
@@ -119,16 +119,7 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
-
-    	if ($this->input->get('hierarchy_name')) {
-    		$this->db->where('hierarchy_name', $this->input->get('hierarchy_name'));
-    	}
-
-    	if ($this->input->get('parent_location_id')) {
-    		$this->db->where('parent_location_id', $this->input->get('parent_location_id'));
-    	}
-
-		$rows=$this->district_vdc_model->getDistrictVdcs()->result_array();
+		$rows=$this->next_delivery_model->getNextDeliveries()->result_array();
 		echo json_encode($rows);
     }
 
@@ -142,7 +133,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 1;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->district_vdc_model->update('DISTRICT_VDCS',$data,array('id'=>$row));
+				$success=$this->next_delivery_model->update('NEXT_DELIVERY',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -157,7 +148,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 0;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->district_vdc_model->update('DISTRICT_VDCS',$data,array('id'=>$row));
+				$success=$this->next_delivery_model->update('NEXT_DELIVERY',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -171,13 +162,13 @@ class Admin extends Rsys_Controller
         {
         	$data['created_by'] = $data['modified_by'] = $this->user_id;
         	$data['created_date'] = $data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->district_vdc_model->insert('DISTRICT_VDCS',$data);
+            $success=$this->next_delivery_model->insert('NEXT_DELIVERY',$data);
         }
         else
         {
         	$data['modified_by'] = $this->user_id;
         	$data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->district_vdc_model->update('DISTRICT_VDCS',$data,array('id'=>$data['id']));
+            $success=$this->next_delivery_model->update('NEXT_DELIVERY',$data,array('id'=>$data['id']));
         }
 
 		if($success)
@@ -199,45 +190,24 @@ class Admin extends Rsys_Controller
    {
    		$data=array();
         $data['id'] = $this->input->post('id');
-$data['code'] = $this->input->post('code');
-$data['name_en'] = $this->input->post('name_en');
-$data['name_np'] = $this->input->post('name_np');
-$data['parent_location_id'] = $this->input->post('parent_location_id');
-$data['hierarchy_level'] = $this->input->post('hierarchy_level');
-$data['location_type'] = $this->input->post('location_type');
-$data['hierarchy_name'] = $this->input->post('hierarchy_name');
-$data['display_order'] = $this->input->post('display_order');
-$data['created_by'] = $this->input->post('created_by');
-$data['modified_by'] = $this->input->post('modified_by');
-$data['created_date'] = $this->input->post('created_date');
-$data['modified_date'] = $this->input->post('modified_date');
-$data['delete_flag'] = $this->input->post('delete_flag');
+		$data['organization_id'] = $this->input->post('organization_id');
+		$data['area_id'] = $this->input->post('area_id');
+		$data['vehicle_id'] = $this->input->post('vehicle_id');
+		$data['district_id'] = $this->input->post('district_id');
+		$data['mun_vdc_id'] = $this->input->post('mun_vdc_id');
+		$data['street'] = $this->input->post('street');
+		$data['contact_name'] = $this->input->post('contact_name');
+		$data['contact_phone'] = $this->input->post('contact_phone');
+		$data['status'] = $this->input->post('status');
+		$data['reporting_time'] = $this->input->post('reporting_time');
+		$data['created_by'] = $this->input->post('created_by');
+		$data['modified_by'] = $this->input->post('modified_by');
+		$data['created_date'] = $this->input->post('created_date');
+		$data['modified_date'] = $this->input->post('modified_date');
 
         return $data;
    }
 
-    public function check_duplicate() {
-    	$field = $this->input->post('field');
-    	$value = $this->input->post('value');
-    	$this->db->where($field, $value);
-
-    	if ($this->input->post('id')) {
-    		$this->db->where('id <>', $this->input->post('id'));
-    	}
-
-    	$total=$this->district_vdc_model->count();
-
-    	if ($total == 0) 
-    		echo json_encode(array('success' => true));
-    	else
-    		echo json_encode(array('success' => false));
-    }
-
-    public function district_combo_json()
-    {
-        $rows=$this->district_vdc_model->getDistricts()->result_array();
-        echo json_encode($rows);
-    }
    
 
 }
