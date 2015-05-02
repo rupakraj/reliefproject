@@ -1,15 +1,6 @@
 <div class="row">
     <div class="col-lg-12">
-    <div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
-
-<h4>A PHP Error was encountered</h4>
-
-<p>Severity: Warning</p>
-<p>Message:  Cannot modify header information - headers already sent by (output started at E:\xampp\htdocs\rf\core_modules\tools\controllers\admin\mgenerator.php:171)</p>
-<p>Filename: libraries/Session.php</p>
-<p>Line Number: 689</p>
-
-</div>    </div>
+        </div>
 
     <div class="col-lg-12">
         <h1 class="page-header">

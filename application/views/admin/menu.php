@@ -109,6 +109,12 @@
                     
                 </ul>
             </li>
+            
+            <li>
+                <a href="<?php echo site_url('admin/schedule'); ?>">
+                    <i class="fa fa-tag"></i> <span>Schedule</span>
+                </a>
+            </li>
 
             <?php $css = ((isset($uri[0]) && $uri[0] == 'account') && (isset($uri[1]) && $uri[1] == 'change_password') )? 'active' : ''; ?> 
             <li class="sidetreeview <?php echo $css; ?>">

@@ -8,7 +8,11 @@ class Admin extends Rsys_Controller
     	parent::__construct();
         $this->load->model('organization/organization_model');
         $this->lang->load('organization/organization');
-        //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
+
+        $this->lang->load('organization_workarea/organization_workarea');
+        $this->lang->load('vehicle/vehicle');
+        $this->lang->load('organization_available_item/organization_available_item');
+        $this->lang->load('delivered_item/delivered_item');
     }
 
 	public function index()
@@ -190,25 +194,44 @@ class Admin extends Rsys_Controller
    {
    		$data=array();
         $data['id'] = $this->input->post('id');
-$data['code'] = $this->input->post('code');
-$data['organization_name'] = $this->input->post('organization_name');
-$data['specialization'] = $this->input->post('specialization');
-$data['start_date'] = $this->input->post('start_date');
-$data['end_date'] = $this->input->post('end_date');
-$data['interested_locations'] = $this->input->post('interested_locations');
-$data['working_locations'] = $this->input->post('working_locations');
-$data['total_volunteer'] = $this->input->post('total_volunteer');
-$data['contact_details'] = $this->input->post('contact_details');
-$data['country'] = $this->input->post('country');
-$data['created_by'] = $this->input->post('created_by');
-$data['modified_by'] = $this->input->post('modified_by');
-$data['created_date'] = $this->input->post('created_date');
-$data['modified_date'] = $this->input->post('modified_date');
-$data['delete_flag'] = $this->input->post('delete_flag');
+		$data['code'] = $this->input->post('code');
+		$data['organization_name'] = $this->input->post('organization_name');
+		$data['specialization'] = $this->input->post('specialization');
+		$data['start_date'] = $this->input->post('start_date');
+		$data['end_date'] = $this->input->post('end_date');
+		$data['total_volunteer'] = $this->input->post('total_volunteer');
+		$data['contact_name'] = $this->input->post('contact_name');
+		$data['contact_phone'] = $this->input->post('contact_phone');
+		$data['contact_email'] = $this->input->post('contact_email');
+		$data['country'] = $this->input->post('country');
+		$data['created_by'] = $this->input->post('created_by');
+		$data['modified_by'] = $this->input->post('modified_by');
+		$data['created_date'] = $this->input->post('created_date');
+		$data['modified_date'] = $this->input->post('modified_date');
+		$data['delete_flag'] = $this->input->post('delete_flag');
 
         return $data;
    }
 
-   
+    public function detail($id = null)
+    {
+    	if ($id == null) {
+			flashMsg('warning','Invalid Organization ID');
+			redirect('admin/organization');
+		}
+
+		$this->db->where('organizations.id', $id);
+		$organization = $this->organization_model->getOrganizations()->row_array();
+
+        // Display Page
+        $data['header'] = lang('organization');
+        $data['page'] = $this->config->item('template_admin') . "detail";
+        $data['module'] = 'organization';
+
+        $data['organization'] = $organization;
+
+
+        $this->load->view($this->_container,$data);
+    }
 
 }

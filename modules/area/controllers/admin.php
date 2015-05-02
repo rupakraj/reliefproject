@@ -241,12 +241,21 @@ $data['delete_flag'] = $this->input->post('delete_flag');
         return $data;
    }
 
-    public function detail($id)
+    public function detail($id = null)
     {
         // Display Page
         $data['header'] = lang('area');
         $data['page'] = $this->config->item('template_admin') . "detail";
         $data['module'] = 'area';
+
+        $this->area_model->joins = array('DISTRICT','ACCESSIBILITIES','AREATYPES','OBSTRUCTIONS');
+        $data['area'] = $this->area_model->getAreas(array('areas.id' => (int) $id), null, 1)->row();
+
+        if(empty($data['area'])) {
+            flashMsg('warning','Invalid Area ID');
+            redirect(site_url('admin/area'));
+        }
+        $this->lang->load('area_req_item/area_req_item');
         $this->load->view($this->_container,$data);
     }
 

@@ -91,7 +91,7 @@ $(function(){
         async: false
 	};
 
-	var locationDataAdapter = new $.jqx.dataAdapter(locationDataSource,{
+	var locationDataAdapter = new $.jqx.dataAdapter(locationDataSource/*,{
 		autoBind: true,
 		beforeLoadComplete: function (records) {
 	        var data = new Array();
@@ -103,17 +103,18 @@ $(function(){
 	        }
 	        return data;
 	    }
-	});
+	}*/);
 
 	
 	$("#parent_location_id").jqxComboBox({
 		theme: theme_combo, 
     	width: 195, 
 		height: 25, 
+		autoComplete: true,
 		selectionMode: 'dropDownList', 
 		source: locationDataAdapter, 
 		autoComplete: true, 
-		displayMember: "rec", 
+		displayMember: "name_en", 
 		valueMember: "id", 
 		dropDownWidth: 400, 
 		dropDownHorizontalAlignment: 'left'

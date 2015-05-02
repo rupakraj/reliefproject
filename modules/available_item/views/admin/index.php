@@ -3,8 +3,8 @@
 	<section class="content-header">
 		<h1><?php echo lang('available_item'); ?></h1>
 		<div class="breadcrumb" style="top:7px">
-            <span class="label label-status-active">Active</span>
-            <span class="label label-status-inactive">Inactive</span>
+            <span class="label label-status-active">Active Records</span>
+            <span class="label label-status-inactive">Inactive Records</span>
         </div>
 	</section>
 

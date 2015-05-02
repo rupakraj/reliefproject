@@ -119,6 +119,7 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
+    	$this->db->where('delete_flag', '0');
 		$rows=$this->specialization_model->getSpecializations()->result_array();
 		echo json_encode($rows);
     }

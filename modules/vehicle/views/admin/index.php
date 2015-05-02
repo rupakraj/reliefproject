@@ -3,8 +3,8 @@
 	<section class="content-header">
 		<h1><?php echo lang('vehicle'); ?></h1>
 		<div class="breadcrumb" style="top:7px">
-            <span class="label label-status-active">Active</span>
-            <span class="label label-status-inactive">Inactive</span>
+            <span class="label label-status-active">Active Records</span>
+            <span class="label label-status-inactive">Inactive Records</span>
         </div>
 	</section>
 
@@ -48,15 +48,7 @@
 				</tr>
 				<tr>
 					<td><label for='capacity'><?php echo lang('capacity')?></label></td>
-					<td><div id='capacity' class='number_general' name='capacity'></div></td>
-				</tr>
-				<tr>
-					<td><label for='fuel_capacity'><?php echo lang('fuel_capacity')?></label></td>
-					<td><div id='fuel_capacity' class='number_general' name='fuel_capacity'></div></td>
-				</tr>
-				<tr>
-					<td><label for='mileage'><?php echo lang('mileage')?></label></td>
-					<td><input id='mileage' class='text_input' name='mileage'></td>
+					<td><input id='capacity' class='text_input' name='capacity'></td>
 				</tr>
 				<tr>
 					<td><label for='distance_coverage'><?php echo lang('distance_coverage')?></label></td>
@@ -94,17 +86,15 @@ $(function(){
 			{ name: 'id', type: 'number' },
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'registration_number', type: 'string' },
-			{ name: 'capacity', type: 'number' },
-			{ name: 'fuel_capacity', type: 'number' },
-			{ name: 'mileage', type: 'string' },
+			{ name: 'capacity', type: 'string' },
 			{ name: 'distance_coverage', type: 'string' },
 			{ name: 'vehicle_type_id', type: 'number' },
 			{ name: 'current_location', type: 'string' },
+			{ name: 'delete_flag', type: 'number' },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
 			{ name: 'modified_date', type: 'date' },
-			{ name: 'delete_flag', type: 'number' },
 			
         ],
 		url: '<?php echo site_url("admin/vehicle/json"); ?>',
@@ -188,8 +178,6 @@ $(function(){
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("registration_number"); ?>',datafield: 'registration_number',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("capacity"); ?>',datafield: 'capacity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("fuel_capacity"); ?>',datafield: 'fuel_capacity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("mileage"); ?>',datafield: 'mileage',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("distance_coverage"); ?>',datafield: 'distance_coverage',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("vehicle_type_id"); ?>',datafield: 'vehicle_type_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("current_location"); ?>',datafield: 'current_location',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -254,21 +242,7 @@ $(function(){
 
 			{ input: '#capacity', message: 'Required', action: 'blur', 
 				rule: function(input) {
-					val = $('#capacity').jqxNumberInput('val');
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-			{ input: '#fuel_capacity', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#fuel_capacity').jqxNumberInput('val');
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-			{ input: '#mileage', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#mileage').val();
+					val = $('#capacity').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
@@ -319,9 +293,7 @@ function editRecord(index){
         $('#id').val(row.id);
 		$('#organization_id').jqxNumberInput('val', row.organization_id);
 		$('#registration_number').val(row.registration_number);
-		$('#capacity').jqxNumberInput('val', row.capacity);
-		$('#fuel_capacity').jqxNumberInput('val', row.fuel_capacity);
-		$('#mileage').val(row.mileage);
+		$('#capacity').val(row.capacity);
 		$('#distance_coverage').val(row.distance_coverage);
 		$('#vehicle_type_id').jqxNumberInput('val', row.vehicle_type_id);
 		$('#current_location').val(row.current_location);

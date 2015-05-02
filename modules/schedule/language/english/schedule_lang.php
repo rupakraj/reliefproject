@@ -1,0 +1,20 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+$lang['id'] = 'Id';
+$lang['code'] = 'Code';
+$lang['specialization'] = 'Specialization';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
+$lang['interested_locations'] = 'Interested Locations';
+$lang['working_locations'] = 'Working Locations';
+$lang['total_volunteer'] = 'Total Volunteer';
+$lang['contact_name'] = 'Contact Name';
+$lang['contact_phone'] = 'Contact Phone';
+$lang['contact_email'] = 'Contact Email';
+$lang['country'] = 'Country';
+$lang['created_by'] = 'Created By';
+$lang['modified_by'] = 'Modified By';
+$lang['created_date'] = 'Created Date';
+$lang['modified_date'] = 'Modified Date';
+$lang['delete_flag'] = 'Delete Flag';
+$lang['schedule']='Schedule';
