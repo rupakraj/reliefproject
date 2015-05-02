@@ -10,15 +10,39 @@ class Area_model extends MY_Model
     	parent::__construct();
 
         $this->prefix  = 'tbl_';
-        $this->_TABLES = array('AREAS'=>$this->prefix.'areas');
+        $this->_TABLES = array(
+            'AREAS'=>$this->prefix.'areas',
+            'DISTRICT'=>$this->prefix.'district_vdcs',
+            'ACCESSIBILITIES'=>$this->prefix.'accessibilities',
+            'OBSTRUCTIONS'=>$this->prefix.'obstruction_types',
+            'AREATYPES'=>$this->prefix.'area_types'
+        );
 		$this->_JOINS  = array(
-                            'KEY' => array(
+                            'DISTRICT' => array(
                                         'join_type'  => 'LEFT',
-                                        'join_field' => 'join1.id=join2.id',
-                                        'select'     => 'field_names',
-                                        'alias'      => 'alias_name'
+                                        'join_field' => 'districts.id=areas.district',
+                                        'select'     => 'districts.name_en as district_name',
+                                        'alias'      => 'districts'
                                     ),
-                            );
+                            'ACCESSIBILITIES' => array(
+                                'join_type'  => 'LEFT',
+                                'join_field' => 'accessibilities.id=areas.accessibility_id',
+                                'select'     => 'accessibilities.name as accessibility_name',
+                                'alias'      => 'accessibilities'
+                            ),
+                            'AREATYPES' => array(
+                                'join_type'  => 'LEFT',
+                                'join_field' => 'areatypes.id=areas.area_type',
+                                'select'     => 'areatypes.name as area_type_name',
+                                'alias'      => 'areatypes'
+                            ),
+                            'OBSTRUCTIONS' => array(
+                                'join_type'  => 'LEFT',
+                                'join_field' => 'obstructions.id=areas.road_obstruct_detail',
+                                'select'     => 'obstructions.name as obstruction_name',
+                                'alias'      => 'obstructions'
+                            ),
+        );
     }
 
     public function getAreas ($where = NULL, $order_by = NULL, $limit = array('limit' => NULL,'offset' => ''))

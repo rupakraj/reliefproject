@@ -1,7 +1,7 @@
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Area detail</h1>
+        <h1>Details of <?php echo $area->name.", ".$area->district_name;?></h1>
     </section>
 
     <!-- Main content -->
@@ -15,71 +15,158 @@
                     <!-- Custm Tabs -->
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab_1" data-toggle="tab">Tab 1</a></li>
-                            <li><a href="#tab_2" data-toggle="tab">Tab 2</a></li>
-                            <li><a href="#tab_3" data-toggle="tab">Tab 3</a></li>
-                            <li><a href="#tab_4" data-toggle="tab">Tab 4</a></li>
-                            <li><a href="#tab_5" data-toggle="tab">Tab 5</a></li>
-                            <li><a href="#tab_6" data-toggle="tab">Tab 6</a></li>
-                            <li><a href="#tab_7" data-toggle="tab">Tab 7</a></li>
-                            <li><a href="#tab_8" data-toggle="tab">Tab 8</a></li>
-                            <li><a href="#tab_9" data-toggle="tab">Tab 9</a></li>
-                            <li><a href="#tab_10" data-toggle="tab">Tab 10</a></li>
-                            <li><a href="#tab_11" data-toggle="tab">Tab 11</a></li>
-                            <li><a href="#tab_12" data-toggle="tab">Tab 12</a></li>
+                            <li class="active"><a href="#area_details" data-toggle="tab">Area Details</a></li>
+                            <li><a href="#area_req_items" data-toggle="tab">Required Items</a></li>
+                            <li><a href="#area_involved_orgs" data-toggle="tab">Involved Organizations</a></li>
+                            <li><a href="#area_delivered_items" data-toggle="tab">Delivered Items</a></li>
+                            <li><a href="#area_next_delivery" data-toggle="tab">Next Delivery</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tab_1">
-                                <b>How to use:</b>
-                                <p>Exactly like the original bootstrap tabs except you should use
-                                    the custom wrapper <code>.nav-tabs-custom</code> to achieve this style.</p>
-                                A wonderful serenity has taken possession of my entire soul,
-                                like these sweet mornings of spring which I enjoy with my whole heart.
-                                I am alone, and feel the charm of existence in this spot,
-                                which was created for the bliss of souls like mine. I am so happy,
-                                my dear friend, so absorbed in the exquisite sense of mere tranquil existence,
-                                that I neglect my talents. I should be incapable of drawing a single stroke
-                                at the present moment; and yet I feel that I never was a greater artist than now.
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_2">
-                                The European languages are members of the same family. Their separate existence is a myth.
-                                For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                                in their grammar, their pronunciation and their most common words. Everyone realizes why a
-                                new common language would be desirable: one could refuse to pay expensive translators. To
-                                achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-                                words. If several languages coalesce, the grammar of the resulting language is more simple
-                                and regular than that of the individual languages.
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_3">
-                                33333
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_4">
-                                44444
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_5">
-                                5555555
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_6">
-                                6666666
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_7">
-                                777777777
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_8">
-                                8888888888
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_9">
-                                99999
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_10">
-                                1010101010
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_11">
-                                1111111
-                            </div><!-- /.tab-pane -->
-                            <div class="tab-pane" id="tab_12">
+                            <div class="tab-pane active" id="area_details">
+                                <?php //echo '<pre>';print_r($area);echo '</pre>';?>
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td>Reported Date</td>
+                                        <td><?php echo $area->reported_date;?></td>
+                                        <td>First followup</td>
+                                        <td><?php echo $area->first_followup;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Area Name</td>
+                                        <td><?php echo $area->name;?></td>
+                                        <td>Area Code</td>
+                                        <td><?php echo $area->code;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>District</td>
+                                        <td><?php echo $area->district_name;?></td>
+                                        <td>Address</td>
+                                        <td><?php echo $area->address;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Accessibility</td>
+                                        <td><?php echo $area->accessibility_name;?></td>
+                                        <td>Area type</td>
+                                        <td><?php echo $area->area_type_name;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Is obstructed?</td>
+                                        <td><?php echo $area->road_obstructed==1?"Yes":"No";?></td>
+                                        <td>Obstruction</td>
+                                        <td><?php echo $area->obstruction_name;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Male Population</td>
+                                        <td><?php echo $area->population_male;?></td>
+                                        <td>Female Population</td>
+                                        <td><?php echo $area->population_female;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Children Population</td>
+                                        <td><?php echo $area->population_children;?></td>
+                                        <td>Adult Population</td>
+                                        <td><?php echo $area->population_adult;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Old Population</td>
+                                        <td><?php echo $area->population_old;?></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Households</td>
+                                        <td><?php echo $area->household;?></td>
+                                        <td>Houses</td>
+                                        <td><?php echo $area->houses;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Schools</td>
+                                        <td><?php echo $area->schools;?></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Effected male</td>
+                                        <td><?php echo $area->effected_male;?></td>
+                                        <td>Effected female</td>
+                                        <td><?php echo $area->effected_female;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Effected children</td>
+                                        <td><?php echo $area->effected_children;?></td>
+                                        <td>Effected adults</td>
+                                        <td><?php echo $area->effected_adult;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Effected Old</td>
+                                        <td><?php echo $area->effected_old;?></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Effected Households</td>
+                                        <td><?php echo $area->effected_household;?></td>
+                                        <td>Collapsed houses</td>
+                                        <td><?php echo $area->houses_collapsed;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Damaged houses</td>
+                                        <td><?php echo $area->houses_damaged;?></td>
+                                        <td>Cracked houses</td>
+                                        <td><?php echo $area->houses_cracked;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deaths</td>
+                                        <td><?php echo $area->death;?></td>
+                                        <td>Trapped</td>
+                                        <td><?php echo $area->trapped;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sick</td>
+                                        <td><?php echo $area->sick;?></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Contact detail</td>
+                                        <td><?php echo $area->contact_detail;?></td>
+                                        <td>Internal contact</td>
+                                        <td><?php echo $area->internal_contact;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Security contact</td>
+                                        <td><?php echo $area->security_contact;?></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nearest hospital distance</td>
+                                        <td><?php echo $area->nearest_hospital_distance;?></td>
+                                        <td>Nearest hospital</td>
+                                        <td><?php echo $area->nearest_hospital_name;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nearest hospital contact</td>
+                                        <td><?php echo $area->nearest_hospital_contact;?></td>
+                                        <td></td><td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Longitude</td>
+                                        <td><?php echo $area->longitude;?></td>
+                                        <td>Latitude</td>
+                                        <td><?php echo $area->latitude;?></td>
+                                    </tr>
+
+
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="area_req_items">
                                 <?php echo $this->load->view('partial_area_req_items');?>
-                            </div><!-- /.tab-pane -->
+                            </div>
+                            <div class="tab-pane" id="area_involved_orgs">
+                                //
+                            </div>
+                            <div class="tab-pane" id="area_delivered_items">
+                                //
+                            </div>
+                            <div class="tab-pane" id="area_next_delivery">
+                                //
+                            </div>
                         </div><!-- /.tab-content -->
                     </div>
 
