@@ -90,12 +90,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="<?php echo site_url('admin/map'); ?>" target="_blank">
-                    <i class="fa fa-tag"></i> <span>Map</span>
-                </a>
-            </li>
-
             <li class="sidetreeview ">
                 <a href="javascript:void(0)">
                     <i class="fa fa-user"></i>
