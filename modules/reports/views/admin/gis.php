@@ -1,7 +1,14 @@
 <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
 <style type="text/css">
-	#map { height: 500px;width:100%; }
+#map { height: 500px;width:100%; }
+.mycluster {
+	width: 40px;
+	height: 40px;
+	background-color: greenyellow;
+	text-align: center;
+	font-size: 24px;
+}
 </style>
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
@@ -30,141 +37,8 @@
 
 
 <script type="text/javascript">
- // rughimire@gmail.com
 $(function(){
-	var reliefRequired = {
-	    "type": "FeatureCollection",
-	    "features": [
-	        {
-	            "geometry": {
-	                "type": "Point",
-	                "coordinates": [
-	                     85.312217, 27.700963
-	                ]
-	            },
-	            "type": "Feature",
-	            "district": "Kathamndu",
-	            "vdc": "Jitpur Phadi",
-	            "ward":"5",            
-	            "properties": {
-	                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-	            },
-	            "id": "relief_required1"
-	        },
-	         {
-	            "geometry": {
-	                "type": "Point",
-	                "coordinates": [
-	                  85.312697, 27.701794
-	                ]
-	            },
-	            "type": "Feature",
-	            "district": "Kathamndu",
-	            "vdc": "Jitpur Phadi",
-	            "ward":"5",            
-	            "properties": {
-	                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-	            },
-	            "id": "relief_required2"
-	        }
-	         ]
-	};
-var reliefDone = {
-	"type": "FeatureCollection",
-	"features": [
-         {
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                  85.375697, 27.766794
-                ]
-            },
-            "type": "Feature",
-            "district": "Kathamndu",
-            "vdc": "Jitpur Phadi",
-            "ward":"5",            
-            "properties": {
-            	"show_on_map": true,
-                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-            },
-            "id": "relief-done1"
-        },
-         {
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                  85.413697, 27.804794
-                ]
-            },
-            "type": "Feature",
-            "district": "Kathamndu",
-            "vdc": "Jitpur Phadi",
-            "ward":"5",            
-            "properties": {
-            	"show_on_map": true,
-                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-            },
-            "id": "relief-done2"
-        },
-         {
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                  85.614999, 27.905998
-                ]
-            },
-            "type": "Feature",
-            "district": "Kathamndu",
-            "vdc": "Jitpur Phadi",
-            "ward":"5",            
-            "properties": {
-            	"show_on_map": true,
-                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-            },
-            "id": "relief-done3"
-        }
-	         
-    ]
-	};
-
-	var organizationInvolved= {
-	    "type": "FeatureCollection",
-	    "features": [
-	        {
-	            "geometry": {
-	                "type": "Point",
-	                "coordinates": [
-	                     84.627042, 28.011463
-	                ]
-	            },
-	            "type": "Feature",
-	            "district": "Kathamndu",
-	            "vdc": "Jitpur Phadi",
-	            "ward":"5",            
-	            "properties": {
-	                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-	            },
-	            "id": "organization-involved1"
-	        },
-	         {
-	            "geometry": {
-	                "type": "Point",
-	                "coordinates": [
-	                  85.7000, 27.7667
-	                ]
-	            },
-	            "type": "Feature",
-	            "district": "Kathamndu",
-	            "vdc": "Jitpur Phadi",
-	            "ward":"5",            
-	            "properties": {
-	                "popupContent": "<br/><b>Items being Demand</b><br><ul><li>test</li><li>test</li></ul><b>Items Supplied</b><br><ul><li>test</li><li>test</li></ul>"
-	            },
-	            "id": "organization-involved2"
-	        }
-	         ]
-	};
-
+	//create base layer for map
 	var baseLayer = L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 		maxZoom: 21,
 		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -173,133 +47,84 @@ var reliefDone = {
 		id: 'examples.map-i875mjb7'
 	});
 
-	var cfg = {
-	  // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-	  // if scaleRadius is false it will be the constant radius used in pixels
-	  "radius": 0.03,
-	  "maxOpacity": .3, 
-	  // scales the radius based on map zoom
-	  "scaleRadius": true, 
-	  // if set to false the heatmap uses the global maximum for colorization
-	  // if activated: uses the data maximum within the current map boundaries 
-	  //   (there will always be a red spot with useLocalExtremas true)
-	  "useLocalExtrema": true,
-	  // which field name in your data represents the latitude - default "lat"
-	  latField: 'lat',
-	  // which field name in your data represents the longitude - default "lng"
-	  lngField: 'lng',
-	  // which field name in your data represents the data value - default "value"
-	  valueField: 'count'
-	};
-
-	var testData = {
-	  max: 8,
-	  data: [
-	  		{lat: 27.707998, lng:85.312999, count: 3},
-  			{lat: 28.011463, lng: 84.627042, count: 3},
-  			{lat: 27.7667, lng: 85.7000, count: 3},
-  			{lat: 27.905695, lng: 85.118809, count: 2}
-  		]
-	};
-
-	var heatmapLayer = new HeatmapOverlay(cfg);
-	
+	//initialize map
 	var map = L.map('map',{
-		layers: [baseLayer, heatmapLayer],
+		//layers: [baseLayer, heatmapLayer],
+		layers: [baseLayer],
 		 center: new L.LatLng(27.700588, 85.311894),
 		 zoom: 9,
 	});
 	
-	heatmapLayer.setData(testData);		
-	
-	function onEachFeature(feature, layer) {
-		var popupContent ="";
-		popupContent += "Distict: <b>"+feature.district+"</b><br>";
-		popupContent += "VDC: <b>"+feature.vdc+"</b><br>";
-		popupContent += "Ward No: <b>"+feature.ward+"</b><br>"; 
-
-		if (feature.properties && feature.properties.popupContent) {
-			popupContent += feature.properties.popupContent;
-		}
-
-		layer.bindPopup(popupContent);
-	}
-
-	L.geoJson([reliefRequired], {
-
-		style: function (feature) {
-			return feature.properties && feature.properties.style;
-		},
-
-		onEachFeature: onEachFeature,
-
-		pointToLayer: function (feature, latlng) {
-			return L.circleMarker(latlng, {
-				radius: 10,
-				fillColor: "red",
-				color: "#000",
-				weight: 1,
-				opacity: .1,
-				fillOpacity: 0.8
-			});
-		}
-	}).addTo(map);
-
-	L.geoJson([reliefDone], {
-		style: function (feature) {
-			return feature.properties && feature.properties.style;
-		},
-
-		onEachFeature: onEachFeature,
-
-		pointToLayer: function (feature, latlng) {
-
-			var test = L.circleMarker(latlng, {
-				radius: 10,
-				fillColor: "#ff7800",
-				color: "#000",
-				weight: 1,
-				opacity: .1,
-				fillOpacity: 0.8
-			});
-
-			return test;
-		},
-		filter: function(feature, layer) {
-	        return feature.properties.show_on_map;
-	    }
-	}).addTo(map);
-
-
-	var organizationIcon = L.icon({
-	    iconUrl: '<?php echo site_url("assets/images/ac_groups.png");?>',
-	    //shadowUrl: '<?php echo site_url("assets/images/ac_groups.png");?>',
-
-	    iconSize:     [30, 30], // size of the icon
-	    //shadowSize:   [50, 64], // size of the shadow
-	    iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
-	    shadowAnchor: [4, 62],  // the same for the shadow
-	    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	//create map clusters  within radius of 120
+	var markers = L.markerClusterGroup({ 
+		maxClusterRadius: 120,
+			iconCreateFunction: function (cluster) {
+				var markers = cluster.getAllChildMarkers();
+				var n = 0;
+				for (var i = 0; i < markers.length; i++) {
+					n += markers[i].number;
+				}
+				return L.divIcon({ html: n, className: 'mycluster', iconSize: L.point(40, 40) });
+			},
+			//Disable all of the defaults:
+			spiderfyOnMaxZoom: false, showCoverageOnHover: false, zoomToBoundsOnClick: false
 	});
 
-	L.geoJson([organizationInvolved], {
-		style: function (feature) {
-			return feature.properties && feature.properties.style;
-		},
+	//add marker group to the map
+	map.addLayer(markers);
 
-		onEachFeature: onEachFeature,
+	// lat,long and other details of marker 
+	var addressPoints = [
+		{lat : 27.707998, lng: 85.312999, popupcontent: {district : "kathmandu", vdc: "vdc1",ward:"ward1"}, deathcount : 2},
+		{lat :28.011463,lng: 84.627042,popupcontent:  {district : "kathmand1", vdc: "kathmand1vdc1",ward:"kathmand2ward1"},deathcount :4},
+		{lat :27.7667,lng: 85.7000,popupcontent:  {district : "kathmand2", vdc: "kathmand2vdc1",ward:"kathmand2ward1"},deathcount :6},
+		{lat :27.905695,lng: 85.118809,popupcontent:  {district : "gorkha", vdc: "gorkhavdc1",ward:"gorkhaward1"},deathcount :8},
+		{lat :27.0000,lng: 85.000,popupcontent:  {district : "sindupalchiw", vdc: "sindupalchiwvdc1",ward:"sindupalchiwward1"},deathcount :10},
+		{lat :27.00200,lng: 85.00200,popupcontent:  {district : "nuwakot", vdc: "nuwakotvdc1",ward:"nuwakotward1"},deathcount :12}
+	]
+	
+	//add marker to the map layer and bind popup
+	for (var i = 0; i < addressPoints.length; i++) {
+		var a = addressPoints[i];
+		var details = a.popupcontent;
+		var marker = L.marker(L.latLng(a.lat, a.lng), { title: a.deathcount });
+		var popupContent ="";
+	    popupContent += "Distict: <b>"+ details.district+"</b><br>";
+	    popupContent += "VDC: <b>"+details.vdc+"</b><br>";
+	    popupContent += "Ward No: <b>"+details.ward+"</b><br>";
+	    marker.popupContent =  popupContent;
+		marker.number = a.deathcount;
 
-		pointToLayer: function (feature, latlng) {
+		marker.bindPopup(popupContent);
+		markers.addLayer(marker);
+	}
 
-			var test = L.marker(latlng, {
-				icon: organizationIcon
-			});
-
-			return test;
+	//function to remove polygon 
+	var shownLayer, polygon;
+	var removePolygon = function() {
+		if (shownLayer) {
+			shownLayer.setOpacity(1);
+			shownLayer = null;
 		}
-	}).addTo(map);
-		
-})
+		if (polygon) {
+			map.removeLayer(polygon);
+			polygon = null;
+		}
+	};
+
+	//mouseover event on markercluster (show/hide the polygon)
+	markers.on('clustermouseover', function (a) {
+		removePolygon();
+
+		a.layer.setOpacity(0.2);
+		shownLayer = a.layer;
+		polygon = L.polygon(a.layer.getConvexHull());
+		map.addLayer(polygon);
+	});
+	markers.on('clustermouseout', removePolygon);
+	map.on('zoomend', removePolygon);
+
+});
 	</script>
 
 

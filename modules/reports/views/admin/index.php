@@ -21,50 +21,85 @@
 				<button type="button" class="btn btn-danger btn-flat btn-xs" id="jqxGridDistrict_vdcFilterClear"><?php echo lang('clear'); ?></button> -->
 
 				<!-- <br /><br /> -->
-				
-				<div>
-					<form>
-						<p>
-							District :  <input id="district" name="district" />
-						 	VDC/ MUN :  <input id="vdc_mun" name="vdc_mun" />
-					 	</p>
-						<p>
-							Ward :  <input id="ward" name="ward" />
-							Male : <input id="male" name="male" />
-						</p>
-						<p>
-							Female : <input id="female" name="female" />
-							Child : <input id="child" name="child" />
-						</p>	
-						<p>
-							Death : <input id="death" name="death" />	
-							Trapped : <input id="trapped" name="trapped" />
-						</p>	
-						<p>
-							Injured : <input id="injured" name="injured" />
-							Damage : <input id="damage" name="damage" />
-						</p>
-						<p>
-							Collapsed : <input id="collapsed" name="collapsed" />
-							Cracked : <input id="cracked" name="cracked" />
-						</p>
-						<p> 
-							Accesibility : <input id="accesibility" name="accesibility" />
-							Area_type : <input id="area_type" name="area_type" />
-						</p>
-						<p>
-							Priority : <input id="Priority" name="Priority" />
-							Road Obstruction : <input id="road_obstruction" name="road_obstruction" />
-						</p>
-						<p>
-							Food : <input id="Priority" name="Priority" />
-							Medicine : <input id="road_obstruction" name="road_obstruction" />
-						</p>
-						
-						<button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridDistrict_vdcFilterClear">Submit</button>
-					</form>
-				</div>
 
+				<div class="form_fields_area">
+        <?php echo form_open('', array('id' =>'form-reports', 'onsubmit' => 'return false')); ?>
+        	<table class="report-table">
+				<tr>
+					<td><label for='demographic'>Demographic</label></td>
+				</tr>
+				<tr>
+					<td><label for='district'>District</label></td>
+					<td><input id='district' class='text_input' name='district'></td>
+					<td><label for='vdc_mun'>VDC / MUN</label></td>
+					<td><input id='vdc_mun' class='text_input' name='vdc_mun'></td>
+					<td><label for='ward'>Ward</label></td>
+					<td><input id='ward' class='text_input' name='ward'></td>
+
+				</tr>
+				<tr>
+					<td><label for='male'>Effected</label></td>
+				</tr>
+				<tr>
+					<td><input id='male' type="checkbox" value="male" name='effected'> MALE</td>
+					<td><input id='female' type="checkbox" value='female' name='effected'> FEMALE</td>
+					<td><input id='child' type="checkbox" value='child' name='effected'>CHILD</td>
+					<td><input id='death' type="checkbox" value='death' name='effected'>DEATH</td>
+					<td><input id='trapped' type="checkbox" value='trapped' name='effected'>TRAPPED</td>
+					<td><input id='injured' type="checkbox" value='injured' name='effected'>INJURED</td>
+				</tr>
+				<tr>
+					<td><label for='male'>House</label></td>
+				</tr>
+				<tr>
+					<td><input type="checkbox" id='damage' name='damage'> Damage</td>
+					<td><input type="checkbox" id='collapsed' name='collapsed'>  Collapsed</td>
+					<td><input type="checkbox"id='cracked' name='cracked'> Cracked</td>
+					
+				</tr>
+				<tr>
+					<td><label for='accesibility'>Accesibility</label></td>
+					<td><input id='accesibility' class='text_input' name='accesibility'/></td>
+					
+				</tr>
+				<tr>
+					<td><label for='area_type'>Area_type</label></td>
+					<td><input id='area_type' class='text_input' name='area_type'></td>
+				</tr>
+				<tr>
+					<td><label for='priority'>Priority</label></td>
+					<td><input id='priority' class='text_input' name='priority'></td>
+				</tr>
+				<tr>
+					<td><label for='road_obbstruction'>Road Obstruction</label></td>
+					<td><input id='road_obbstruction' class='text_input' name='road_obbstruction'></td>
+				</tr>
+
+				<tr>
+					<td><label for='food'>Food</label></td>
+					<td><input type="checkbox" value="rice_packet" name='food'>Rice Packet</td>
+					<td><input type="checkbox" value="dry_food" name='food'>Dry Food</td>
+					<td><input type="checkbox" value="water_drinks" name='food'>Water / Drinks</td>
+					<td><input type="checkbox" value="baby_food" name='food'>Baby Food</td>
+				</tr>
+				<tr>
+					<td><label for='medicine'>Medicine</label></td>
+					<td><input type="checkbox" value="antiseptics" name='medicine'>Antiseptics</td>
+					<td><input type="checkbox" value="first-aid" name='medicine'>First-aid</td>
+				</tr>
+
+                <tr>
+                    <th colspan="4">
+                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxOrganizationSubmitButton"><?php echo lang('general_save'); ?></button>
+                        <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxOrganizationCancelButton"><?php echo lang('general_cancel'); ?></button>
+                    </th>
+                </tr>
+               
+          </table>
+        <?php echo form_close(); ?>
+    </div>
+				
+				
 				<div id="jqxGrid_reports">
 					
 				</div>

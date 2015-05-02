@@ -29,7 +29,8 @@ div.scrollable_tree {
 
 #access_resources span { cursor: pointer; display: block; }
 
-#access_resources span:hover { font-weight: bold; }
+#access_resou
+rces span:hover { font-weight: bold; }
 
 .status-active   { background-color: #D6FCD4!important;  }
 .status-inactive { background-color: #FCD4D4!important;  }
@@ -41,3 +42,7 @@ table.form-table {width:100%;}
 table.form-table td:nth-child(even){ width: 30%; padding: 5px 0px 5px 0px ;}
 table.form-table td:nth-child(odd){ width: 20%; padding:  5px 0px 5px 0px;}
 table.form-table td label { margin: 0px 5px 0px 5px; font-weight: bold; }
+
+
+table.report-table {width:100%;}
+table.report-table td label { margin: 0px 5px 0px 5px; font-weight: bold; }

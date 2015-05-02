@@ -138,9 +138,12 @@ $config['asset'][] = array('file' => 'jquery.treeview.js', 'needs' => 'jquery.co
 $config['asset'][] = array('file' => 'treeview.css');
 
 $config['asset'][]= array('file' => 'leaflet.css', 'name' => 'leaflet.css', 'position' => 'header');
+$config['asset'][]= array('file' => 'MarkerCluster.css', 'name' => 'MarkerCluster.css', 'position' => 'header');
+$config['asset'][]= array('file' => 'MarkerCluster.Default.css', 'name' => 'MarkerCluster.Default.css', 'position' => 'header');
 $config['asset'][]= array('file' => 'leaflet.js', 'name' => 'leaflet.js', 'position' => 'header');
 $config['asset'][]= array('file' => 'heatmap.min.js', 'name' => 'heatmap.min.js', 'position' => 'header');
 $config['asset'][]= array('file' => 'leafletheatmap.js', 'name' => 'leafletheatmap.js', 'position' => 'header');
+$config['asset'][]= array('file' => 'leaflet.markercluster-src.js', 'name' => 'leafletcluster.js', 'position' => 'header');
 
 $config['asset_group']['SITE'] 		= 'jquery.js|jqueryui.js|bootstrap.js|adminlte.js|bootstrap.css|font-awesome.css|ionicons.css|AdminLTE.css|AdminLTE-extended.css|app.css|app.js';
 $config['asset_group']['PUBLIC'] 	= '';
@@ -164,7 +167,7 @@ $config['asset_group']['APP'] = 'app.css|app.js|date.js|jquery.cookie|jquery.tre
 
 $config['asset_group']['FANCYBOX'] = 'fancybox.css|fancybox.js';
 
-$config['asset_group']['LEAFLET'] = 'leaflet.css|leaflet.js|heatmap.min.js|leafletheatmap.js';
+$config['asset_group']['LEAFLET'] = 'leaflet.css|MarkerCluster.css|MarkerCluster.Default.css|leaflet.js|heatmap.min.js|leafletheatmap.js|leafletcluster.js';
 
 
 
