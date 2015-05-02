@@ -46,7 +46,7 @@
 				</tr>
 				<tr>
 					<td><label for='specialization'><?php echo lang('specialization')?></label></td>
-					<td><input id='specialization' class='text_input' name='specialization'></td>
+					<td><div id='specialization' class='combo_box' name='specialization'></div></td>
 					<td><label for='total_volunteer'><?php echo lang('total_volunteer')?></label></td>
 					<td><div id='total_volunteer' class='number_general' name='total_volunteer'></div></td>
 				</tr>
@@ -57,18 +57,18 @@
 					<td><div id='end_date' class='date_box' name='end_date'></div></td>
 				</tr>
 				<tr>
-					<td><label for='interested_locations'><?php echo lang('interested_locations')?></label></td>
-					<td><input id='interested_locations' class='text_input' name='interested_locations'></td>
-					<td><label for='working_locations'><?php echo lang('working_locations')?></label></td>
-					<td><input id='working_locations' class='text_input' name='working_locations'></td>
-				</tr>
-				<tr>
 					<td><label for='country'><?php echo lang('country')?></label></td>
 					<td><input id='country' class='text_input' name='country'></td>
 				</tr>
 				<tr>
-					<td><label for='contact_details'><?php echo lang('contact_details')?></label></td>
-					<td colspan="3"><textarea id='contact_details' class='text_area' name='contact_details'></textarea></td>
+					<td><label for='contact_name'><?php echo lang('contact_name')?></label></td>
+					<td><input id='contact_name' class='text_input' name='contact_name'></td>
+				</tr>
+				<tr>
+					<td><label for='contact_phone'><?php echo lang('contact_phone')?></label></td>
+					<td><input id='contact_phone' class='text_input' name='contact_phone'></td>
+					<td><label for='contact_email'><?php echo lang('contact_email')?></label></td>
+					<td><input id='contact_email' class='text_input' name='contact_email'></td>
 				</tr>
 
                 <tr>
@@ -90,6 +90,26 @@ $(function(){
 
 	$("#country").jqxInput({ source: array_countries });
 
+	var specializationDataSource = {
+		url : base_url + 'admin/specialization/combo_json',
+        datatype: 'json',
+        datafields: [ 
+            //{ name: 'id', type: 'number' },
+			{ name: 'name', type: 'string' },
+        ],
+        async: false
+	}
+
+	var specializationDataAdapter = new $.jqx.dataAdapter(specializationDataSource, {autoBind: true});
+
+	$("#specialization").jqxComboBox({ 
+		displayMember: "name", 
+        valueMember: "name",
+        source: specializationDataAdapter,
+        checkboxes: true
+    });
+
+
 	var organizationDataSource =
 	{
 		datatype: "json",
@@ -100,10 +120,10 @@ $(function(){
 			{ name: 'specialization', type: 'string' },
 			{ name: 'start_date', type: 'date' },
 			{ name: 'end_date', type: 'date' },
-			{ name: 'interested_locations', type: 'string' },
-			{ name: 'working_locations', type: 'string' },
 			{ name: 'total_volunteer', type: 'number' },
-			{ name: 'contact_details', type: 'string' },
+			{ name: 'contact_name', type: 'string' },
+			{ name: 'contact_phone', type: 'string' },
+			{ name: 'contact_email', type: 'string' },
 			{ name: 'country', type: 'string' },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
@@ -179,15 +199,17 @@ $(function(){
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
-					var e = '', d='', row =  $("#jqxGridOrganization").jqxGrid('getrowdata', index);
+					var e = '', d='', detail='' ,row =  $("#jqxGridOrganization").jqxGrid('getrowdata', index);
 					e = '<a href="javascript:void(0)" onclick="editRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
 					if (row.delete_flag == 0) {
 						d = '<a href="javascript:void(0)" onclick="deleteRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
 					} else {
 						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
 					}
+					var link = '<?php echo site_url('admin/organization/detail');?>'  + '/' + row.id;
+                    detail = '<a target="blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
 					
-					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
+					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '&nbsp;' + detail + '</div>';
 				}
 			},
 			{ text: '<?php echo lang("code"); ?>',datafield: 'code',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -195,11 +217,11 @@ $(function(){
 			{ text: '<?php echo lang("specialization"); ?>',datafield: 'specialization',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
-			{ text: '<?php echo lang("interested_locations"); ?>',datafield: 'interested_locations',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("working_locations"); ?>',datafield: 'working_locations',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("total_volunteer"); ?>',datafield: 'total_volunteer',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("contact_details"); ?>',datafield: 'contact_details',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("country"); ?>',datafield: 'country',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, filtertype: 'list', filteritems: array_countries  },
+			{ text: '<?php echo lang("contact_name"); ?>',datafield: 'contact_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("contact_phone"); ?>',datafield: 'contact_phone',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("contact_email"); ?>',datafield: 'contact_email',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			
 		],
 		rendergridrows: function (result) {
@@ -236,6 +258,7 @@ $(function(){
 
      $("#jqxOrganizationCancelButton").on('click', function () {
         $('#id').val('');
+        $("#specialization").jqxComboBox('uncheckAll');
         $('#form-organization')[0].reset();
         $('#jqxPopupWindow').jqxWindow('close');
     });
@@ -266,20 +289,6 @@ $(function(){
 				}
 			},
 
-			{ input: '#interested_locations', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#interested_locations').val();
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-			{ input: '#working_locations', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#working_locations').val();
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
 			{ input: '#total_volunteer', message: 'Required', action: 'blur', 
 				rule: function(input) {
 					val = $('#total_volunteer').jqxNumberInput('val');
@@ -287,15 +296,23 @@ $(function(){
 				}
 			},
 
-			{ input: '#contact_details', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#contact_details').val();
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
 			{ input: '#country', message: 'Required', action: 'blur', 
 				rule: function(input) {
 					val = $('#country').val();
+					return (val == '' || val == null || val == 0) ? false: true;
+				}
+			},
+
+			{ input: '#contact_name', message: 'Required', action: 'blur', 
+				rule: function(input) {
+					val = $('#contact_name').val();
+					return (val == '' || val == null || val == 0) ? false: true;
+				}
+			},
+
+			{ input: '#contact_phone', message: 'Required', action: 'blur', 
+				rule: function(input) {
+					val = $('#contact_phone').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
@@ -325,13 +342,28 @@ function editRecord(index){
         $('#id').val(row.id);
 		$('#code').val(row.code);
 		$('#organization_name').val(row.organization_name);
-		$('#specialization').val(row.specialization);
-		$('#start_date').jqxDateTimeInput('setDate', row.start_date);
-		$('#end_date').jqxDateTimeInput('setDate', row.end_date);
-		$('#interested_locations').val(row.interested_locations);
-		$('#working_locations').val(row.working_locations);
+		
+		if (row.specialization != '') {
+			str = row.specialization;
+			itemArray = str.split(",");
+			console.log(itemArray);
+			$.each(itemArray, function(key,val) {
+	        	$("#specialization").jqxComboBox('checkItem',val);
+	    	}); 
+		}
+		
+
+		if (row.start_date != null && row.start_date != '0000-00-00' && row.start_date != '') {
+			$('#start_date').jqxDateTimeInput('setDate', row.start_date);
+		}
+		if (row.end_date != null && row.end_date != '0000-00-00' && row.end_date != '') {
+			$('#end_date').jqxDateTimeInput('setDate', row.end_date);
+		}
+		$('#country').val(row.country);
+		$('#contact_name').val(row.contact_name);
+		$('#contact_phone').val(row.contact_phone);
+		$('#contact_email').val(row.contact_email);
 		$('#total_volunteer').jqxNumberInput('val', row.total_volunteer);
-		$('#contact_details').val(row.contact_details);
 		
         openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
@@ -384,6 +416,7 @@ function saveRecord(){
             var result = eval('('+result+')');
             if (result.success) {
                 $('#id').val('');
+                $("#specialization").jqxComboBox('uncheckAll');
                 $('#form-organization')[0].reset();
                 $('#jqxGridOrganization').jqxGrid('updatebounddata');
                 $('#jqxPopupWindow').jqxWindow('close');

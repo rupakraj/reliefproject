@@ -6,31 +6,29 @@ class Admin extends Rsys_Controller
 
 	public function __construct(){
     	parent::__construct();
-        $this->load->model('organization/organization_model');
-        $this->lang->load('organization/organization');
-
-        $this->lang->load('organization_workarea/organization_workarea');
-        $this->lang->load('vehicle/vehicle');
+        $this->load->model('organization_interestarea/organization_interestarea_model');
+        $this->lang->load('organization_interestarea/organization_interestarea');
+        //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
     }
 
 	public function index()
 	{
 		// Display Page
-		$data['header'] = lang('organization');
+		$data['header'] = lang('organization_interestarea');
 		$data['page'] = $this->config->item('template_admin') . "index";
-		$data['module'] = 'organization';
+		$data['module'] = 'organization_interestarea';
 		$this->load->view($this->_container,$data);
 	}
 
 	public function json()
 	{
-		//$this->db->where('organizations.delete_flag', 0);
+		//$this->db->where('organization_interestareas.delete_flag', 0);
 		$this->_get_search_param();
-		$total=$this->organization_model->count();
+		$total=$this->organization_interestarea_model->count();
 		paging('id');
-		//$this->db->where('organizations.delete_flag', 0);
+		//$this->db->where('organization_interestareas.delete_flag', 0);
 		$this->_get_search_param();
-		$rows=$this->organization_model->getOrganizations()->result_array();
+		$rows=$this->organization_interestarea_model->getOrganizationInterestareas()->result_array();
 		echo json_encode(array('total'=>$total,'rows'=>$rows));
 	}
 
@@ -121,7 +119,7 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
-		$rows=$this->organization_model->getOrganizations()->result_array();
+		$rows=$this->organization_interestarea_model->getOrganizationInterestareas()->result_array();
 		echo json_encode($rows);
     }
 
@@ -131,11 +129,7 @@ class Admin extends Rsys_Controller
 		if($id && is_array($id))
 		{
         	foreach($id as $row):
-        		$data = array();
-        		$data['delete_flag'] = 1;
-        		$data['modified_by'] = $this->user_id;
-        		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->organization_model->update('ORGANIZATIONS',$data,array('id'=>$row));
+				$success=$this->organization_interestarea_model->delete('ORGANIZATION_INTERESTAREAS',array('id'=>$row));
             endforeach;
 		}
 	}
@@ -150,7 +144,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 0;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->organization_model->update('ORGANIZATIONS',$data,array('id'=>$row));
+				$success=$this->organization_interestarea_model->update('ORGANIZATION_INTERESTAREAS',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -164,13 +158,13 @@ class Admin extends Rsys_Controller
         {
         	$data['created_by'] = $data['modified_by'] = $this->user_id;
         	$data['created_date'] = $data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->organization_model->insert('ORGANIZATIONS',$data);
+            $success=$this->organization_interestarea_model->insert('ORGANIZATION_INTERESTAREAS',$data);
         }
         else
         {
         	$data['modified_by'] = $this->user_id;
         	$data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->organization_model->update('ORGANIZATIONS',$data,array('id'=>$data['id']));
+            $success=$this->organization_interestarea_model->update('ORGANIZATION_INTERESTAREAS',$data,array('id'=>$data['id']));
         }
 
 		if($success)
@@ -192,44 +186,16 @@ class Admin extends Rsys_Controller
    {
    		$data=array();
         $data['id'] = $this->input->post('id');
-		$data['code'] = $this->input->post('code');
-		$data['organization_name'] = $this->input->post('organization_name');
-		$data['specialization'] = $this->input->post('specialization');
-		$data['start_date'] = $this->input->post('start_date');
-		$data['end_date'] = $this->input->post('end_date');
-		$data['total_volunteer'] = $this->input->post('total_volunteer');
-		$data['contact_name'] = $this->input->post('contact_name');
-		$data['contact_phone'] = $this->input->post('contact_phone');
-		$data['contact_email'] = $this->input->post('contact_email');
-		$data['country'] = $this->input->post('country');
-		$data['created_by'] = $this->input->post('created_by');
-		$data['modified_by'] = $this->input->post('modified_by');
-		$data['created_date'] = $this->input->post('created_date');
-		$data['modified_date'] = $this->input->post('modified_date');
-		$data['delete_flag'] = $this->input->post('delete_flag');
+$data['area_id'] = $this->input->post('area_id');
+$data['organization_id'] = $this->input->post('organization_id');
+$data['created_by'] = $this->input->post('created_by');
+$data['modified_by'] = $this->input->post('modified_by');
+$data['created_date'] = $this->input->post('created_date');
+$data['modified_date'] = $this->input->post('modified_date');
 
         return $data;
    }
 
-    public function detail($id = null)
-    {
-    	if ($id == null) {
-			flashMsg('warning','Invalid Organization ID');
-			redirect('admin/organization');
-		}
-
-		$this->db->where('organizations.id', $id);
-		$organization = $this->organization_model->getOrganizations()->row_array();
-
-        // Display Page
-        $data['header'] = lang('organization');
-        $data['page'] = $this->config->item('template_admin') . "detail";
-        $data['module'] = 'organization';
-
-        $data['organization'] = $organization;
-
-
-        $this->load->view($this->_container,$data);
-    }
+   
 
 }
