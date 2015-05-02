@@ -3,26 +3,20 @@
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
     <table class="table table-condensed">
 		<tr>
+			<td><label for='vehicle_type_id'><?php echo lang('vehicle_type_id')?></label></td>
+			<td colspan="3"><div id='vehicle_type_id' class='combo_box' name='vehicle_type_id'></div></td>
+		</tr>
+		<tr>
 			<td><label for='registration_number'><?php echo lang('registration_number')?></label></td>
 			<td><input id='registration_number' class='text_input' name='registration_number'></td>
 			<td><label for='capacity'><?php echo lang('capacity')?></label></td>
-			<td><div id='capacity' class='number_general' name='capacity'></div></td>
-		</tr>
-		<tr>
-			<td><label for='fuel_capacity'><?php echo lang('fuel_capacity')?></label></td>
-			<td><div id='fuel_capacity' class='number_general' name='fuel_capacity'></div></td>
-			<td><label for='mileage'><?php echo lang('mileage')?></label></td>
-			<td><input id='mileage' class='text_input' name='mileage'></td>
+			<td><input id='capacity' class='text_input' name='capacity'></td>
 		</tr>
 		<tr>
 			<td><label for='distance_coverage'><?php echo lang('distance_coverage')?></label></td>
 			<td><input id='distance_coverage' class='text_input' name='distance_coverage'></td>
-			<td><label for='vehicle_type_id'><?php echo lang('vehicle_type_id')?></label></td>
-			<td><div id='vehicle_type_id' class='combo_box' name='vehicle_type_id'></div></td>
-		</tr>
-		<tr>
 			<td><label for='current_location'><?php echo lang('current_location')?></label></td>
-			<td colspan="3"><input id='current_location' class='text_input' name='current_location'></td>
+			<td><input id='current_location' class='text_input' name='current_location'></td>
 		</tr>
         <tr>
             <th colspan="4">
@@ -41,6 +35,35 @@
 
 $(function(){
 
+	var vehicleTypeDataSource = {
+		url : base_url + 'admin/vehicle_type/combo_json',
+        datatype: 'json',
+        datafields: [ 
+            { name: 'id', type: 'number' },
+			{ name: 'name', type: 'string' },
+        ],
+        async: false
+	}
+
+	var vehicleTypeDataAdapter = new $.jqx.dataAdapter(vehicleTypeDataSource);
+
+	$("#vehicle_type_id").jqxComboBox({ 
+	    	theme: theme_combo, 
+	    	width: 195, 
+			height: 25, 
+			selectionMode: 'dropDownList', 
+			autoComplete: true, 
+			searchMode: 'containsignorecase',
+			source: vehicleTypeDataAdapter, 
+			displayMember: "name", 
+			valueMember: "id"
+		});
+
+	var array_vehicle_type = new Array();
+	$.each(vehicleTypeDataAdapter.records, function(key,val) {
+	        array_vehicle_type.push(val.name);
+	    }); 
+
 	var vehicleDataSource =
 	{
 		datatype: "json",
@@ -48,17 +71,16 @@ $(function(){
 			{ name: 'id', type: 'number' },
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'registration_number', type: 'string' },
-			{ name: 'capacity', type: 'number' },
-			{ name: 'fuel_capacity', type: 'number' },
-			{ name: 'mileage', type: 'string' },
+			{ name: 'capacity', type: 'string' },
 			{ name: 'distance_coverage', type: 'string' },
 			{ name: 'vehicle_type_id', type: 'number' },
+			{ name: 'vehicle_type_name', value: 'vehicle_type_id', values: { source: vehicleTypeDataAdapter.records, value: 'id', name: 'name'}, type: 'string' },
 			{ name: 'current_location', type: 'string' },
+			{ name: 'delete_flag', type: 'number' },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
 			{ name: 'modified_date', type: 'date' },
-			{ name: 'delete_flag', type: 'number' },
 			
         ],
 		url: '<?php echo site_url("admin/vehicle/json"); ?>',
@@ -91,6 +113,17 @@ $(function(){
                     //use following chunk of codes
                     //if (data[key] == 'FIELD_NAME') {
                     //    data[val] = Date.parse(data[val]).toString('yyyy-MM-dd');
+
+                    if (data[key] == 'vehicle_type_name') {
+                        data[key] = 'vehicle_type_id';
+                        for (var j = 0; j < vehicleTypeDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( vehicleTypeDataAdapter.records[j].name == data[val]) {
+                                data[v] = vehicleTypeDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 	    }
@@ -103,8 +136,8 @@ $(function(){
         else if (data.delete_flag == '1')
             return 'status-inactive';
     };
-
-    var addfilter = function () {
+	
+	var addfilter = function () {
 
         var filtergroup = new $.jqx.filter(),
 
@@ -121,11 +154,11 @@ $(function(){
         // apply the filters.
         $("#jqxGridVehicle").jqxGrid('applyfilters');
     };
-	
+
 	$("#jqxGridVehicle").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: (gridHeight-200),
+		height: gridHeight,
 		source: vehicleDataSource,
 		altrows: true,
 		pageable: true,
@@ -151,19 +184,16 @@ $(function(){
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
 					var e = '', d='', row =  $("#jqxGridVehicle").jqxGrid('getrowdata', index);
-					e = '<a href="javascript:void(0)" onclick="editVechicleRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
-					d = '<a href="javascript:void(0)" onclick="deleteVechicleRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+					e = '<a href="javascript:void(0)" onclick="editVehicleRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
+					d = '<a href="javascript:void(0)" onclick="deleteVehicleRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
 					
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			
+			{ text: '<?php echo lang("vehicle_type_id"); ?>',datafield: 'vehicle_type_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, filtertype: 'list', filteritems: array_vehicle_type },
 			{ text: '<?php echo lang("registration_number"); ?>',datafield: 'registration_number',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("capacity"); ?>',datafield: 'capacity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("fuel_capacity"); ?>',datafield: 'fuel_capacity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("mileage"); ?>',datafield: 'mileage',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("distance_coverage"); ?>',datafield: 'distance_coverage',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("vehicle_type_id"); ?>',datafield: 'vehicle_type_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("current_location"); ?>',datafield: 'current_location',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			
 		],
@@ -178,46 +208,35 @@ $(function(){
 	    $("#jqxGridVehicle").jqxGrid('refresh');
 	});
 
-	$('#jqxGridVehicleFilterClear').on('click', function () { 
-		$('#jqxGridVehicle').jqxGrid('clearfilters');
-	});
 
-	$('#jqxGridVehicleInsert').on('click', function(){
-		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
-    });
-
-     $("#jqxVehicleCancelButton").on('click', function () {
+	$("#jqxVehicleCancelButton").on('click', function () {
         $('#vehicle_pk_id').val('');
         $('#form-vehicle')[0].reset();
         $('#jqxPopupWindow').jqxWindow('close');
     });
 
-
     $("#jqxVehicleSubmitButton").on('click', function () {
- 		saveVechicleRecord();      
+		saveVehicleRecord();
     });
 
 });
 
 
-function editVechicleRecord(index){
+function editVehicleRecord(index){
 
     var row =  $("#jqxGridVehicle").jqxGrid('getrowdata', index);
   	if (row) {
         $('#vehicle_pk_id').val(row.id);
 		$('#registration_number').val(row.registration_number);
-		$('#capacity').jqxNumberInput('val', row.capacity);
-		$('#fuel_capacity').jqxNumberInput('val', row.fuel_capacity);
-		$('#mileage').val(row.mileage);
+		$('#capacity').val(row.capacity);
 		$('#distance_coverage').val(row.distance_coverage);
-		$('#vehicle_type_id').jqxNumberInput('val', row.vehicle_type_id);
+		$('#vehicle_type_id').jqxComboBox('val', row.vehicle_type_id);
 		$('#current_location').val(row.current_location);
 		
-        openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
 }
 
-function deleteVechicleRecord(index){
+function deleteVehicleRecord(index){
 
     var row =  $("#jqxGridVehicle").jqxGrid('getrowdata', index);
   	if (row) {
@@ -235,7 +254,7 @@ function deleteVechicleRecord(index){
     }
 }
 
-function saveVechicleRecord(){
+function saveVehicleRecord(){
     var data = $("#form-vehicle").serialize();
    
     $.ajax({

@@ -4,7 +4,7 @@
 
     <div class="col-lg-12">
         <h1 class="page-header">
-            <?php  echo lang('vehicle'); ?>
+            <?php  echo lang('delivered_item'); ?>
         </h1>
     </div>
     <div class="col-md-4">

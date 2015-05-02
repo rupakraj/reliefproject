@@ -6,29 +6,29 @@ class Admin extends Rsys_Controller
 
 	public function __construct(){
     	parent::__construct();
-        $this->load->model('vehicle/vehicle_model');
-        $this->lang->load('vehicle/vehicle');
+        $this->load->model('delivered_item/delivered_item_model');
+        $this->lang->load('delivered_item/delivered_item');
         //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
     }
 
 	public function index()
 	{
 		// Display Page
-		$data['header'] = lang('vehicle');
+		$data['header'] = lang('delivered_item');
 		$data['page'] = $this->config->item('template_admin') . "index";
-		$data['module'] = 'vehicle';
+		$data['module'] = 'delivered_item';
 		$this->load->view($this->_container,$data);
 	}
 
 	public function json()
 	{
-		//$this->db->where('vehicles.delete_flag', 0);
+		//$this->db->where('delivered_items.delete_flag', 0);
 		$this->_get_search_param();
-		$total=$this->vehicle_model->count();
+		$total=$this->delivered_item_model->count();
 		paging('id');
-		//$this->db->where('vehicles.delete_flag', 0);
+		//$this->db->where('delivered_items.delete_flag', 0);
 		$this->_get_search_param();
-		$rows=$this->vehicle_model->getVehicles()->result_array();
+		$rows=$this->delivered_item_model->getDeliveredItems()->result_array();
 		echo json_encode(array('total'=>$total,'rows'=>$rows));
 	}
 
@@ -119,7 +119,7 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
-		$rows=$this->vehicle_model->getVehicles()->result_array();
+		$rows=$this->delivered_item_model->getDeliveredItems()->result_array();
 		echo json_encode($rows);
     }
 
@@ -133,7 +133,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 1;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->vehicle_model->update('VEHICLES',$data,array('id'=>$row));
+				$success=$this->delivered_item_model->update('DELIVERED_ITEMS',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -148,7 +148,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 0;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->vehicle_model->update('VEHICLES',$data,array('id'=>$row));
+				$success=$this->delivered_item_model->update('DELIVERED_ITEMS',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -162,13 +162,13 @@ class Admin extends Rsys_Controller
         {
         	$data['created_by'] = $data['modified_by'] = $this->user_id;
         	$data['created_date'] = $data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->vehicle_model->insert('VEHICLES',$data);
+            $success=$this->delivered_item_model->insert('DELIVERED_ITEMS',$data);
         }
         else
         {
         	$data['modified_by'] = $this->user_id;
         	$data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->vehicle_model->update('VEHICLES',$data,array('id'=>$data['id']));
+            $success=$this->delivered_item_model->update('DELIVERED_ITEMS',$data,array('id'=>$data['id']));
         }
 
 		if($success)
@@ -190,13 +190,11 @@ class Admin extends Rsys_Controller
    {
    		$data=array();
         $data['id'] = $this->input->post('id');
+$data['area_id'] = $this->input->post('area_id');
 $data['organization_id'] = $this->input->post('organization_id');
-$data['registration_number'] = $this->input->post('registration_number');
-$data['capacity'] = $this->input->post('capacity');
-$data['distance_coverage'] = $this->input->post('distance_coverage');
-$data['vehicle_type_id'] = $this->input->post('vehicle_type_id');
-$data['current_location'] = $this->input->post('current_location');
-$data['delete_flag'] = $this->input->post('delete_flag');
+$data['item_id'] = $this->input->post('item_id');
+$data['delivered_date'] = $this->input->post('delivered_date');
+$data['quantity'] = $this->input->post('quantity');
 $data['created_by'] = $this->input->post('created_by');
 $data['modified_by'] = $this->input->post('modified_by');
 $data['created_date'] = $this->input->post('created_date');

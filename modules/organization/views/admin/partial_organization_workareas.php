@@ -202,42 +202,9 @@ $(function(){
         $('#form-organization_workarea')[0].reset();
     });
 
-     /*
-
-    $('#form-organization_workarea').jqxValidator({
-        hintType: 'label',
-        animationDuration: 500,
-        rules: [
-			{ input: '#area_id', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#area_id').jqxNumberInput('val');
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-			{ input: '#organization_id', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#organization_id').jqxNumberInput('val');
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-        ]
-    });
-    */
 
     $("#jqxOrganization_workareaSubmitButton").on('click', function () {
 		saveWorkingAreaRecord();
-        
-        /*
-        var validationResult = function (isValid) {
-                if (isValid) {
-		        saveRecord();           
-                }
-            };
-
-        $('#form-organization_workarea').jqxValidator('validate', validationResult);
-       	*/
     });
 
 });
@@ -257,8 +224,6 @@ function editWorkingAreaRecord(index){
 		if (row.end_date != null && row.end_date != '0000-00-00' && row.end_date != '') {
 			$('#end_date').jqxDateTimeInput('setDate', row.end_date);
 		}
-		
-        //openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
 }
 

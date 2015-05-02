@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Item_model extends MY_Model
+class Delivered_item_model extends MY_Model
 {
     var $fields = '';
 	var $joins  = array();
@@ -10,7 +10,7 @@ class Item_model extends MY_Model
     	parent::__construct();
 
         $this->prefix  = 'tbl_';
-        $this->_TABLES = array('ITEMS'=>$this->prefix.'items');
+        $this->_TABLES = array('DELIVERED_ITEMS'=>$this->prefix.'delivered_items');
 		$this->_JOINS  = array(
                             'KEY' => array(
                                         'join_type'  => 'LEFT',
@@ -21,9 +21,9 @@ class Item_model extends MY_Model
                             );
     }
 
-    public function getItems ($where = NULL, $order_by = NULL, $limit = array('limit' => NULL,'offset' => ''))
+    public function getDeliveredItems ($where = NULL, $order_by = NULL, $limit = array('limit' => NULL,'offset' => ''))
     {
-        $fields = 'items.*,units.name as unit';
+        $fields = 'delivered_items.*';
 
         if($this->fields != '') {
             $fields = $this->fields;
@@ -35,8 +35,7 @@ class Item_model extends MY_Model
 
         $this->db->select($fields);
 
-        $this->db->from($this->_TABLES['ITEMS'] . ' items');
-        $this->db->join($this->prefix.'units units','units.id=items.unit_id','left');
+        $this->db->from($this->_TABLES['DELIVERED_ITEMS'] . ' delivered_items');
 
 		foreach($this->joins as $key) {
             $this->db->join($this->_TABLES[$key] . ' ' . $this->_JOINS[$key]['alias'], $this->_JOINS[$key]['join_field'], $this->_JOINS[$key]['join_type']);
@@ -54,7 +53,7 @@ class Item_model extends MY_Model
 
     public function count($where = NULL)
     {
-        $this->db->from($this->_TABLES['ITEMS'].' items');
+        $this->db->from($this->_TABLES['DELIVERED_ITEMS'].' delivered_items');
 
         foreach($this->joins as $key) {
             $this->db->join($this->_TABLES[$key] . ' ' . $this->_JOINS[$key]['alias'],$this->_JOINS[$key]['join_field'], $this->_JOINS[$key]['join_type']);

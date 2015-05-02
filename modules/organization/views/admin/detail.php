@@ -37,7 +37,7 @@
                                  <?php echo $this->load->view('partial_availale_items');?>
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="tab_5">
-                                5555555
+                                <?php echo $this->load->view('partial_organization_delivered_item');?>
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="tab_6">
                                 <?php echo $this->load->view('partial_vehicles');?>

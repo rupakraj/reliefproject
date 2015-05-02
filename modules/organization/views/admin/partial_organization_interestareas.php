@@ -243,8 +243,6 @@ function editInterestAreaRecord(index){
   	if (row) {
         $('#interest_pk_id').val(row.id);
 		$('#interest_area_id').jqxComboBox('val', row.area_id);
-		
-        //openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
 }
 
