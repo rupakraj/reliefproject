@@ -1,5 +1,6 @@
 <?php echo form_open('', array('id' =>'form-delivered_item', 'onsubmit' => 'return false')); ?>
-        	<input type = "hidden" name = "id" id = "id"/>
+        	<input type = "hidden" name = "id" id = "delivered_item_pk_id"/>
+        	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
             <table class="form-table">
 				<tr>
 					<td><label for='area_id'><?php echo lang('area_id')?></label></td>
@@ -172,7 +173,7 @@ $(function(){
                     //use following chunk of codes
                     //if (data[key] == 'FIELD_NAME') {
                     //    data[val] = Date.parse(data[val]).toString('yyyy-MM-dd');
-                    
+
                     if (data[key] == 'item_name') {
                         data[key] = 'item_id';
                         for (var j = 0; j < deliveredItemItemDataAdapter.records.length; j++){
@@ -206,6 +207,23 @@ $(function(){
         else if (data.delete_flag == '1')
             return 'status-inactive';
     };
+     var addfilter = function () {
+
+        var filtergroup = new $.jqx.filter(),
+
+            filter_or_operator = 1,
+            filtervalue = '<?php echo $organization['id'];?>',
+            filtercondition = 'equal',
+            filter1 = filtergroup.createfilter('numericfilter', filtervalue, filtercondition);
+
+        
+        filtergroup.operator = 'and';
+        filtergroup.addfilter(filter_or_operator, filter1);
+        // add the filters.
+        $("#jqxGridDelivered_item").jqxGrid('addfilter', 'organization_id', filtergroup);
+        // apply the filters.
+        $("#jqxGridDelivered_item").jqxGrid('applyfilters');
+    };
 	
 	$("#jqxGridDelivered_item").jqxGrid({
 		theme: theme_grid,
@@ -226,7 +244,11 @@ $(function(){
 		virtualmode: true,
 		enableanimations: false,
 		pagesizeoptions: pagesizeoptions,
+		ready: function () {
+            addfilter();
+        },
 		columns: [
+			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
