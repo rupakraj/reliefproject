@@ -195,7 +195,7 @@
                         return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
                     }
                 },
-                { text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_items },
+                { text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 300,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_items },
                 { text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 
             ],

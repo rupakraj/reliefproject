@@ -431,7 +431,7 @@ $(function(){
 						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
 					}
                     var link = '<?php echo site_url('admin/area/detail');?>'  + '/' + row.id;
-                    detail = '<a target="blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-edit"></i></a>';
+                    detail = '<a target="blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
 
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '&nbsp;' + detail + '</div>';
 				}
