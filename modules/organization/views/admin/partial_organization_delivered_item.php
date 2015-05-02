@@ -1,28 +1,23 @@
 <?php echo form_open('', array('id' =>'form-delivered_item', 'onsubmit' => 'return false')); ?>
-        	<input type = "hidden" name = "id" id = "id"/>
-            <table class="form-table">
+        	<input type = "hidden" name = "id" id = "delivered_item_pk_id"/>
+        	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
+            <table class="table table-condensed">
 				<tr>
 					<td><label for='area_id'><?php echo lang('area_id')?></label></td>
 					<td><div id='delivered_item_area_id' class='combo_box' name='area_id'></div></td>
-				</tr>
-				<tr>
-					<td><label for='organization_id'><?php echo lang('organization_id')?></label></td>
-					<td><div id='organization_id' class='number_general' name='organization_id'></div></td>
-				</tr>
-				<tr>
+				
 					<td><label for='item_id'><?php echo lang('item_id')?></label></td>
 					<td><div id='delivered_item_item_id' class='combo_box' name='item_id'></div></td>
 				</tr>
 				<tr>
 					<td><label for='delivered_date'><?php echo lang('delivered_date')?></label></td>
 					<td><div id='delivered_date' class='date_box' name='delivered_date'></div></td>
-				</tr>
-				<tr>
+				
 					<td><label for='quantity'><?php echo lang('quantity')?></label></td>
 					<td><div id='quantity' class='number_general' name='quantity'></div></td>
 				</tr>
                 <tr>
-                    <th colspan="2">
+                    <th colspan="4">
                         <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxDelivered_itemSubmitButton"><?php echo lang('general_save'); ?></button>
                         <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxDelivered_itemCancelButton"><?php echo lang('general_cancel'); ?></button>
                     </th>
@@ -172,7 +167,7 @@ $(function(){
                     //use following chunk of codes
                     //if (data[key] == 'FIELD_NAME') {
                     //    data[val] = Date.parse(data[val]).toString('yyyy-MM-dd');
-                    
+
                     if (data[key] == 'item_name') {
                         data[key] = 'item_id';
                         for (var j = 0; j < deliveredItemItemDataAdapter.records.length; j++){
@@ -206,6 +201,23 @@ $(function(){
         else if (data.delete_flag == '1')
             return 'status-inactive';
     };
+     var addfilter = function () {
+
+        var filtergroup = new $.jqx.filter(),
+
+            filter_or_operator = 1,
+            filtervalue = '<?php echo $organization['id'];?>',
+            filtercondition = 'equal',
+            filter1 = filtergroup.createfilter('numericfilter', filtervalue, filtercondition);
+
+        
+        filtergroup.operator = 'and';
+        filtergroup.addfilter(filter_or_operator, filter1);
+        // add the filters.
+        $("#jqxGridDelivered_item").jqxGrid('addfilter', 'organization_id', filtergroup);
+        // apply the filters.
+        $("#jqxGridDelivered_item").jqxGrid('applyfilters');
+    };
 	
 	$("#jqxGridDelivered_item").jqxGrid({
 		theme: theme_grid,
@@ -226,7 +238,11 @@ $(function(){
 		virtualmode: true,
 		enableanimations: false,
 		pagesizeoptions: pagesizeoptions,
+		ready: function () {
+            addfilter();
+        },
 		columns: [
+			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
@@ -243,7 +259,6 @@ $(function(){
 				}
 			},
 			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_delivered_item_area },
-			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_delivered_item_item },
 			{ text: '<?php echo lang("delivered_date"); ?>',datafield: 'delivered_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },

@@ -231,7 +231,7 @@ $(function(){
 		selectionmode: 'none',
 		virtualmode: true,
 		enableanimations: false,
-		pagesizeoptions: pagesizeoptions,
+		pagesizeoptions: pagesi`zeoptions,
 		ready: function () {
             addfilter();
         },
