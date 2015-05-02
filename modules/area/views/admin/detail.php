@@ -16,8 +16,8 @@
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#area_details" data-toggle="tab">Area Details</a></li>
-                            <li><a href="#area_req_items" data-toggle="tab">Required Items</a></li>
                             <li><a href="#area_involved_orgs" data-toggle="tab">Involved Organizations</a></li>
+                            <li><a href="#area_req_items" data-toggle="tab">Required Items</a></li>
                             <li><a href="#area_delivered_items" data-toggle="tab">Delivered Items</a></li>
                             <li><a href="#area_next_delivery" data-toggle="tab">Next Delivery</a></li>
                         </ul>
@@ -155,11 +155,11 @@
 
                                 </table>
                             </div>
+                            <div class="tab-pane" id="area_involved_orgs">
+                                <?php echo $this->load->view('partial_organizations');?>
+                            </div>
                             <div class="tab-pane" id="area_req_items">
                                 <?php echo $this->load->view('partial_area_req_items');?>
-                            </div>
-                            <div class="tab-pane" id="area_involved_orgs">
-                                //
                             </div>
                             <div class="tab-pane" id="area_delivered_items">
                                 //

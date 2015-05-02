@@ -23,7 +23,7 @@ class Item_model extends MY_Model
 
     public function getItems ($where = NULL, $order_by = NULL, $limit = array('limit' => NULL,'offset' => ''))
     {
-        $fields = 'items.*';
+        $fields = 'items.*,units.name as unit';
 
         if($this->fields != '') {
             $fields = $this->fields;
@@ -36,6 +36,7 @@ class Item_model extends MY_Model
         $this->db->select($fields);
 
         $this->db->from($this->_TABLES['ITEMS'] . ' items');
+        $this->db->join($this->prefix.'units units','units.id=items.unit_id','left');
 
 		foreach($this->joins as $key) {
             $this->db->join($this->_TABLES[$key] . ' ' . $this->_JOINS[$key]['alias'], $this->_JOINS[$key]['join_field'], $this->_JOINS[$key]['join_type']);

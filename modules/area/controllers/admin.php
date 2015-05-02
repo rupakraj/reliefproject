@@ -252,9 +252,10 @@ $data['delete_flag'] = $this->input->post('delete_flag');
         $data['area'] = $this->area_model->getAreas(array('areas.id' => (int) $id), null, 1)->row();
 
         if(empty($data['area'])) {
-            $this->load->helper('url');
+            flashMsg('warning','Invalid Area ID');
             redirect(site_url('admin/area'));
         }
+        $this->lang->load('area_req_item/area_req_item');
         $this->load->view($this->_container,$data);
     }
 
