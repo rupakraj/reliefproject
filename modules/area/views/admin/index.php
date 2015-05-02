@@ -41,122 +41,92 @@
 				<tr>
 					<td><label for='code'><?php echo lang('code')?></label></td>
 					<td><input id='code' class='text_input' name='code'></td>
-				</tr>
-				<tr>
-					<td><label for='name'><?php echo lang('name')?></label></td>
-					<td><input id='name' class='text_input' name='name'></td>
+                    <td><label for='name'><?php echo lang('name')?></label></td>
+                    <td><input id='name' class='text_input' name='name'></td>
 				</tr>
 				<tr>
 					<td><label for='district'><?php echo lang('district')?></label></td>
 					<td><div id='district' class='number_general' name='district'></div></td>
-				</tr>
-				<tr>
-					<td><label for='ward'><?php echo lang('ward')?></label></td>
-					<td><div id='ward' class='number_general' name='ward'></div></td>
+                    <td><label for='ward'><?php echo lang('ward')?></label></td>
+                    <td><div id='ward' class='number_general' name='ward'></div></td>
 				</tr>
 				<tr>
 					<td><label for='address'><?php echo lang('address')?></label></td>
 					<td><input id='address' class='text_input' name='address'></td>
-				</tr>
-				<tr>
-					<td><label for='location_category'><?php echo lang('location_category')?></label></td>
-					<td><input id='location_category' class='text_input' name='location_category'></td>
+                    <td><label for='location_category'><?php echo lang('location_category')?></label></td>
+                    <td><input id='location_category' class='text_input' name='location_category'></td>
 				</tr>
 				<tr>
 					<td><label for='population_male'><?php echo lang('population_male')?></label></td>
 					<td><div id='population_male' class='number_general' name='population_male'></div></td>
-				</tr>
-				<tr>
-					<td><label for='population_female'><?php echo lang('population_female')?></label></td>
-					<td><div id='population_female' class='number_general' name='population_female'></div></td>
+                    <td><label for='population_female'><?php echo lang('population_female')?></label></td>
+                    <td><div id='population_female' class='number_general' name='population_female'></div></td>
 				</tr>
 				<tr>
 					<td><label for='population_children'><?php echo lang('population_children')?></label></td>
 					<td><div id='population_children' class='number_general' name='population_children'></div></td>
-				</tr>
-				<tr>
-					<td><label for='population_adult'><?php echo lang('population_adult')?></label></td>
-					<td><div id='population_adult' class='number_general' name='population_adult'></div></td>
+                    <td><label for='population_adult'><?php echo lang('population_adult')?></label></td>
+                    <td><div id='population_adult' class='number_general' name='population_adult'></div></td>
 				</tr>
 				<tr>
 					<td><label for='population_old'><?php echo lang('population_old')?></label></td>
 					<td><div id='population_old' class='number_general' name='population_old'></div></td>
-				</tr>
-				<tr>
-					<td><label for='household'><?php echo lang('household')?></label></td>
-					<td><div id='household' class='number_general' name='household'></div></td>
+                    <td><label for='household'><?php echo lang('household')?></label></td>
+                    <td><div id='household' class='number_general' name='household'></div></td>
 				</tr>
 				<tr>
 					<td><label for='houses'><?php echo lang('houses')?></label></td>
 					<td><div id='houses' class='number_general' name='houses'></div></td>
-				</tr>
-				<tr>
-					<td><label for='schools'><?php echo lang('schools')?></label></td>
-					<td><div id='schools' class='number_general' name='schools'></div></td>
+                    <td><label for='schools'><?php echo lang('schools')?></label></td>
+                    <td><div id='schools' class='number_general' name='schools'></div></td>
 				</tr>
 				<tr>
 					<td><label for='effected_male'><?php echo lang('effected_male')?></label></td>
 					<td><div id='effected_male' class='number_general' name='effected_male'></div></td>
-				</tr>
-				<tr>
-					<td><label for='effected_female'><?php echo lang('effected_female')?></label></td>
-					<td><div id='effected_female' class='number_general' name='effected_female'></div></td>
+                    <td><label for='effected_female'><?php echo lang('effected_female')?></label></td>
+                    <td><div id='effected_female' class='number_general' name='effected_female'></div></td>
 				</tr>
 				<tr>
 					<td><label for='effected_children'><?php echo lang('effected_children')?></label></td>
 					<td><div id='effected_children' class='number_general' name='effected_children'></div></td>
-				</tr>
-				<tr>
-					<td><label for='effected_adult'><?php echo lang('effected_adult')?></label></td>
-					<td><div id='effected_adult' class='number_general' name='effected_adult'></div></td>
+                    <td><label for='effected_adult'><?php echo lang('effected_adult')?></label></td>
+                    <td><div id='effected_adult' class='number_general' name='effected_adult'></div></td>
 				</tr>
 				<tr>
 					<td><label for='effected_old'><?php echo lang('effected_old')?></label></td>
 					<td><div id='effected_old' class='number_general' name='effected_old'></div></td>
-				</tr>
-				<tr>
-					<td><label for='effected_household'><?php echo lang('effected_household')?></label></td>
-					<td><div id='effected_household' class='number_general' name='effected_household'></div></td>
+                    <td><label for='effected_household'><?php echo lang('effected_household')?></label></td>
+                    <td><div id='effected_household' class='number_general' name='effected_household'></div></td>
 				</tr>
 				<tr>
 					<td><label for='houses_collapsed'><?php echo lang('houses_collapsed')?></label></td>
 					<td><div id='houses_collapsed' class='number_general' name='houses_collapsed'></div></td>
-				</tr>
-				<tr>
-					<td><label for='houses_damaged'><?php echo lang('houses_damaged')?></label></td>
-					<td><div id='houses_damaged' class='number_general' name='houses_damaged'></div></td>
+                    <td><label for='houses_damaged'><?php echo lang('houses_damaged')?></label></td>
+                    <td><div id='houses_damaged' class='number_general' name='houses_damaged'></div></td>
 				</tr>
 				<tr>
 					<td><label for='houses_cracked'><?php echo lang('houses_cracked')?></label></td>
 					<td><div id='houses_cracked' class='number_general' name='houses_cracked'></div></td>
-				</tr>
-				<tr>
-					<td><label for='death'><?php echo lang('death')?></label></td>
-					<td><div id='death' class='number_general' name='death'></div></td>
+                    <td><label for='death'><?php echo lang('death')?></label></td>
+                    <td><div id='death' class='number_general' name='death'></div></td>
 				</tr>
 				<tr>
 					<td><label for='trapped'><?php echo lang('trapped')?></label></td>
 					<td><div id='trapped' class='number_general' name='trapped'></div></td>
-				</tr>
-				<tr>
-					<td><label for='sick'><?php echo lang('sick')?></label></td>
-					<td><div id='sick' class='number_general' name='sick'></div></td>
+                    <td><label for='sick'><?php echo lang('sick')?></label></td>
+                    <td><div id='sick' class='number_general' name='sick'></div></td>
 				</tr>
 				<tr>
 					<td><label for='accessibility_id'><?php echo lang('accessibility_id')?></label></td>
 					<td><div id='accessibility_id' class='number_general' name='accessibility_id'></div></td>
-				</tr>
-				<tr>
-					<td><label for='distance_ktm'><?php echo lang('distance_ktm')?></label></td>
-					<td><div id='distance_ktm' class='number_general' name='distance_ktm'></div></td>
+                    <td><label for='distance_ktm'><?php echo lang('distance_ktm')?></label></td>
+                    <td><div id='distance_ktm' class='number_general' name='distance_ktm'></div></td>
 				</tr>
 				<tr>
 					<td><label for='area_type'><?php echo lang('area_type')?></label></td>
 					<td><div id='area_type' class='number_general' name='area_type'></div></td>
-				</tr>
-				<tr>
-					<td><label for='road_obstructed'><?php echo lang('road_obstructed')?></label></td>
-					<td>
+                    <td><label for='road_obstructed'><?php echo lang('road_obstructed')?></label></td>
+                    <td>
                         <input type="radio" value="1" name="road_obstructed" id="road_obstructed1" />&nbsp;<?php echo lang("general_yes")?> &nbsp;
                         <input type="radio" value="0" name="road_obstructed" id="road_obstructed0" checked="checked" />&nbsp;<?php echo lang("general_no")?>
                     </td>
@@ -164,53 +134,41 @@
 				<tr>
 					<td><label for='road_obstruct_detail'><?php echo lang('road_obstruct_detail')?></label></td>
 					<td><div id='road_obstruct_detail' class='number_general' name='road_obstruct_detail'></div></td>
-				</tr>
-				<tr>
-					<td><label for='reported_date'><?php echo lang('reported_date')?></label></td>
-					<td><div id='reported_date' class='date_box' name='reported_date'></div></td>
+                    <td><label for='reported_date'><?php echo lang('reported_date')?></label></td>
+                    <td><div id='reported_date' class='date_box' name='reported_date'></div></td>
 				</tr>
 				<tr>
 					<td><label for='first_followup'><?php echo lang('first_followup')?></label></td>
 					<td><div id='first_followup' class='date_box' name='first_followup'></div></td>
-				</tr>
-				<tr>
-					<td><label for='priority'><?php echo lang('priority')?></label></td>
-					<td><input id='priority' class='text_input' name='priority'></td>
+                    <td><label for='priority'><?php echo lang('priority')?></label></td>
+                    <td><input id='priority' class='text_input' name='priority'></td>
 				</tr>
 				<tr>
 					<td><label for='contact_detail'><?php echo lang('contact_detail')?></label></td>
 					<td><textarea id='contact_detail' class='text_input' name='contact_detail'></textarea></td>
-				</tr>
-				<tr>
-					<td><label for='internal_contact'><?php echo lang('internal_contact')?></label></td>
-					<td><textarea id='internal_contact' class='text_input' name='internal_contact'></textarea></td>
+                    <td><label for='internal_contact'><?php echo lang('internal_contact')?></label></td>
+                    <td><textarea id='internal_contact' class='text_input' name='internal_contact'></textarea></td>
 				</tr>
 				<tr>
 					<td><label for='security_contact'><?php echo lang('security_contact')?></label></td>
 					<td><textarea id='security_contact' class='text_input' name='security_contact'></textarea></td>
-				</tr>
-				<tr>
-					<td><label for='nearest_hospital_distance'><?php echo lang('nearest_hospital_distance')?></label></td>
-					<td><input id='nearest_hospital_distance' class='text_input' name='nearest_hospital_distance'> (in km.)</td>
+                    <td><label for='nearest_hospital_distance'><?php echo lang('nearest_hospital_distance')?></label></td>
+                    <td><input id='nearest_hospital_distance' class='text_input' name='nearest_hospital_distance'> (in km.)</td>
 				</tr>
 				<tr>
 					<td><label for='nearest_hospital_name'><?php echo lang('nearest_hospital_name')?></label></td>
 					<td><input id='nearest_hospital_name' class='text_input' name='nearest_hospital_name'></td>
-				</tr>
-				<tr>
-					<td><label for='nearest_hospital_contact'><?php echo lang('nearest_hospital_contact')?></label></td>
-					<td><textarea id='nearest_hospital_contact' class='text_input' name='nearest_hospital_contact'></textarea></td>
+                    <td><label for='nearest_hospital_contact'><?php echo lang('nearest_hospital_contact')?></label></td>
+                    <td><textarea id='nearest_hospital_contact' class='text_input' name='nearest_hospital_contact'></textarea></td>
 				</tr>
 				<tr>
 					<td><label for='longitude'><?php echo lang('longitude')?></label></td>
 					<td><input id='longitude' class='text_input' name='longitude'></td>
-				</tr>
-				<tr>
-					<td><label for='latitude'><?php echo lang('latitude')?></label></td>
-					<td><input id='latitude' class='text_input' name='latitude'></td>
+                    <td><label for='latitude'><?php echo lang('latitude')?></label></td>
+                    <td><input id='latitude' class='text_input' name='latitude'></td>
 				</tr>
                 <tr>
-                    <th colspan="2">
+                    <th colspan="4">
                         <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxAreaSubmitButton"><?php echo lang('general_save'); ?></button>
                         <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxAreaCancelButton"><?php echo lang('general_cancel'); ?></button>
                     </th>
