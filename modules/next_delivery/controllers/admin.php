@@ -190,19 +190,20 @@ class Admin extends Rsys_Controller
    {
    		$data=array();
         $data['id'] = $this->input->post('id');
-$data['organization_id'] = $this->input->post('organization_id');
-$data['area_id'] = $this->input->post('area_id');
-$data['vehicle_id'] = $this->input->post('vehicle_id');
-$data['district_vdc_id'] = $this->input->post('district_vdc_id');
-$data['street'] = $this->input->post('street');
-$data['contact_name'] = $this->input->post('contact_name');
-$data['contact_phone'] = $this->input->post('contact_phone');
-$data['status'] = $this->input->post('status');
-$data['reporting_time'] = $this->input->post('reporting_time');
-$data['created_by'] = $this->input->post('created_by');
-$data['modified_by'] = $this->input->post('modified_by');
-$data['created_date'] = $this->input->post('created_date');
-$data['modified_date'] = $this->input->post('modified_date');
+		$data['organization_id'] = $this->input->post('organization_id');
+		$data['area_id'] = $this->input->post('area_id');
+		$data['vehicle_id'] = $this->input->post('vehicle_id');
+		$data['district_id'] = $this->input->post('district_id');
+		$data['mun_vdc_id'] = $this->input->post('mun_vdc_id');
+		$data['street'] = $this->input->post('street');
+		$data['contact_name'] = $this->input->post('contact_name');
+		$data['contact_phone'] = $this->input->post('contact_phone');
+		$data['status'] = $this->input->post('status');
+		$data['reporting_time'] = $this->input->post('reporting_time');
+		$data['created_by'] = $this->input->post('created_by');
+		$data['modified_by'] = $this->input->post('modified_by');
+		$data['created_date'] = $this->input->post('created_date');
+		$data['modified_date'] = $this->input->post('modified_date');
 
         return $data;
    }

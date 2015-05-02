@@ -119,6 +119,15 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
+
+    	if ($this->input->get('hierarchy_name')) {
+    		$this->db->where('hierarchy_name', $this->input->get('hierarchy_name'));
+    	}
+
+    	if ($this->input->get('parent_location_id')) {
+    		$this->db->where('parent_location_id', $this->input->get('parent_location_id'));
+    	}
+
 		$rows=$this->district_vdc_model->getDistrictVdcs()->result_array();
 		echo json_encode($rows);
     }

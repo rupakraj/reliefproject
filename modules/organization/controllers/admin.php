@@ -13,6 +13,7 @@ class Admin extends Rsys_Controller
         $this->lang->load('vehicle/vehicle');
         $this->lang->load('organization_available_item/organization_available_item');
         $this->lang->load('delivered_item/delivered_item');
+        $this->lang->load('next_delivery/next_delivery');
     }
 
 	public function index()

@@ -119,6 +119,11 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
+    	if($this->input->get('organization_id')) {
+    		$this->db->where('organization_id', $this->input->get('organization_id'));
+    	}
+
+    	$this->db->where('delete_flag', 0);
 		$rows=$this->vehicle_model->getVehicles()->result_array();
 		echo json_encode($rows);
     }

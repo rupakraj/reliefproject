@@ -2,9 +2,10 @@
 
 $lang['id'] = 'Id';
 $lang['organization_id'] = 'Organization Id';
-$lang['area_id'] = 'Area Id';
-$lang['vehicle_id'] = 'Vehicle Id';
-$lang['district_vdc_id'] = 'District Vdc Id';
+$lang['area_id'] = 'Area';
+$lang['vehicle_id'] = 'Vehicle';
+$lang['district_id'] = 'District';
+$lang['mun_vdc_id'] = 'Muncipality/VDC';
 $lang['street'] = 'Street';
 $lang['contact_name'] = 'Contact Name';
 $lang['contact_phone'] = 'Contact Phone';

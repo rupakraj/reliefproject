@@ -196,42 +196,10 @@ $(function(){
         $('#form-organization_interestarea')[0].reset();
     });
 
-     /*
-
-    $('#form-organization_interestarea').jqxValidator({
-        hintType: 'label',
-        animationDuration: 500,
-        rules: [
-			{ input: '#area_id', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#area_id').jqxNumberInput('val');
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-			{ input: '#organization_id', message: 'Required', action: 'blur', 
-				rule: function(input) {
-					val = $('#organization_id').jqxNumberInput('val');
-					return (val == '' || val == null || val == 0) ? false: true;
-				}
-			},
-
-        ]
-    });
-    */
 
     $("#jqxorganization_interestareaSubmitButton").on('click', function () {
 		saveInterestAreaRecord();
-        
-        /*
-        var validationResult = function (isValid) {
-                if (isValid) {
-		        saveRecord();           
-                }
-            };
 
-        $('#form-organization_interestarea').jqxValidator('validate', validationResult);
-       	*/
     });
 
 });
