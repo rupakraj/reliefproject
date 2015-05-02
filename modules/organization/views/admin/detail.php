@@ -34,7 +34,7 @@
                                 <?php echo $this->load->view('partial_organization_workareas');?>
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="tab_4">
-                                44444
+                                 <?php echo $this->load->view('partial_availale_items');?>
                             </div><!-- /.tab-pane -->
                             <div class="tab-pane" id="tab_5">
                                 5555555

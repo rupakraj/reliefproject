@@ -1,7 +1,7 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo lang('available_item'); ?></h1>
+		<h1><?php echo lang('organization_available_item'); ?></h1>
 		<div class="breadcrumb" style="top:7px">
             <span class="label label-status-active">Active Records</span>
             <span class="label label-status-inactive">Inactive Records</span>
@@ -17,11 +17,11 @@
 
 				<?php echo displayStatus(); ?>
 
-				<button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridAvailable_itemInsert"><?php echo lang('create'); ?></button>
-				<button type="button" class="btn btn-danger btn-flat btn-xs" id="jqxGridAvailable_itemFilterClear"><?php echo lang('clear'); ?></button>
+				<button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridOrganization_available_itemInsert"><?php echo lang('create'); ?></button>
+				<button type="button" class="btn btn-danger btn-flat btn-xs" id="jqxGridOrganization_available_itemFilterClear"><?php echo lang('clear'); ?></button>
 
 				<br /><br />
-				<div id="jqxGridAvailable_item"></div>
+				<div id="jqxGridOrganization_available_item"></div>
 			</div><!-- /.col -->
 		</div>
 		<!-- /.row -->
@@ -35,16 +35,24 @@
         <span class='popup_title' id="window_poptup_title"></span>
     </div>
     <div class="form_fields_area">
-        <?php echo form_open('', array('id' =>'form-available_item', 'onsubmit' => 'return false')); ?>
+        <?php echo form_open('', array('id' =>'form-organization_available_item', 'onsubmit' => 'return false')); ?>
         	<input type = "hidden" name = "id" id = "id"/>
             <table class="form-table">
 				<tr>
-					<td><label for='volunteer_id'><?php echo lang('volunteer_id')?></label></td>
-					<td><div id='volunteer_id' class='number_general' name='volunteer_id'></div></td>
+					<td><label for='area_id'><?php echo lang('area_id')?></label></td>
+					<td><div id='area_id' class='number_general' name='area_id'></div></td>
 				</tr>
 				<tr>
 					<td><label for='organization_id'><?php echo lang('organization_id')?></label></td>
 					<td><div id='organization_id' class='number_general' name='organization_id'></div></td>
+				</tr>
+				<tr>
+					<td><label for='start_date'><?php echo lang('start_date')?></label></td>
+					<td><div id='start_date' class='date_box' name='start_date'></div></td>
+				</tr>
+				<tr>
+					<td><label for='end_date'><?php echo lang('end_date')?></label></td>
+					<td><div id='end_date' class='date_box' name='end_date'></div></td>
 				</tr>
 				<tr>
 					<td><label for='item_id'><?php echo lang('item_id')?></label></td>
@@ -55,13 +63,13 @@
 					<td><div id='quantity' class='number_general' name='quantity'></div></td>
 				</tr>
 				<tr>
-					<td><label for='is_recurring'><?php echo lang('is_recurring')?></label></td>
-					<td><div id='is_recurring' class='number_general' name='is_recurring'></div></td>
+					<td><label for='deliver_quantity'><?php echo lang('deliver_quantity')?></label></td>
+					<td><div id='deliver_quantity' class='number_general' name='deliver_quantity'></div></td>
 				</tr>
                 <tr>
                     <th colspan="2">
-                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxAvailable_itemSubmitButton"><?php echo lang('general_save'); ?></button>
-                        <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxAvailable_itemCancelButton"><?php echo lang('general_cancel'); ?></button>
+                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxOrganization_available_itemSubmitButton"><?php echo lang('general_save'); ?></button>
+                        <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxOrganization_available_itemCancelButton"><?php echo lang('general_cancel'); ?></button>
                     </th>
                 </tr>
                
@@ -75,24 +83,25 @@
 
 $(function(){
 
-	var available_itemDataSource =
+	var organization_available_itemDataSource =
 	{
 		datatype: "json",
 		datafields: [
 			{ name: 'id', type: 'number' },
-			{ name: 'volunteer_id', type: 'number' },
+			{ name: 'area_id', type: 'number' },
 			{ name: 'organization_id', type: 'number' },
-			{ name: 'item_id', type: 'number' },
-			{ name: 'quantity', type: 'number' },
-			{ name: 'is_recurring', type: 'number' },
+			{ name: 'start_date', type: 'date' },
+			{ name: 'end_date', type: 'date' },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
 			{ name: 'modified_date', type: 'date' },
-			{ name: 'delete_flag', type: 'number' },
+			{ name: 'item_id', type: 'number' },
+			{ name: 'quantity', type: 'number' },
+			{ name: 'deliver_quantity', type: 'number' },
 			
         ],
-		url: '<?php echo site_url("admin/available_item/json"); ?>',
+		url: '<?php echo site_url("admin/organization_available_item/json"); ?>',
 		pagesize: defaultPageSize,
 		root: 'rows',
 		id : 'id',
@@ -101,15 +110,15 @@ $(function(){
         	//callback called when a page or page size is changed.
         },
         beforeprocessing: function (data) {
-        	available_itemDataSource.totalrecords = data.total;
+        	organization_available_itemDataSource.totalrecords = data.total;
         },
 	    // update the grid and send a request to the server.
 	    filter: function () {
-	    	$("#jqxGridAvailable_item").jqxGrid('updatebounddata', 'filter');
+	    	$("#jqxGridOrganization_available_item").jqxGrid('updatebounddata', 'filter');
 	    },
 	    // update the grid and send a request to the server.
 	    sort: function () {
-	    	$("#jqxGridAvailable_item").jqxGrid('updatebounddata', 'sort');
+	    	$("#jqxGridOrganization_available_item").jqxGrid('updatebounddata', 'sort');
 	    },
 	    processdata: function(data) {
 			filterscount = data.filterscount;
@@ -135,11 +144,11 @@ $(function(){
             return 'status-inactive';
     };
 	
-	$("#jqxGridAvailable_item").jqxGrid({
+	$("#jqxGridOrganization_available_item").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
 		height: gridHeight,
-		source: available_itemDataSource,
+		source: organization_available_itemDataSource,
 		altrows: true,
 		pageable: true,
 		sortable: true,
@@ -159,7 +168,7 @@ $(function(){
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
-					var e = '', d='', row =  $("#jqxGridAvailable_item").jqxGrid('getrowdata', index);
+					var e = '', d='', row =  $("#jqxGridOrganization_available_item").jqxGrid('getrowdata', index);
 					e = '<a href="javascript:void(0)" onclick="editRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
 					if (row.delete_flag == 0) {
 						d = '<a href="javascript:void(0)" onclick="deleteRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
@@ -170,11 +179,13 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("volunteer_id"); ?>',datafield: 'volunteer_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("is_recurring"); ?>',datafield: 'is_recurring',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("deliver_quantity"); ?>',datafield: 'deliver_quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			
 		],
 		rendergridrows: function (result) {
@@ -185,14 +196,14 @@ $(function(){
 
 	$("[data-toggle='offcanvas']").click(function(e) {
 	    e.preventDefault();
-	    $("#jqxGridAvailable_item").jqxGrid('refresh');
+	    $("#jqxGridOrganization_available_item").jqxGrid('refresh');
 	});
 
-	$('#jqxGridAvailable_itemFilterClear').on('click', function () { 
-		$('#jqxGridAvailable_item').jqxGrid('clearfilters');
+	$('#jqxGridOrganization_available_itemFilterClear').on('click', function () { 
+		$('#jqxGridOrganization_available_item').jqxGrid('clearfilters');
 	});
 
-	$('#jqxGridAvailable_itemInsert').on('click', function(){
+	$('#jqxGridOrganization_available_itemInsert').on('click', function(){
 		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
     });
 
@@ -209,20 +220,20 @@ $(function(){
         showCollapseButton: false 
     });
 
-     $("#jqxAvailable_itemCancelButton").on('click', function () {
+     $("#jqxOrganization_available_itemCancelButton").on('click', function () {
         $('#id').val('');
-        $('#form-available_item')[0].reset();
+        $('#form-organization_available_item')[0].reset();
         $('#jqxPopupWindow').jqxWindow('close');
     });
 
 
-    $('#form-available_item').jqxValidator({
+    $('#form-organization_available_item').jqxValidator({
         hintType: 'label',
         animationDuration: 500,
         rules: [
-			{ input: '#volunteer_id', message: 'Required', action: 'blur', 
+			{ input: '#area_id', message: 'Required', action: 'blur', 
 				rule: function(input) {
-					val = $('#volunteer_id').jqxNumberInput('val');
+					val = $('#area_id').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
@@ -248,9 +259,9 @@ $(function(){
 				}
 			},
 
-			{ input: '#is_recurring', message: 'Required', action: 'blur', 
+			{ input: '#deliver_quantity', message: 'Required', action: 'blur', 
 				rule: function(input) {
-					val = $('#is_recurring').jqxNumberInput('val');
+					val = $('#deliver_quantity').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
@@ -258,7 +269,7 @@ $(function(){
         ]
     });
 
-    $("#jqxAvailable_itemSubmitButton").on('click', function () {
+    $("#jqxOrganization_available_itemSubmitButton").on('click', function () {
 
         var validationResult = function (isValid) {
                 if (isValid) {
@@ -266,7 +277,7 @@ $(function(){
                 }
             };
 
-        $('#form-available_item').jqxValidator('validate', validationResult);
+        $('#form-organization_available_item').jqxValidator('validate', validationResult);
        
     });
 
@@ -275,14 +286,16 @@ $(function(){
 
 function editRecord(index){
 
-    var row =  $("#jqxGridAvailable_item").jqxGrid('getrowdata', index);
+    var row =  $("#jqxGridOrganization_available_item").jqxGrid('getrowdata', index);
   	if (row) {
         $('#id').val(row.id);
-		$('#volunteer_id').jqxNumberInput('val', row.volunteer_id);
+		$('#area_id').jqxNumberInput('val', row.area_id);
 		$('#organization_id').jqxNumberInput('val', row.organization_id);
+		$('#start_date').jqxDateTimeInput('setDate', row.start_date);
+		$('#end_date').jqxDateTimeInput('setDate', row.end_date);
 		$('#item_id').jqxNumberInput('val', row.item_id);
 		$('#quantity').jqxNumberInput('val', row.quantity);
-		$('#is_recurring').jqxNumberInput('val', row.is_recurring);
+		$('#deliver_quantity').jqxNumberInput('val', row.deliver_quantity);
 		
         openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
@@ -290,16 +303,16 @@ function editRecord(index){
 
 function deleteRecord(index){
 
-    var row =  $("#jqxGridAvailable_item").jqxGrid('getrowdata', index);
+    var row =  $("#jqxGridOrganization_available_item").jqxGrid('getrowdata', index);
   	if (row) {
 		var r = confirm("Do you want to delete this Record???");
 		if (r == true) {
 			$.ajax({
-                url: "<?php echo site_url('admin/available_item/delete_json'); ?>",
+                url: "<?php echo site_url('admin/organization_available_item/delete_json'); ?>",
                 type: 'POST',
                 data: {id:[row.id]},
                 success: function (result) {
-                   $('#jqxGridAvailable_item').jqxGrid('updatebounddata');
+                   $('#jqxGridOrganization_available_item').jqxGrid('updatebounddata');
                 }
             });
 		}  
@@ -308,16 +321,16 @@ function deleteRecord(index){
 
 function restoreRecord(index){
 
-    var row =  $("#jqxGridAvailable_item").jqxGrid('getrowdata', index);
+    var row =  $("#jqxGridOrganization_available_item").jqxGrid('getrowdata', index);
   	if (row) {
 		var r = confirm("Do you want to restore this Record???");
 		if (r == true) {
 			$.ajax({
-                url: "<?php echo site_url('admin/available_item/restore_json'); ?>",
+                url: "<?php echo site_url('admin/organization_available_item/restore_json'); ?>",
                 type: 'POST',
                 data: {id:[row.id]},
                 success: function (result) {
-                   $('#jqxGridAvailable_item').jqxGrid('updatebounddata');
+                   $('#jqxGridOrganization_available_item').jqxGrid('updatebounddata');
                 }
             });
 		}  
@@ -325,18 +338,18 @@ function restoreRecord(index){
 }
 
 function saveRecord(){
-    var data = $("#form-available_item").serialize();
+    var data = $("#form-organization_available_item").serialize();
    
     $.ajax({
         type: "POST",
-        url: '<?php echo site_url("admin/available_item/save"); ?>',
+        url: '<?php echo site_url("admin/organization_available_item/save"); ?>',
         data: data,
         success: function (result) {
             var result = eval('('+result+')');
             if (result.success) {
                 $('#id').val('');
-                $('#form-available_item')[0].reset();
-                $('#jqxGridAvailable_item').jqxGrid('updatebounddata');
+                $('#form-organization_available_item')[0].reset();
+                $('#jqxGridOrganization_available_item').jqxGrid('updatebounddata');
                 $('#jqxPopupWindow').jqxWindow('close');
             }
 
