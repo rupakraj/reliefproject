@@ -1,7 +1,7 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1>Reports</h1>
+		<h1>Table</h1>
 		<div class="breadcrumb" style="top:7px">
             <!-- <span class="label label-status-active">Active Records</span>
             <span class="label label-status-inactive">Inactive Records</span> -->
