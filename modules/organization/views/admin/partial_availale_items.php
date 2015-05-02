@@ -290,8 +290,6 @@ function editOrgAvailableRecord(index){
 		$('#available_item_area_id').jqxComboBox('val', row.area_id);
 		$('#available_item_item_id').jqxComboBox('val', row.item_id);
 		$('#quantity').jqxNumberInput('val', row.quantity);
-		
-        openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
 }
 

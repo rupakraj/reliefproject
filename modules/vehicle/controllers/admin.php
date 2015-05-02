@@ -193,16 +193,14 @@ class Admin extends Rsys_Controller
 $data['organization_id'] = $this->input->post('organization_id');
 $data['registration_number'] = $this->input->post('registration_number');
 $data['capacity'] = $this->input->post('capacity');
-$data['fuel_capacity'] = $this->input->post('fuel_capacity');
-$data['mileage'] = $this->input->post('mileage');
 $data['distance_coverage'] = $this->input->post('distance_coverage');
 $data['vehicle_type_id'] = $this->input->post('vehicle_type_id');
 $data['current_location'] = $this->input->post('current_location');
+$data['delete_flag'] = $this->input->post('delete_flag');
 $data['created_by'] = $this->input->post('created_by');
 $data['modified_by'] = $this->input->post('modified_by');
 $data['created_date'] = $this->input->post('created_date');
 $data['modified_date'] = $this->input->post('modified_date');
-$data['delete_flag'] = $this->input->post('delete_flag');
 
         return $data;
    }
