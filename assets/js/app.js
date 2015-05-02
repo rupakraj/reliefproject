@@ -59,9 +59,9 @@ $(document).ready(function () {
 	if ($(".text_area")[0]){
 		$(".text_area").jqxInput({ width: 525,height: 125, theme: theme_input });
 	}
-	if ($(".combo_box")[0]){
+	/*if ($(".combo_box")[0]){
 		$(".combo_box").jqxComboBox({ width: 195, height: 25, selectionMode: 'dropDownList', autoComplete: true, searchMode: 'containsignorecase', theme: theme_combo });
-	}
+	}*/
 	if ($(".date_box")[0]){
 		$(".date_box").jqxDateTimeInput({ width: 195, height: 25, formatString: formatString_yyyy_MM_dd, theme: theme_combo });
 	}
