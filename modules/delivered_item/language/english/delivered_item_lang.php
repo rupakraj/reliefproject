@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $lang['id'] = 'Id';
-$lang['area_id'] = 'Area Id';
+$lang['area_id'] = 'Area';
 $lang['organization_id'] = 'Organization Id';
-$lang['item_id'] = 'Item Id';
+$lang['item_id'] = 'Item';
 $lang['delivered_date'] = 'Delivered Date';
 $lang['quantity'] = 'Quantity';
 $lang['created_by'] = 'Created By';

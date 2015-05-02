@@ -2,29 +2,26 @@
 <?php echo form_open('', array('id' =>'form-organization_available_item', 'onsubmit' => 'return false')); ?>
 	<input type = "hidden" name = "id" id = "available_item_pk_id"/>
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
-    <table class="form-table">
+    <table class="table table-condensed">
 		<tr>
 			<td><label for='area_id'><?php echo lang('area_id')?></label></td>
 			<td><div id='available_item_area_id' class='combo_box' name='area_id'></div></td>
-		</tr>
-		<tr>
-			<td><label for='start_date'><?php echo lang('start_date')?></label></td>
-			<td><div id='start_date' class='date_box' name='start_date'></div></td>
-		</tr>
-		<tr>
-			<td><label for='end_date'><?php echo lang('end_date')?></label></td>
-			<td><div id='end_date' class='date_box' name='end_date'></div></td>
-		</tr>
-		<tr>
 			<td><label for='item_id'><?php echo lang('item_id')?></label></td>
 			<td><div id='available_item_item_id' class='number_general' name='item_id'></div></td>
 		</tr>
 		<tr>
+			<td><label for='start_date'><?php echo lang('start_date')?></label></td>
+			<td><div id='start_date' class='date_box' name='start_date'></div></td>
+
+			<td><label for='end_date'><?php echo lang('end_date')?></label></td>
+			<td><div id='end_date' class='date_box' name='end_date'></div></td>
+		</tr>
+		<tr>
 			<td><label for='quantity'><?php echo lang('quantity')?></label></td>
-			<td><div id='quantity' class='number_general' name='quantity'></div></td>
+			<td coslpan='3'><div id='quantity' class='number_general' name='quantity'></div></td>
 		</tr>
         <tr>
-            <th colspan="2">
+            <th colspan="4">
                 <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxOrganization_available_itemSubmitButton"><?php echo lang('general_save'); ?></button>
                 <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxOrganization_available_itemCancelButton"><?php echo lang('general_cancel'); ?></button>
             </th>
@@ -231,7 +228,7 @@ $(function(){
 		selectionmode: 'none',
 		virtualmode: true,
 		enableanimations: false,
-		pagesizeoptions: pagesi`zeoptions,
+		pagesizeoptions: pagesizeoptions,
 		ready: function () {
             addfilter();
         },
