@@ -49,7 +49,7 @@
 $(function(){
 
 	var array_next_delivery_status = new Array('Waiting', 'Delivered', 'Moved');
-	
+
 	$('#status').jqxInput({source: array_next_delivery_status});
 	$("#reporting_time").jqxDateTimeInput({ formatString: formatString_yyyy_MM_dd_HH_mm });
 
@@ -156,8 +156,9 @@ $(function(){
 
     var array_district = new Array();
     $.each(districtDataAdapter.records, function(key,val) {
-        array_district.push(val.name);
+        array_district.push(val.name_en);
     });
+   
 
     $("#mun_vdc_id").jqxComboBox({
 	        theme: theme_combo,
