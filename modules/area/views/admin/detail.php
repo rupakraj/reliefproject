@@ -162,7 +162,7 @@
                                 <?php echo $this->load->view('partial_area_req_items');?>
                             </div>
                             <div class="tab-pane" id="area_delivered_items">
-                                //
+                                <?php echo $this->load->view('partial_delivered_items');?>
                             </div>
                             <div class="tab-pane" id="area_next_delivery">
                                 //
