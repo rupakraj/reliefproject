@@ -629,7 +629,7 @@ CREATE TABLE IF NOT EXISTS `tbl_items` (
 --
 
 CREATE TABLE `tbl_next_delivery` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `organization_id` int(11) NOT NULL,
   `area_id` int(11) DEFAULT NULL,
   `vehicle_id` int(11) DEFAULT NULL,
@@ -642,8 +642,7 @@ CREATE TABLE `tbl_next_delivery` (
   `created_by` int(11) NOT NULL,
   `modified_by` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
-  `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `modified_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
