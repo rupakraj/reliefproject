@@ -1,5 +1,7 @@
 ALTER TABLE  `tbl_areas` CHANGE  `location_category`  `location_category` INT( 11 ) NOT NULL;
 ALTER TABLE  `tbl_areas` ADD  `vdc_mun_id` INT( 11 ) NOT NULL AFTER  `district`;
+ALTER TABLE  `tbl_area_req_items` ADD  `expected_date` DATE NOT NULL AFTER  `quantity` ,
+ADD  `priority` INT( 11 ) NOT NULL AFTER  `expected_date`;
 
 CREATE TABLE IF NOT EXISTS `tbl_priorities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

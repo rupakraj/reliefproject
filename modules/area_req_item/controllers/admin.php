@@ -193,6 +193,8 @@ class Admin extends Rsys_Controller
 $data['area_id'] = $this->input->post('area_id');
 $data['item_id'] = $this->input->post('item_id');
 $data['quantity'] = $this->input->post('quantity');
+$data['expected_date'] = $this->input->post('expected_date');
+$data['priority'] = $this->input->post('priority');
 $data['created_by'] = $this->input->post('created_by');
 $data['modified_by'] = $this->input->post('modified_by');
 $data['created_date'] = $this->input->post('created_date');
