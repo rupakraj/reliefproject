@@ -1,10 +1,10 @@
-<?php echo form_open('', array('id' =>'form-vehicle', 'onsubmit' => 'return false')); ?>
+<?php echo form_open('', array('id' =>'form-vehicle', 'onsubmit' => 'return false', 'style' => 'display:none')); ?>
 	<input type = "hidden" name = "id" id = "vehicle_pk_id"/>
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
     <table class="table table-condensed">
 		<tr>
 			<td><label for='vehicle_type_id'><?php echo lang('vehicle_type_id')?></label></td>
-			<td colspan="3"><div id='vehicle_type_id' class='combo_box' name='vehicle_type_id'></div></td>
+			<td colspan="3"><div id='vehicle_type_id' name='vehicle_type_id'></div></td>
 		</tr>
 		<tr>
 			<td><label for='registration_number'><?php echo lang('registration_number')?></label></td>
@@ -32,9 +32,10 @@
 
 <script language="javascript" type="text/javascript">
 
-
 $(function(){
-
+	if ( '<?php echo $organization['id'];?>' == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+		$('#form-vehicle').show();
+	}
 	var vehicleTypeDataSource = {
 		url : base_url + 'admin/vehicle_type/combo_json',
         datatype: 'json',
@@ -48,16 +49,16 @@ $(function(){
 	var vehicleTypeDataAdapter = new $.jqx.dataAdapter(vehicleTypeDataSource);
 
 	$("#vehicle_type_id").jqxComboBox({ 
-	    	theme: theme_combo, 
-	    	width: 195, 
-			height: 25, 
-			selectionMode: 'dropDownList', 
-			autoComplete: true, 
-			searchMode: 'containsignorecase',
-			source: vehicleTypeDataAdapter, 
-			displayMember: "name", 
-			valueMember: "id"
-		});
+		width: 195, 
+		height: 25, 
+		selectionMode: 'dropDownList', 
+		autoComplete: true, 
+		searchMode: 'containsignorecase', 
+		theme: theme_combo,
+		source: vehicleTypeDataAdapter, 
+		displayMember: "name", 
+		valueMember: "id"
+	});
 
 	var array_vehicle_type = new Array();
 	$.each(vehicleTypeDataAdapter.records, function(key,val) {
@@ -128,14 +129,6 @@ $(function(){
             }
 	    }
 	};
-
-	var cellclassname = function (row, column, value, data) {
-
-        if (data.delete_flag == '0')
-            return 'status-active';
-        else if (data.delete_flag == '1')
-            return 'status-inactive';
-    };
 	
 	var addfilter = function () {
 
@@ -158,7 +151,7 @@ $(function(){
 	$("#jqxGridVehicle").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: gridHeight,
+		height: gridHeight-100,
 		source: vehicleDataSource,
 		altrows: true,
 		pageable: true,
@@ -180,6 +173,7 @@ $(function(){
 		columns: [
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+			<?php if ( $organization['id'] == $this->session->userdata('organization_id') || $this->session->userdata('group_id') == 2 ) :?>
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
@@ -195,11 +189,12 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("vehicle_type_id"); ?>',datafield: 'vehicle_type_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, filtertype: 'list', filteritems: array_vehicle_type },
-			{ text: '<?php echo lang("registration_number"); ?>',datafield: 'registration_number',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("capacity"); ?>',datafield: 'capacity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("distance_coverage"); ?>',datafield: 'distance_coverage',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("current_location"); ?>',datafield: 'current_location',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			<?php endif;?>
+			{ text: '<?php echo lang("vehicle_type_id"); ?>',datafield: 'vehicle_type_name',width: 150,filterable: true,renderer: gridColumnsRenderer,filtertype: 'list', filteritems: array_vehicle_type },
+			{ text: '<?php echo lang("registration_number"); ?>',datafield: 'registration_number',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("capacity"); ?>',datafield: 'capacity',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("distance_coverage"); ?>',datafield: 'distance_coverage',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("current_location"); ?>',datafield: 'current_location',width: 150,filterable: true,renderer: gridColumnsRenderer },
 			
 		],
 		rendergridrows: function (result) {
@@ -217,7 +212,6 @@ $(function(){
 	$("#jqxVehicleCancelButton").on('click', function () {
         $('#vehicle_pk_id').val('');
         $('#form-vehicle')[0].reset();
-        $('#jqxPopupWindow').jqxWindow('close');
     });
 
     $("#jqxVehicleSubmitButton").on('click', function () {
@@ -290,7 +284,28 @@ function saveVehicleRecord(){
                 $('#vehicle_pk_id').val('');
                 $('#form-vehicle')[0].reset();
                 $('#jqxGridVehicle').jqxGrid('updatebounddata');
-                $('#jqxPopupWindow').jqxWindow('close');
+
+                //update next deliver vehicle combobox
+                nextDeliveryVehicleDataSource = {
+					url : base_url + 'admin/vehicle/combo_json',
+			        datatype: 'json',
+			        datafields: [ 
+			            { name: 'id', type: 'number' },
+						{ name: 'registration_number', type: 'string' },
+			        ],
+			        data: {
+						organization_id: "<?php echo $organization['id'];?>",
+					},
+			        async: false
+				}
+
+				nextDeliveryVehicleDataAdapter = new $.jqx.dataAdapter(nextDeliveryVehicleDataSource, {autoBind: true});
+				$("#vehicle_id").jqxComboBox({ 
+					source: nextDeliveryVehicleDataAdapter, 
+					displayMember: "registration_number", 
+					valueMember: "id"
+				});
+
             }
 
         }

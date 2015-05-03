@@ -1,13 +1,13 @@
-<?php echo form_open('', array('id' =>'form-delivered_item', 'onsubmit' => 'return false')); ?>
+<?php echo form_open('', array('id' =>'form-delivered_item', 'onsubmit' => 'return false', 'style' => 'display:none')); ?>
         	<input type = "hidden" name = "id" id = "delivered_item_pk_id"/>
         	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
             <table class="table table-condensed">
 				<tr>
 					<td><label for='area_id'><?php echo lang('area_id')?></label></td>
-					<td><div id='delivered_item_area_id' class='combo_box' name='area_id'></div></td>
+					<td><div id='delivered_item_area_id' class="area_id" name='area_id'></div></td>
 				
 					<td><label for='item_id'><?php echo lang('item_id')?></label></td>
-					<td><div id='delivered_item_item_id' class='combo_box' name='item_id'></div></td>
+					<td><div id='delivered_item_item_id' class="item_id" name='item_id'></div></td>
 				</tr>
 				<tr>
 					<td><label for='delivered_date'><?php echo lang('delivered_date')?></label></td>
@@ -28,96 +28,13 @@
         <br />
 <div id="jqxGridDelivered_item"></div>
 
-
-
-
 <script language="javascript" type="text/javascript">
-
 
 $(function(){
 
-
-
-	var deliveredItemAreaDataSource = {
-		url : base_url + 'admin/area/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'code', type: 'string' },
-			{ name: 'name', type: 'string' },
-        ],
-        async: false
-	}
-
-	var deliveredItemAreaDataAdapter = new $.jqx.dataAdapter(deliveredItemAreaDataSource);
-
-	$("#delivered_item_area_id").jqxComboBox({ 
-	   theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source:deliveredItemAreaDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-
-
-
-	var deliveredItemItemDataSource = {
-		url : base_url + 'admin/item/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'name', type: 'string' }
-        ],
-        async: false
-	}
-
-	var deliveredItemItemDataAdapter = new $.jqx.dataAdapter(deliveredItemItemDataSource);
-
-	$("#delivered_item_item_id").jqxComboBox({ 
-	   theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source:deliveredItemItemDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-
-	$("#delivered_item_item_id").jqxComboBox({
-		theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source:deliveredItemItemDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-
-	var array_delivered_item_area = new Array();
-	$.each(deliveredItemAreaDataAdapter.records, function(key,val) {
-		array_delivered_item_area.push(val.name);
-	}); 
-
-	var array_delivered_item_item = new Array();
-	$.each(deliveredItemItemDataAdapter.records, function(key,val) {
-		array_delivered_item_item.push(val.name);
-	}); 
-
-
+	if ( '<?php echo $organization['id'];?>' == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+		$('#form-delivered_item').show();
+	} 
 
 	var delivered_itemDataSource =
 	{
@@ -125,10 +42,10 @@ $(function(){
 		datafields: [
 			{ name: 'id', type: 'number' },
 			{ name: 'area_id', type: 'number' },
-			{ name: 'area_name', value: 'area_id', values: { source: deliveredItemAreaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' },
+			{ name: 'area_name', value: 'area_id', values: { source: areaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' },
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'item_id', type: 'number' },
-			{ name: 'item_name', value: 'item_id', values: { source: deliveredItemItemDataAdapter.records, value: 'id', name: 'name'}, type: 'string' },
+			{ name: 'item_name', value: 'item_id', values: { source: itemDataAdapter.records, value: 'id', name: 'name'}, type: 'string' },
 			{ name: 'delivered_date', type: 'date' },
 			{ name: 'quantity', type: 'number' },
 			{ name: 'created_by', type: 'number' },
@@ -170,20 +87,19 @@ $(function(){
 
                     if (data[key] == 'item_name') {
                         data[key] = 'item_id';
-                        for (var j = 0; j < deliveredItemItemDataAdapter.records.length; j++){
+                        for (var j = 0; j < itemDataAdapter.records.length; j++){
                             v = 'filtervalue' + i;
-                            if ( deliveredItemItemDataAdapter.records[j].name == data[val]) {
-                                data[v] = deliveredItemItemDataAdapter.records[j].id;
+                            if ( itemDataAdapter.records[j].name == data[val]) {
+                                data[v] = itemDataAdapter.records[j].id;
                                 break;
                             }
                         }
-                    }
-                    else if (data[key] == 'area_name') {
+                    } else if (data[key] == 'area_name') {
                         data[key] = 'area_id';
-                        for (var j = 0; j < deliveredItemAreaDataAdapter.records.length; j++){
+                        for (var j = 0; j < areaDataAdapter.records.length; j++){
                             v = 'filtervalue' + i;
-                            if ( deliveredItemAreaDataAdapter.records[j].name == data[val]) {
-                                data[v] = deliveredItemAreaDataAdapter.records[j].id;
+                            if ( areaDataAdapter.records[j].name == data[val]) {
+                                data[v] = areaDataAdapter.records[j].id;
                                 break;
                             }
                         }
@@ -194,14 +110,7 @@ $(function(){
 	    }
 	};
 
-	var cellclassname = function (row, column, value, data) {
-
-        if (data.delete_flag == '0')
-            return 'status-active';
-        else if (data.delete_flag == '1')
-            return 'status-inactive';
-    };
-     var addfilter = function () {
+	var addfilter = function () {
 
         var filtergroup = new $.jqx.filter(),
 
@@ -222,7 +131,7 @@ $(function(){
 	$("#jqxGridDelivered_item").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: gridHeight,
+		height: gridHeight-100,
 		source: delivered_itemDataSource,
 		altrows: true,
 		pageable: true,
@@ -244,6 +153,7 @@ $(function(){
 		columns: [
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+			<?php if ( $organization['id'] == $this->session->userdata('organization_id') || $this->session->userdata('group_id') == 2 ) :?>
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
@@ -254,10 +164,11 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_delivered_item_area },
-			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_delivered_item_item },
-			{ text: '<?php echo lang("delivered_date"); ?>',datafield: 'delivered_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
-			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			<?php endif; ?>
+			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype:'list',filteritems:array_area },
+			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype:'list',filteritems:array_item },
+			{ text: '<?php echo lang("delivered_date"); ?>',datafield: 'delivered_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer },
 			
 		],
 		rendergridrows: function (result) {
@@ -271,51 +182,32 @@ $(function(){
 	    $("#jqxGridDelivered_item").jqxGrid('refresh');
 	});
 
-	$('#jqxGridDelivered_itemFilterClear').on('click', function () { 
-		$('#jqxGridDelivered_item').jqxGrid('clearfilters');
-	});
-
-	$('#jqxGridDelivered_itemInsert').on('click', function(){
-		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
-    });
-
-	
-
-     $("#jqxDelivered_itemCancelButton").on('click', function () {
-        $('#id').val('');
+	$("#jqxDelivered_itemCancelButton").on('click', function () {
+        $('#delivered_item_pk_id').val('');
         $('#form-delivered_item')[0].reset();
     });
 
-
-   
-
     $("#jqxDelivered_itemSubmitButton").on('click', function () {
-
     	 saveOrgDeliveredRecord();
-        
     });
 
 });
 
 
 function editOrgDeliveredRecord(index){
-
     var row =  $("#jqxGridDelivered_item").jqxGrid('getrowdata', index);
   	if (row) {
-        $('#id').val(row.id);
-		$('#delivered_item_area_id').jqxNumberInput('val', row.area_id);
-		$('#organization_id').jqxNumberInput('val', row.organization_id);
-		$('#delivered_item_item_id').jqxNumberInput('val', row.item_id);
-
+        $('#delivered_item_pk_id').val(row.id);
+		$('#delivered_item_area_id').jqxComboBox('val', row.area_id);
+		$('#delivered_item_item_id').jqxComboBox('val', row.item_id);
 		$('#delivered_date').jqxDateTimeInput('setDate', row.delivered_date);
 		$('#quantity').jqxNumberInput('val', row.quantity);
-		
     }
 }
 
 function deleteOrgDeliveredRecord(index){
 
-    var row =  $("#jqxGridDelivered_item").jqxGrid('getrowdata', index);
+    var row = $("#jqxGridDelivered_item").jqxGrid('getrowdata', index);
   	if (row) {
 		var r = confirm("Do you want to delete this Record???");
 		if (r == true) {
@@ -331,8 +223,6 @@ function deleteOrgDeliveredRecord(index){
     }
 }
 
-
-
 function saveOrgDeliveredRecord(){
     var data = $("#form-delivered_item").serialize();
    
@@ -343,7 +233,7 @@ function saveOrgDeliveredRecord(){
         success: function (result) {
             var result = eval('('+result+')');
             if (result.success) {
-                $('#id').val('');
+                $('#delivered_item_pk_id').val('');
                 $('#form-delivered_item')[0].reset();
                 $('#jqxGridDelivered_item').jqxGrid('updatebounddata');
             }
