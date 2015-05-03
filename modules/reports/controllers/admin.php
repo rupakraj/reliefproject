@@ -9,6 +9,9 @@ class Admin extends Rsys_Controller
         //$this->load->model('reports/reports');
         //$this->lang->load('reports/reports');
         //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
+
+        $this->load->model('area/area_model');
+        $this->lang->load('area/area');
 	}
 
 	public function index()
@@ -42,7 +45,9 @@ class Admin extends Rsys_Controller
 
 	public function table_report(){
 		
-		$data=$this->_get_posted_data(); //Retrive Posted Data
+		// $data=$this->_get_posted_data(); //Retrive Posted Data
+
+		$data['values'] = json_encode($this->db->where('name',$this->input->post('district'))->get('tbl_areas')->result_array()); 
 
 		echo $this->load->view('reports/admin/table-report',$data,FALSE);
 	}

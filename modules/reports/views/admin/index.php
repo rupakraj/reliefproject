@@ -1,7 +1,7 @@
 <style>
-	#footer{
-		z-index: 99999999;
-	}
+#footer{
+	z-index: 99999999;
+}
 </style>
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
@@ -13,8 +13,12 @@
         </div>
     </section>
 
+    <button type="button" class="btn btn-success btn-xs btn-flat pull-right" id="toggle" style="margin-right:10px;">
+    	<span class="fa fa-align-justify"></span>
+    </button>
+
     <!-- Main content -->
-    <section class="content">
+    <section class="content" id="fields">
 
     	<!-- row -->
     	<div class="row">
@@ -25,7 +29,8 @@
 				<!-- <button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridDistrict_vdcInsert"><?php echo lang('create'); ?></button>
 				<button type="button" class="btn btn-danger btn-flat btn-xs" id="jqxGridDistrict_vdcFilterClear"><?php echo lang('clear'); ?></button> -->
 
-				<!-- <br /><br /> -->
+				<!-- <br /><br /> -->				
+
 
 				<div class="form_fields_area">
 					<?php echo form_open('', array('id' =>'form-reports', 'onsubmit' => 'return false')); ?>
@@ -77,7 +82,8 @@
 						</tr>
 						<tr>
 							<td><label for='priority'>Priority</label></td>
-							<td><input id='priority' class='text_input' name='priority'></td>
+							<!-- <td><input id='priority' class='text_input' name='priority'></td> -->
+							<td><div id='priority' class='combo_box' name='priority'></div></td>
 						</tr>
 						<tr>
 							<td><label for='road_obbstruction'>Road Obstruction</label></td>
@@ -115,7 +121,23 @@
 					
 				</div>
 
-				<div id="result" style="margin-top:10px;"></div>
+				
+
+			</div><!-- /.col -->
+		</div>
+		<!-- /.row -->
+
+
+	</section><!-- /.content --> 
+
+	<!-- Main content -->
+	<section class="content">
+
+		<!-- row -->
+		<div class="row">
+			<div class="col-xs-12 connectedSortable">
+
+				<div id="result"></div>				
 
 			</div><!-- /.col -->
 		</div>
@@ -132,6 +154,11 @@
 
 $(function(){
 	// console.log(base_url + 'admin/district_vdc/district_combo_json');
+
+	$('#toggle').click(function(){
+		$('#fields').slideToggle();
+	});	
+
 	 //districts
 	 var districtDataSource = {
 	 	url : base_url + 'admin/district_vdc/district_combo_json',
@@ -154,7 +181,7 @@ $(function(){
 	 	searchMode: 'containsignorecase',
 	 	source: districtDataAdapter,
 	 	displayMember: "name_en",
-	 	valueMember: "id"
+	 	valueMember: "name"
 	 });
 
 	 $('#vdc_mun').jqxComboBox({
@@ -257,6 +284,32 @@ $(function(){
 	 	autoComplete: true,
 	 	searchMode: 'containsignorecase',
 	 	source: area_typeDataAdapter,
+	 	displayMember: "name",
+	 	valueMember: "id"
+	 });
+
+	 // area_type
+
+	 var priorityDataSource = {
+	 	url : base_url + 'admin/priority/combo_json',
+	 	datatype: 'json',
+	 	datafields: [
+	 	{ name: 'id', type: 'number' },
+	 	{ name: 'name', type: 'string' },
+	 	],
+	 	async: false
+	 }
+
+	 var priorityDataAdapter = new $.jqx.dataAdapter(priorityDataSource);
+
+	 $("#priority").jqxComboBox({
+	 	theme: theme_combo,
+	 	width: 195,
+	 	height: 25,
+	 	selectionMode: 'dropDownList',
+	 	autoComplete: true,
+	 	searchMode: 'containsignorecase',
+	 	source: priorityDataAdapter,
 	 	displayMember: "name",
 	 	valueMember: "id"
 	 });
