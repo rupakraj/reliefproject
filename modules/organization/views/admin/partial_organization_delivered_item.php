@@ -310,7 +310,6 @@ function editOrgDeliveredRecord(index){
 		$('#delivered_date').jqxDateTimeInput('setDate', row.delivered_date);
 		$('#quantity').jqxNumberInput('val', row.quantity);
 		
-        openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
 }
 
