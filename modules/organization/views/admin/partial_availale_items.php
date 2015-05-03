@@ -1,13 +1,12 @@
-
-<?php echo form_open('', array('id' =>'form-organization_available_item', 'onsubmit' => 'return false')); ?>
+<?php echo form_open('', array('id' =>'form-organization_available_item', 'onsubmit' => 'return false', 'style' => 'display:none')); ?>
 	<input type = "hidden" name = "id" id = "available_item_pk_id"/>
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
     <table class="table table-condensed">
 		<tr>
 			<td><label for='area_id'><?php echo lang('area_id')?></label></td>
-			<td><div id='available_item_area_id' class='combo_box' name='area_id'></div></td>
+			<td><div id='available_item_area_id' class="area_id" name='area_id'></div></td>
 			<td><label for='item_id'><?php echo lang('item_id')?></label></td>
-			<td><div id='available_item_item_id' class='number_general' name='item_id'></div></td>
+			<td><div id='available_item_item_id' class="item_id" name='item_id'></div></td>
 		</tr>
 		<tr>
 			<td><label for='start_date'><?php echo lang('start_date')?></label></td>
@@ -33,95 +32,20 @@
 <br />
 <div id="jqxGridOrganization_available_item"></div>
 
-
 <script language="javascript" type="text/javascript">
-
 
 $(function(){
 
-	var availableItemAreaDataSource = {
-		url : base_url + 'admin/area/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'code', type: 'string' },
-			{ name: 'name', type: 'string' },
-        ],
-        async: false
-	}
-
-	var availableItemAreaDataAdapter = new $.jqx.dataAdapter(availableItemAreaDataSource);
-
-	$("#available_item_area_id").jqxComboBox({ 
-	   theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source:availableItemAreaDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-	var availableItemItemDataSource = {
-		url : base_url + 'admin/item/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'name', type: 'string' }
-        ],
-        async: false
-	}
-
-	var availableItemItemDataAdapter = new $.jqx.dataAdapter(availableItemItemDataSource);
-
-	$("#available_item_area_id").jqxComboBox({ 
-	   theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source:availableItemAreaDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-
-	$("#available_item_item_id").jqxComboBox({
-		theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source:availableItemItemDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	})
-
-	var array_available_item_area = new Array();
-	$.each(availableItemAreaDataAdapter.records, function(key,val) {
-		array_available_item_area.push(val.name);
-	}); 
-
-	var array_available_item_item = new Array();
-	$.each(availableItemItemDataAdapter.records, function(key,val) {
-		array_available_item_item.push(val.name);
-	}); 
-
-
+	if ( '<?php echo $organization['id'];?>' == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+		$('#form-organization_available_item').show();
+	} 
 	var organization_available_itemDataSource =
 	{
 		datatype: "json",
 		datafields: [
 			{ name: 'id', type: 'number' },
 			{ name: 'area_id', type: 'number' },
-			{ name: 'area_name', value: 'area_id', values: { source: availableItemAreaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
+			{ name: 'area_name', value: 'area_id', values: { source: areaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'start_date', type: 'date' },
 			{ name: 'end_date', type: 'date' },
@@ -130,7 +54,7 @@ $(function(){
 			{ name: 'created_date', type: 'date' },
 			{ name: 'modified_date', type: 'date' },
 			{ name: 'item_id', type: 'number' },
-			{ name: 'item_name', value: 'item_id', values: { source: availableItemItemDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
+			{ name: 'item_name', value: 'item_id', values: { source: itemDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
 			{ name: 'quantity', type: 'number' },
 			{ name: 'deliver_quantity', type: 'number' },
 			
@@ -168,10 +92,10 @@ $(function(){
 
                     if (data[key] == 'area_name') {
                         data[key] = 'area_id';
-                        for (var j = 0; j < availableItemAreaDataAdapter.records.length; j++){
+                        for (var j = 0; j < areaDataAdapter.records.length; j++){
                             v = 'filtervalue' + i;
-                            if ( availableItemAreaDataAdapter.records[j].name == data[val]) {
-                                data[v] = availableItemAreaDataAdapter.records[j].id;
+                            if ( areaDataAdapter.records[j].name == data[val]) {
+                                data[v] = areaDataAdapter.records[j].id;
                                 break;
                             }
                         }
@@ -181,23 +105,14 @@ $(function(){
 	    }
 	};
 
-	var cellclassname = function (row, column, value, data) {
-
-        if (data.delete_flag == '0')
-            return 'status-active';
-        else if (data.delete_flag == '1')
-            return 'status-inactive';
-    };
-
     var addfilter = function () {
 
         var filtergroup = new $.jqx.filter(),
 
-            filter_or_operator = 1,
-            filtervalue = '<?php echo $organization['id'];?>',
-            filtercondition = 'equal',
-            filter1 = filtergroup.createfilter('numericfilter', filtervalue, filtercondition);
-
+        filter_or_operator = 1,
+        filtervalue = '<?php echo $organization['id'];?>',
+        filtercondition = 'equal',
+        filter1 = filtergroup.createfilter('numericfilter', filtervalue, filtercondition);
         
         filtergroup.operator = 'and';
         filtergroup.addfilter(filter_or_operator, filter1);
@@ -210,7 +125,7 @@ $(function(){
 	$("#jqxGridOrganization_available_item").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: gridHeight,
+		height: gridHeight-100,
 		source: organization_available_itemDataSource,
 		altrows: true,
 		pageable: true,
@@ -232,6 +147,7 @@ $(function(){
 		columns: [
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+			<?php if ( $organization['id'] == $this->session->userdata('organization_id') || $this->session->userdata('group_id') == 2 ) :?>
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
@@ -242,12 +158,14 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype: 'list', filteritems: array_available_item_area  },
-			{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
-			{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
-			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype: 'list', filteritems: array_available_item_item  },
-			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("deliver_quantity"); ?>',datafield: 'deliver_quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			<?php endif; ?>
+
+			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype: 'list', filteritems: array_area  },
+			{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype: 'list', filteritems: array_item  },
+			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer,  },
+			{ text: '<?php echo lang("deliver_quantity"); ?>',datafield: 'deliver_quantity',width: 150,filterable: true,renderer: gridColumnsRenderer,  },
 			
 		],
 		rendergridrows: function (result) {
@@ -265,9 +183,7 @@ $(function(){
      $("#jqxOrganization_available_itemCancelButton").on('click', function () {
         $('#available_item_pk_id').val('');
         $('#form-organization_available_item')[0].reset();
-        $('#jqxPopupWindow').jqxWindow('close');
     });
-
 
     $("#jqxOrganization_available_itemSubmitButton").on('click', function () {
 		saveOrgAvailableRecord();       
@@ -319,7 +235,6 @@ function saveOrgAvailableRecord(){
                 $('#available_item_pk_id').val('');
                 $('#form-organization_available_item')[0].reset();
                 $('#jqxGridOrganization_available_item').jqxGrid('updatebounddata');
-                $('#jqxPopupWindow').jqxWindow('close');
             }
 
         }

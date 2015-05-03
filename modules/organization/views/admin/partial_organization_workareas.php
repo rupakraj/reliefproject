@@ -1,10 +1,10 @@
-<?php echo form_open('', array('id' =>'form-organization_workarea', 'onsubmit' => 'return false')); ?>
+<?php echo form_open('', array('id' =>'form-organization_workarea', 'onsubmit' => 'return false', 'style' => 'display:none')); ?>
 	<input type = "hidden" name = "id" id = "working_pk_id"/>
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
     <table class="table table-condensed">
 		<tr>
 			<td width="10%"><label for='area_id'><?php echo lang('area_id')?></label></td>
-			<td width="20%"><div id='working_area_id' class='combo_box' name='area_id'></div></td>
+			<td width="20%"><div id='working_area_id' class="area_id" name='area_id'></div></td>
 			<td width="10%"><label for='start_date'><?php echo lang('start_date')?></label></td>
 			<td width="20%"><div id='start_date' class='date_box' name='start_date'></div></td>
 			<td width="10%"><label for='end_date'><?php echo lang('end_date')?></label></td>
@@ -26,45 +26,17 @@
 
 $(function(){
 
-	var workginAreaDataSource = {
-		url : base_url + 'admin/area/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'code', type: 'string' },
-			{ name: 'name', type: 'string' },
-        ],
-        async: false
+	if ( '<?php echo $organization['id'];?>' == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+		$('#form-organization_workarea').show();
 	}
 
-	var workingAreaDataAdapter = new $.jqx.dataAdapter(workginAreaDataSource);
-
-	$("#working_area_id").jqxComboBox({ 
-	   theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source: workingAreaDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-	var array_working_area = new Array();
-	$.each(workingAreaDataAdapter.records, function(key,val) {
-		array_working_area.push(val.name);
-	}); 
-
-
-	var organization_workworkginAreaDataSource =
+	organization_workworkginAreaDataSource =
 	{
 		datatype: "json",
 		datafields: [
 			{ name: 'id', type: 'number' },
 			{ name: 'area_id', type: 'number' },
-			{ name: 'area_name', value: 'area_id', values: { source: workingAreaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
+			{ name: 'area_name', value: 'area_id', values: { source: areaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'start_date', type: 'date' },
 			{ name: 'end_date', type: 'date' },
@@ -107,10 +79,10 @@ $(function(){
 
                     if (data[key] == 'area_name') {
                         data[key] = 'area_id';
-                        for (var j = 0; j < workingAreaDataAdapter.records.length; j++){
+                        for (var j = 0; j < areaDataAdapter.records.length; j++){
                             v = 'filtervalue' + i;
-                            if ( workingAreaDataAdapter.records[j].name == data[val]) {
-                                data[v] = workingAreaDataAdapter.records[j].id;
+                            if ( areaDataAdapter.records[j].name == data[val]) {
+                                data[v] = areaDataAdapter.records[j].id;
                                 break;
                             }
                         }
@@ -119,14 +91,6 @@ $(function(){
             }
 	    }
 	};
-
-	var cellclassname = function (row, column, value, data) {
-
-        if (data.delete_flag == '0')
-            return 'status-active';
-        else if (data.delete_flag == '1')
-            return 'status-inactive';
-    };
 
     var addfilter = function () {
 
@@ -149,7 +113,7 @@ $(function(){
 	$("#jqxGridOrganization_workarea").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: (gridHeight-150),
+		height: gridHeight-150,
 		source: organization_workworkginAreaDataSource,
 		altrows: true,
 		pageable: true,
@@ -171,6 +135,7 @@ $(function(){
 		columns: [
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+			<?php if ( $organization['id'] == $this->session->userdata('organization_id') || $this->session->userdata('group_id') == 2 ) :?>
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
@@ -181,9 +146,10 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype: 'list', filteritems: array_working_area  },
-			{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
-			{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			<?php endif; ?>
+			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype: 'list', filteritems: array_area  },
+			{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			
 		],
 		rendergridrows: function (result) {
@@ -247,7 +213,6 @@ function deleteWorkingAreaRecord(index){
 
 function saveWorkingAreaRecord(){
     var data = $("#form-organization_workarea").serialize();
-    console.log(data);
    
     $.ajax({
         type: "POST",
@@ -259,7 +224,6 @@ function saveWorkingAreaRecord(){
                 $('#working_pk_id').val('');
                 $('#form-organization_workarea')[0].reset();
                 $('#jqxGridOrganization_workarea').jqxGrid('updatebounddata');
-                //$('#jqxPopupWindow').jqxWindow('close');
             }
 
         }

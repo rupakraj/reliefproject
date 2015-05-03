@@ -1,18 +1,18 @@
-<?php echo form_open('', array('id' =>'form-next_delivery', 'onsubmit' => 'return false')); ?>
+<?php echo form_open('', array('id' =>'form-next_delivery', 'onsubmit' => 'return false', 'style' => 'display:none')); ?>
 	<input type = "hidden" name = "id" id = "next_delivery_pk_id"/>
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
 	<table class="form-table">
 		<tr>
 			<td><label for='area_id'><?php echo lang('area_id')?></label></td>
-			<td><div id='next_delivery_area_id' class='combo_box' name='area_id'></div></td>
+			<td><div id='next_delivery_area_id' class="area_id" name='area_id'></div></td>
 			<td><label for='vehicle_id'><?php echo lang('vehicle_id')?></label></td>
-			<td><div id='vehicle_id' class='combo_box' name='vehicle_id'></div></td>
+			<td><div id='vehicle_id' name='vehicle_id'></div></td>
 		</tr>
 		<tr>
 			<td><label for='district_id'><?php echo lang('district_id')?></label></td>
-			<td><div id='district_id' class='combo_box' name='district_id'></div></td>
+			<td><div id='district_id' name='district_id'></div></td>
 			<td><label for='mun_vdc_id'><?php echo lang('mun_vdc_id')?></label></td>
-			<td><div id='mun_vdc_id' class='combo_box' name='mun_vdc_id'></div></td>
+			<td><div id='mun_vdc_id' name='mun_vdc_id'></div></td>
 		</tr>
 		<tr>
 			<td><label for='street'><?php echo lang('street')?></label></td>
@@ -42,46 +42,18 @@
 <br />
 <div id="jqxGridNext_delivery"></div>
 
-
 <script language="javascript" type="text/javascript">
 
-
 $(function(){
+
+	if ( '<?php echo $organization['id'];?>' == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+		$('#form-next_delivery').show();
+	} 
 
 	var array_next_delivery_status = new Array('Waiting', 'Delivered', 'Moved');
 
 	$('#status').jqxInput({source: array_next_delivery_status});
 	$("#reporting_time").jqxDateTimeInput({ formatString: formatString_yyyy_MM_dd_HH_mm });
-
-	var nextDeliveryAreaDataSource = {
-		url : base_url + 'admin/area/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'name', type: 'string' },
-        ],
-        async: false
-	}
-
-	var nextDeliveryAreaDataAdapter = new $.jqx.dataAdapter(nextDeliveryAreaDataSource);
-
-	$("#next_delivery_area_id").jqxComboBox({ 
-	    	theme: theme_combo, 
-	    	width: 195, 
-			height: 25, 
-			selectionMode: 'dropDownList', 
-			autoComplete: true, 
-			searchMode: 'containsignorecase',
-			source: nextDeliveryAreaDataAdapter, 
-			displayMember: "name", 
-			valueMember: "id"
-		});
-
-	var array_next_delivery_area = new Array();
-	$.each(nextDeliveryAreaDataAdapter.records, function(key,val) {
-	        array_next_delivery_area.push(val.name);
-	    }); 
-
 
 	var nextDeliveryVehicleDataSource = {
 		url : base_url + 'admin/vehicle/combo_json',
@@ -159,20 +131,6 @@ $(function(){
         array_district.push(val.name_en);
     });
    
-
-    $("#mun_vdc_id").jqxComboBox({
-	        theme: theme_combo,
-	        width: 195,
-	        height: 25,
-	        selectionMode: 'dropDownList',
-	        autoComplete: true,
-	        searchMode: 'containsignorecase',
-	        source: munVdcDataAdapter,
-	        displayMember: "name_en",
-	        valueMember: "id"
-	    });
-
-	//var array_mun_vdc = array_district;
 	var munVdcDataSource, munVdcDataAdapter;
 	$("#district_id").on('select', function (event) {
 		val = $("#district_id").jqxComboBox('val');
@@ -191,7 +149,16 @@ $(function(){
 	    }
 
     	munVdcDataAdapter = new $.jqx.dataAdapter(munVdcDataSource, { autobind: true });
-		$("#mun_vdc_id").jqxComboBox({source: munVdcDataAdapter});
+		$("#mun_vdc_id").jqxComboBox({ 
+			theme: theme_combo,
+	        width: 195,
+	        height: 25,
+	        selectionMode: 'dropDownList',
+	        autoComplete: true,
+	        searchMode: 'containsignorecase',
+	        source: munVdcDataAdapter,
+	        displayMember: "name_en",
+	        valueMember: "id"});
 
     });
 
@@ -203,7 +170,7 @@ $(function(){
 			{ name: 'id', type: 'number' },
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'area_id', type: 'number' },
-			{ name: 'area_name', value: 'area_id', values: { source: nextDeliveryAreaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
+			{ name: 'area_name', value: 'area_id', values: { source: areaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
 			{ name: 'vehicle_id', type: 'number' },
 			{ name: 'vehicle_reg_number', value: 'vehicle_id', values: { source: nextDeliveryVehicleDataAdapter.records, value: 'id', name: 'registration_number'}, type: 'string' }, 
 			{ name: 'district_id', type: 'number' },
@@ -251,18 +218,30 @@ $(function(){
                     //use following chunk of codes
                     //if (data[key] == 'FIELD_NAME') {
                     //    data[val] = Date.parse(data[val]).toString('yyyy-MM-dd');
+
+                    if (data[key] == 'vehicle_reg_number') {
+                        data[key] = 'vehicle_id';
+                        for (var j = 0; j < nextDeliveryVehicleDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( nextDeliveryVehicleDataAdapter.records[j].registration_number == data[val]) {
+                                data[v] = nextDeliveryVehicleDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    } else if (data[key] == 'area_name') {
+                        data[key] = 'area_id';
+                        for (var j = 0; j < areaDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( areaDataAdapter.records[j].name == data[val]) {
+                                data[v] = areaDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 	    }
 	};
-
-	var cellclassname = function (row, column, value, data) {
-
-        if (data.delete_flag == '0')
-            return 'status-active';
-        else if (data.delete_flag == '1')
-            return 'status-inactive';
-    };
 
     var addfilter = function () {
 
@@ -285,7 +264,7 @@ $(function(){
 	$("#jqxGridNext_delivery").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: gridHeight,
+		height: gridHeight-100,
 		source: next_deliveryDataSource,
 		altrows: true,
 		pageable: true,
@@ -307,6 +286,7 @@ $(function(){
 		columns: [
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+			<?php if ( $organization['id'] == $this->session->userdata('organization_id') || $this->session->userdata('group_id') == 2 ) :?>
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
@@ -317,15 +297,16 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, filtertype: 'list', filteritems: array_next_delivery_area },
-			{ text: '<?php echo lang("vehicle_id"); ?>',datafield: 'vehicle_reg_number',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype: 'list', filteritems: array_next_delivery_vehicle },
-			{ text: '<?php echo lang("district_id"); ?>',datafield: 'district_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, filtertype: 'list', filteritems: array_district },
-			{ text: '<?php echo lang("mun_vdc_id"); ?>',datafield: 'mun_vdc_name',width: 150,filterable: false,renderer: gridColumnsRenderer, cellclassname: cellclassname,},
-			{ text: '<?php echo lang("street"); ?>',datafield: 'street',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("contact_name"); ?>',datafield: 'contact_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("contact_phone"); ?>',datafield: 'contact_phone',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("status"); ?>',datafield: 'status',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("reporting_time"); ?>',datafield: 'reporting_time',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd_HH_mm},
+			<?php endif;?>
+			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer,  filtertype: 'list', filteritems: array_area},
+			{ text: '<?php echo lang("vehicle_id"); ?>',datafield: 'vehicle_reg_number',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype: 'list', filteritems: array_next_delivery_vehicle },
+			{ text: '<?php echo lang("district_id"); ?>',datafield: 'district_name',width: 150,filterable: true,renderer: gridColumnsRenderer,  filtertype: 'list', filteritems: array_district },
+			{ text: '<?php echo lang("mun_vdc_id"); ?>',datafield: 'mun_vdc_name',width: 150,filterable: false,renderer: gridColumnsRenderer, },
+			{ text: '<?php echo lang("street"); ?>',datafield: 'street',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("contact_name"); ?>',datafield: 'contact_name',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("contact_phone"); ?>',datafield: 'contact_phone',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("status"); ?>',datafield: 'status',width: 150,filterable: true,renderer: gridColumnsRenderer },
+			{ text: '<?php echo lang("reporting_time"); ?>',datafield: 'reporting_time',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd_HH_mm},
 			
 		],
 		rendergridrows: function (result) {
@@ -342,7 +323,6 @@ $(function(){
 	$("#jqxNext_deliveryCancelButton").on('click', function () {
         $('#next_delivery_pk_id').val('');
         $('#form-next_delivery')[0].reset();
-        $('#jqxPopupWindow').jqxWindow('close');
     });
 
 
@@ -404,7 +384,6 @@ function saveNextDeliveryRecord(){
                 $('#next_delivery_pk_id').val('');
                 $('#form-next_delivery')[0].reset();
                 $('#jqxGridNext_delivery').jqxGrid('updatebounddata');
-                $('#jqxPopupWindow').jqxWindow('close');
             }
 
         }

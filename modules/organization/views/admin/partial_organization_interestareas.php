@@ -1,10 +1,10 @@
-<?php echo form_open('', array('id' =>'form-organization_interestarea', 'onsubmit' => 'return false')); ?>
+<?php echo form_open('', array('id' =>'form-organization_interestarea', 'onsubmit' => 'return false', 'style' => 'display:none')); ?>
 	<input type = "hidden" name = "id" id = "interest_pk_id"/>
 	<input type = "hidden" name = "organization_id" id = "organization_id" value="<?php echo $organization['id'];?>" />
     <table class="table table-condensed">
 		<tr>
 			<td width="10%"><label for='area_id'><?php echo lang('area_id')?></label></td>
-			<td width="20%"><div id='interest_area_id' class='combo_box' name='area_id'></div></td>
+			<td width="20%"><div id='interest_area_id' class="area_id" name='area_id'></div></td>
 		</tr>
         <tr>
             <th colspan="6">
@@ -22,45 +22,17 @@
 
 $(function(){
 
-	var interestAreaDataSource = {
-		url : base_url + 'admin/area/combo_json',
-        datatype: 'json',
-        datafields: [ 
-            { name: 'id', type: 'number' },
-			{ name: 'code', type: 'string' },
-			{ name: 'name', type: 'string' },
-        ],
-        async: false
+	if ( '<?php echo $organization['id'];?>' == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+		$('#form-organization_interestarea').show();
 	}
 
-	var interestAreaDataAdapter = new $.jqx.dataAdapter(interestAreaDataSource);
-
-	$("#interest_area_id").jqxComboBox({ 
-	   theme: theme_combo, 
-    	width: 195, 
-		height: 25, 
-		selectionMode: 'dropDownList', 
-		source: interestAreaDataAdapter, 
-		autoComplete: true, 
-		displayMember: "name", 
-		valueMember: "id", 
-		dropDownWidth: 400, 
-		dropDownHorizontalAlignment: 'left'
-	});
-
-	var array_interest_area = new Array();
-	$.each(interestAreaDataAdapter.records, function(key,val) {
-		array_interest_area.push(val.name);
-	}); 
-
-
-	var organization_interestinterestAreaDataSource =
+	organization_interestinterestAreaDataSource =
 	{
 		datatype: "json",
 		datafields: [
 			{ name: 'id', type: 'number' },
 			{ name: 'area_id', type: 'number' },
-			{ name: 'area_name', value: 'area_id', values: { source: interestAreaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
+			{ name: 'area_name', value: 'area_id', values: { source: areaDataAdapter.records, value: 'id', name: 'name'}, type: 'string' }, 
 			{ name: 'organization_id', type: 'number' },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
@@ -101,10 +73,10 @@ $(function(){
 
                     if (data[key] == 'area_name') {
                         data[key] = 'area_id';
-                        for (var j = 0; j < interestAreaDataAdapter.records.length; j++){
+                        for (var j = 0; j < areaDataAdapter.records.length; j++){
                             v = 'filtervalue' + i;
-                            if ( interestAreaDataAdapter.records[j].name == data[val]) {
-                                data[v] = interestAreaDataAdapter.records[j].id;
+                            if ( areaDataAdapter.records[j].name == data[val]) {
+                                data[v] = areaDataAdapter.records[j].id;
                                 break;
                             }
                         }
@@ -113,14 +85,6 @@ $(function(){
             }
 	    }
 	};
-
-	var cellclassname = function (row, column, value, data) {
-
-        if (data.delete_flag == '0')
-            return 'status-active';
-        else if (data.delete_flag == '1')
-            return 'status-inactive';
-    };
 
     var addfilter = function () {
 
@@ -143,7 +107,7 @@ $(function(){
 	$("#jqxGridorganization_interestarea").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
-		height: (gridHeight-150),
+		height: gridHeight-150,
 		source: organization_interestinterestAreaDataSource,
 		altrows: true,
 		pageable: true,
@@ -165,6 +129,7 @@ $(function(){
 		columns: [
 			{ text: '<?php echo lang("organization_id"); ?>',datafield: 'organization_id', hidden:true},
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+			<?php if ( $organization['id'] == $this->session->userdata('organization_id') || $this->session->userdata('group_id') == 2 ) :?>
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
@@ -175,9 +140,10 @@ $(function(){
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '</div>';
 				}
 			},
-			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype: 'list', filteritems: array_interest_area  },
-			//{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
-			//{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			<?php endif; ?>
+			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_name',width: 150,filterable: true,renderer: gridColumnsRenderer, filtertype: 'list', filteritems: array_area  },
+			//{ text: '<?php echo lang("start_date"); ?>',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			//{ text: '<?php echo lang("end_date"); ?>',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer,  columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			
 		],
 		rendergridrows: function (result) {
@@ -234,7 +200,6 @@ function deleteInterestAreaRecord(index){
 
 function saveInterestAreaRecord(){
     var data = $("#form-organization_interestarea").serialize();
-    console.log(data);
    
     $.ajax({
         type: "POST",
@@ -246,7 +211,6 @@ function saveInterestAreaRecord(){
                 $('#interest_pk_id').val('');
                 $('#form-organization_interestarea')[0].reset();
                 $('#jqxGridorganization_interestarea').jqxGrid('updatebounddata');
-                //$('#jqxPopupWindow').jqxWindow('close');
             }
 
         }

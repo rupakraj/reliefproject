@@ -46,7 +46,7 @@
 				</tr>
 				<tr>
 					<td><label for='specialization'><?php echo lang('specialization')?></label></td>
-					<td><div id='specialization' class='combo_box' name='specialization'></div></td>
+					<td><div id='specialization' name='specialization'></div></td>
 					<td><label for='total_volunteer'><?php echo lang('total_volunteer')?></label></td>
 					<td><div id='total_volunteer' class='number_general' name='total_volunteer'></div></td>
 				</tr>
@@ -100,9 +100,15 @@ $(function(){
         async: false
 	}
 
-	var specializationDataAdapter = new $.jqx.dataAdapter(specializationDataSource, {autoBind: true});
+	var specializationDataAdapter = new $.jqx.dataAdapter(specializationDataSource);
 
 	$("#specialization").jqxComboBox({ 
+		width: 195, 
+		height: 25, 
+		selectionMode: 'dropDownList', 
+		autoComplete: true, 
+		searchMode: 'containsignorecase', 
+		theme: theme_combo,
 		displayMember: "name", 
         valueMember: "name",
         source: specializationDataAdapter,
@@ -199,13 +205,23 @@ $(function(){
 			{
 				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
 				cellsrenderer: function (index) {
-					var e = '', d='', detail='' ,row =  $("#jqxGridOrganization").jqxGrid('getrowdata', index);
-					e = '<a href="javascript:void(0)" onclick="editRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
-					if (row.delete_flag == 0) {
-						d = '<a href="javascript:void(0)" onclick="deleteRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
-					} else {
-						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
+					var e = '<i class="glyphicon glyphicon-edit" style="color:#ccc"></i>', 
+						d = '<i class="glyphicon glyphicon-trash" style="color:#ccc"></i>',
+						detail='' ,
+						row =  $("#jqxGridOrganization").jqxGrid('getrowdata', index);
+
+					if (row.id == '<?php echo $this->session->userdata('organization_id');?>' || <?php echo $this->session->userdata('group_id');?> == 2 ) {
+						e = '<a href="javascript:void(0)" onclick="editRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
+					} 
+					
+					if (<?php echo $this->session->userdata('group_id');?> == 2) {
+						if (row.delete_flag == 0) {
+							d = '<a href="javascript:void(0)" onclick="deleteRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+						} else {
+							d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
+						}
 					}
+					
 					var link = '<?php echo site_url('admin/organization/detail');?>'  + '/' + row.id;
                     detail = '<a target="blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
 					
@@ -238,6 +254,10 @@ $(function(){
 	$('#jqxGridOrganizationFilterClear').on('click', function () { 
 		$('#jqxGridOrganization').jqxGrid('clearfilters');
 	});
+
+	<?php if ( $this->session->userdata('group_id') != 2 ) :?>
+		$('#jqxGridOrganizationInsert').hide();
+	<?php endif; ?>
 
 	$('#jqxGridOrganizationInsert').on('click', function(){
 		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
@@ -346,7 +366,6 @@ function editRecord(index){
 		if (row.specialization != '') {
 			str = row.specialization;
 			itemArray = str.split(",");
-			console.log(itemArray);
 			$.each(itemArray, function(key,val) {
 	        	$("#specialization").jqxComboBox('checkItem',val);
 	    	}); 

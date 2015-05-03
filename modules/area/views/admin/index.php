@@ -54,7 +54,7 @@
 					<td><label for='address'><?php echo lang('address')?></label></td>
 					<td><input id='address' class='text_input' name='address'></td>
                     <td><label for='location_category'><?php echo lang('location_category')?></label></td>
-                    <td><input id='location_category' class='text_input' name='location_category'></td>
+                    <td><div id='location_category' class='number_general' name='location_category'></td>
 				</tr>
 				<tr>
 					<td><label for='population_male'><?php echo lang('population_male')?></label></td>
@@ -269,7 +269,7 @@ $(function(){
 
     var array_district = new Array();
     $.each(districtDataAdapter.records, function(key,val) {
-        array_district.push(val.name);
+        array_district.push(val.name_en);
     });
     //obstruction type
     var obstructionDataSource = {
@@ -300,6 +300,36 @@ $(function(){
     $.each(obstructionDataAdapter.records, function(key,val) {
         array_obstruction.push(val.name);
     });
+    //location category
+    var locCategoryDataSource = {
+        url : base_url + 'admin/location_category/combo_json',
+        datatype: 'json',
+        datafields: [
+            { name: 'id', type: 'number' },
+            { name: 'name', type: 'string' },
+        ],
+        async: false
+    }
+
+    var locCategoryDataAdapter = new $.jqx.dataAdapter(locCategoryDataSource);
+
+    $("#location_category").jqxComboBox({
+        theme: theme_combo,
+        width: 195,
+        height: 25,
+        selectionMode: 'dropDownList',
+        autoComplete: true,
+        searchMode: 'containsignorecase',
+        source: locCategoryDataAdapter,
+        displayMember: "name",
+        valueMember: "id"
+    });
+
+    var array_loc_category = new Array();
+    $.each(locCategoryDataAdapter.records, function(key,val) {
+        array_loc_category.push(val.name);
+    });
+    //end location category
 
 
     var areaDataSource =
@@ -309,10 +339,12 @@ $(function(){
 			{ name: 'id', type: 'number' },
 			{ name: 'code', type: 'string' },
 			{ name: 'name', type: 'string' },
-			{ name: 'district', type: 'string',values: { source: districtDataAdapter.records, value: 'id', name: 'name_en'} },
+            { name: 'district', type: 'number' },
+			{ name: 'district_name', value:'district', type: 'string',values: { source: districtDataAdapter.records, value: 'id', name: 'name_en'} },
 			{ name: 'ward', type: 'number' },
 			{ name: 'address', type: 'string' },
-			{ name: 'location_category', type: 'string' },
+            { name: 'location_category', type: 'string' },
+			{ name: 'location_category_name', value:'location_category', type: 'string',values: { source: locCategoryDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'population_male', type: 'number' },
 			{ name: 'population_female', type: 'number' },
 			{ name: 'population_children', type: 'number' },
@@ -333,11 +365,14 @@ $(function(){
 			{ name: 'death', type: 'number' },
 			{ name: 'trapped', type: 'number' },
 			{ name: 'sick', type: 'number' },
-			{ name: 'accessibility_id', type: 'string',values: { source: accessibilityDataAdapter.records, value: 'id', name: 'name'} },
+            { name: 'accessibility_id', type: 'string' },
+			{ name: 'accessibility_name', type: 'string', value:'accessibility_id',values: { source: accessibilityDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'distance_ktm', type: 'number' },
-			{ name: 'area_type', type: 'string',values: { source: areatypeDataAdapter.records, value: 'id', name: 'name'} },
+            { name: 'area_type', type: 'string' },
+			{ name: 'area_type_name', type: 'string',value:'area_type',values: { source: areatypeDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'road_obstructed', type: 'bool' },
-			{ name: 'road_obstruct_detail', type: 'string',values: { source: obstructionDataAdapter.records, value: 'id', name: 'name'} },
+            { name: 'road_obstruct_detail', type: 'string' },
+			{ name: 'road_obstruct_detail_name', value:'road_obstruct_detail', type: 'string',values: { source: obstructionDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
@@ -386,6 +421,56 @@ $(function(){
                     //use following chunk of codes
                     //if (data[key] == 'FIELD_NAME') {
                     //    data[val] = Date.parse(data[val]).toString('yyyy-MM-dd');
+                    if (data[key] == 'location_category_name') {
+                        data[key] = 'location_category';
+                        for (var j = 0; j < locCategoryDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( locCategoryDataAdapter.records[j].name == data[val]) {
+                                data[v] = locCategoryDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
+                    if (data[key] == 'district') {
+                        data[key] = 'district';
+                        for (var j = 0; j < districtDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( districtDataAdapter.records[j].name_en == data[val]) {
+                                data[v] = districtDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
+                    if (data[key] == 'road_obstruct_detail_name') {
+                        data[key] = 'road_obstruct_detail';
+                        for (var j = 0; j < obstructionDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( obstructionDataAdapter.records[j].name == data[val]) {
+                                data[v] = obstructionDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
+                    if (data[key] == 'accessibility_name') {
+                        data[key] = 'accessibility_id';
+                        for (var j = 0; j < accessibilityDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( accessibilityDataAdapter.records[j].name == data[val]) {
+                                data[v] = accessibilityDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
+                    if (data[key] == 'area_type_name') {
+                        data[key] = 'area_type';
+                        for (var j = 0; j < areatypeDataAdapter.records.length; j++){
+                            v = 'filtervalue' + i;
+                            if ( areatypeDataAdapter.records[j].name == data[val]) {
+                                data[v] = areatypeDataAdapter.records[j].id;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 	    }
@@ -431,17 +516,17 @@ $(function(){
 						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
 					}
                     var link = '<?php echo site_url('admin/area/detail');?>'  + '/' + row.id;
-                    detail = '<a target="blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
+                    detail = '<a target="_blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
 
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '&nbsp;' + detail + '</div>';
 				}
 			},
 			{ text: '<?php echo lang("code"); ?>',datafield: 'code',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("name"); ?>',datafield: 'name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("district"); ?>',datafield: 'district',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("district"); ?>',datafield: 'district_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_district },
 			{ text: '<?php echo lang("ward"); ?>',datafield: 'ward',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("address"); ?>',datafield: 'address',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("location_category"); ?>',datafield: 'location_category',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("location_category"); ?>',datafield: 'location_category_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_loc_category },
 			{ text: '<?php echo lang("population_male"); ?>',datafield: 'population_male',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("population_female"); ?>',datafield: 'population_female',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("population_children"); ?>',datafield: 'population_children',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -462,11 +547,11 @@ $(function(){
 			{ text: '<?php echo lang("death"); ?>',datafield: 'death',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("trapped"); ?>',datafield: 'trapped',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("sick"); ?>',datafield: 'sick',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("accessibility_id"); ?>',datafield: 'accessibility_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("accessibility_id"); ?>',datafield: 'accessibility_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_accessibility },
 			{ text: '<?php echo lang("distance_ktm"); ?>',datafield: 'distance_ktm',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("area_type"); ?>',datafield: 'area_type',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("area_type"); ?>',datafield: 'area_type_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_areatype },
 			{ text: '<?php echo lang("road_obstructed"); ?>',datafield: 'road_obstructed',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'checkbox', filtertype: 'bool' },
-			{ text: '<?php echo lang("road_obstruct_detail"); ?>',datafield: 'road_obstruct_detail',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("road_obstruct_detail"); ?>',datafield: 'road_obstruct_detail_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_obstruction },
 			{ text: '<?php echo lang("reported_date"); ?>',datafield: 'reported_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("first_followup"); ?>',datafield: 'first_followup',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("priority"); ?>',datafield: 'priority',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -496,9 +581,16 @@ $(function(){
 	});
 
 	$('#jqxGridAreaInsert').on('click', function(){
+        $('#form-area')[0].reset();
 		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
-        $('#first_followup').jqxDateTimeInput('setDate', null);
+        //$('#first_followup').jqxDateTimeInput('setDate', null);
+        $("#jqxPopupWindow").on('open', resetFollowup);
     });
+
+    var resetFollowup = function() {
+        $('#first_followup').jqxDateTimeInput('setDate', null);
+        $("#jqxPopupWindow").off('open', resetFollowup);
+    }
 
 	// initialize the popup window
     $("#jqxPopupWindow").jqxWindow({ 
@@ -827,14 +919,16 @@ function editRecord(index){
 
     var row =  $("#jqxGridArea").jqxGrid('getrowdata', index);
   	if (row) {
-        console.log(row.road_obstructed);
+        //console.log(row);
         $('#id').val(row.id);
 		$('#code').val(row.code);
 		$('#name').val(row.name);
-		$('#district').val(row.district);
+		//$('#district').val(row.district);
+        $('#district').jqxComboBox('val', row.district);
 		$('#ward').jqxNumberInput('val', row.ward);
 		$('#address').val(row.address);
-		$('#location_category').val(row.location_category);
+		//$('#location_category').val(row.location_category);
+        $('#location_category').jqxComboBox('val', row.location_category);
 		$('#population_male').jqxNumberInput('val', row.population_male);
 		$('#population_female').jqxNumberInput('val', row.population_female);
 		$('#population_children').jqxNumberInput('val', row.population_children);
@@ -855,7 +949,8 @@ function editRecord(index){
 		$('#death').jqxNumberInput('val', row.death);
 		$('#trapped').jqxNumberInput('val', row.trapped);
 		$('#sick').jqxNumberInput('val', row.sick);
-		$('#accessibility_id').jqxNumberInput('val', row.accessibility_id);
+		//$('#accessibility_id').jqxNumberInput('val', row.accessibility_id);
+        $('#accessibility_id').jqxComboBox('val', row.accessibility_id);
 		$('#distance_ktm').jqxNumberInput('val', row.distance_ktm);
 		$('#area_type').val(row.area_type);
 		//$('#road_obstructed').jqxNumberInput('val', row.road_obstructed);

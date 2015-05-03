@@ -1,3 +1,75 @@
+<script language="javascript" type="text/javascript">
+var areaDataSource, areaDataAdapter, array_area, itemDataSource, itemDataAdapter, array_item;
+$(function(){
+    areaDataSource = {
+        url : base_url + 'admin/area/combo_json',
+        datatype: 'json',
+        datafields: [ 
+            { name: 'id', type: 'number' },
+            { name: 'code', type: 'string' },
+            { name: 'name', type: 'string' },
+        ],
+        async: false
+    }
+
+    areaDataAdapter = new $.jqx.dataAdapter(areaDataSource, {autoBind: true});
+
+    if ($(".area_id")[0]){
+    $(".area_id").jqxComboBox({ 
+        width: 195, 
+        height: 25, 
+        selectionMode: 'dropDownList', 
+        autoComplete: true, 
+        searchMode: 'containsignorecase', 
+        theme: theme_combo,
+        source: areaDataAdapter, 
+        displayMember: "name", 
+        valueMember: "id", 
+        dropDownWidth: 400, 
+        dropDownHorizontalAlignment: 'left'
+    });
+    }
+
+    array_area = new Array();
+    $.each(areaDataAdapter.records, function(key,val) {
+        array_area.push(val.name);
+    });
+
+    itemItemDataSource = {
+        url : base_url + 'admin/item/combo_json',
+        datatype: 'json',
+        datafields: [ 
+            { name: 'id', type: 'number' },
+            { name: 'name', type: 'string' }
+        ],
+        async: false
+    }
+
+    itemDataAdapter = new $.jqx.dataAdapter(itemItemDataSource, {autoBind: true});
+
+    if ($(".item_id")[0]){
+    $(".item_id").jqxComboBox({ 
+       width: 195, 
+        height: 25, 
+        selectionMode: 'dropDownList', 
+        autoComplete: true, 
+        searchMode: 'containsignorecase', 
+        theme: theme_combo,
+        source: itemDataAdapter, 
+        displayMember: "name", 
+        valueMember: "id", 
+        dropDownWidth: 400, 
+        dropDownHorizontalAlignment: 'left'
+    });
+    }
+
+    var array_item = new Array();
+    $.each(itemDataAdapter.records, function(key,val) {
+        array_item.push(val.name);
+    }); 
+}); 
+</script>
+
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="content-header">
