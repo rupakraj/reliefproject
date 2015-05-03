@@ -303,9 +303,9 @@ function editOrgDeliveredRecord(index){
     var row =  $("#jqxGridDelivered_item").jqxGrid('getrowdata', index);
   	if (row) {
         $('#id').val(row.id);
-		$('#area_id').jqxNumberInput('val', row.area_id);
+		$('#delivered_item_area_id').jqxNumberInput('val', row.area_id);
 		$('#organization_id').jqxNumberInput('val', row.organization_id);
-		$('#item_id').jqxNumberInput('val', row.item_id);
+		$('#delivered_item_item_id').jqxNumberInput('val', row.item_id);
 
 		$('#delivered_date').jqxDateTimeInput('setDate', row.delivered_date);
 		$('#quantity').jqxNumberInput('val', row.quantity);
