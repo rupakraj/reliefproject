@@ -173,44 +173,45 @@ var reliefDone = {
 		id: 'examples.map-i875mjb7'
 	});
 
-	var cfg = {
-	  // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-	  // if scaleRadius is false it will be the constant radius used in pixels
-	  "radius": 0.03,
-	  "maxOpacity": .3, 
-	  // scales the radius based on map zoom
-	  "scaleRadius": true, 
-	  // if set to false the heatmap uses the global maximum for colorization
-	  // if activated: uses the data maximum within the current map boundaries 
-	  //   (there will always be a red spot with useLocalExtremas true)
-	  "useLocalExtrema": true,
-	  // which field name in your data represents the latitude - default "lat"
-	  latField: 'lat',
-	  // which field name in your data represents the longitude - default "lng"
-	  lngField: 'lng',
-	  // which field name in your data represents the data value - default "value"
-	  valueField: 'count'
-	};
+	// var cfg = {
+	//   // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+	//   // if scaleRadius is false it will be the constant radius used in pixels
+	//   "radius": 0.03,
+	//   "maxOpacity": .3, 
+	//   // scales the radius based on map zoom
+	//   "scaleRadius": true, 
+	//   // if set to false the heatmap uses the global maximum for colorization
+	//   // if activated: uses the data maximum within the current map boundaries 
+	//   //   (there will always be a red spot with useLocalExtremas true)
+	//   "useLocalExtrema": true,
+	//   // which field name in your data represents the latitude - default "lat"
+	//   latField: 'lat',
+	//   // which field name in your data represents the longitude - default "lng"
+	//   lngField: 'lng',
+	//   // which field name in your data represents the data value - default "value"
+	//   valueField: 'count'
+	// };
 
-	var testData = {
-	  max: 8,
-	  data: [
-	  		{lat: 27.707998, lng:85.312999, count: 3},
-  			{lat: 28.011463, lng: 84.627042, count: 3},
-  			{lat: 27.7667, lng: 85.7000, count: 3},
-  			{lat: 27.905695, lng: 85.118809, count: 2}
-  		]
-	};
+	// var testData = {
+	//   max: 8,
+	//   data: [
+	//   		{lat: 27.707998, lng:85.312999, count: 3},
+ //  			{lat: 28.011463, lng: 84.627042, count: 3},
+ //  			{lat: 27.7667, lng: 85.7000, count: 3},
+ //  			{lat: 27.905695, lng: 85.118809, count: 2}
+ //  		]
+	// };
 
-	var heatmapLayer = new HeatmapOverlay(cfg);
+	//var heatmapLayer = new HeatmapOverlay(cfg);
 	
 	var map = L.map('map',{
-		layers: [baseLayer, heatmapLayer],
+		//layers: [baseLayer, heatmapLayer],
+		layers: [baseLayer],
 		 center: new L.LatLng(27.700588, 85.311894),
 		 zoom: 9,
 	});
 	
-	heatmapLayer.setData(testData);		
+	//heatmapLayer.setData(testData);		
 	
 	function onEachFeature(feature, layer) {
 		var popupContent ="";

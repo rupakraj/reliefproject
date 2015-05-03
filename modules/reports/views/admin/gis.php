@@ -74,7 +74,7 @@ $(function(){
 	map.addLayer(markers);
 
 	// lat,long and other details of marker 
-	var addressPoints = [
+	var casualties = [
 		{lat : 27.707998, lng: 85.312999, popupcontent: {district : "kathmandu", vdc: "vdc1",ward:"ward1"}, deathcount : 2},
 		{lat :28.011463,lng: 84.627042,popupcontent:  {district : "kathmand1", vdc: "kathmand1vdc1",ward:"kathmand2ward1"},deathcount :4},
 		{lat :27.7667,lng: 85.7000,popupcontent:  {district : "kathmand2", vdc: "kathmand2vdc1",ward:"kathmand2ward1"},deathcount :6},
@@ -84,16 +84,16 @@ $(function(){
 	]
 	
 	//add marker to the map layer and bind popup
-	for (var i = 0; i < addressPoints.length; i++) {
-		var a = addressPoints[i];
-		var details = a.popupcontent;
-		var marker = L.marker(L.latLng(a.lat, a.lng), { title: a.deathcount });
+	for (var i = 0; i < casualties.length; i++) {
+		var casualty = casualties[i];
+		var details = casualty.popupcontent;
+		var marker = L.marker(L.latLng(casualty.lat, casualty.lng), { title: casualty.deathcount });
 		var popupContent ="";
 	    popupContent += "Distict: <b>"+ details.district+"</b><br>";
 	    popupContent += "VDC: <b>"+details.vdc+"</b><br>";
 	    popupContent += "Ward No: <b>"+details.ward+"</b><br>";
 	    marker.popupContent =  popupContent;
-		marker.number = a.deathcount;
+		marker.number = casualty.deathcount;
 
 		marker.bindPopup(popupContent);
 		markers.addLayer(marker);
