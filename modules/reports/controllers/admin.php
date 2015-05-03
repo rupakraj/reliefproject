@@ -30,4 +30,14 @@ class Admin extends Rsys_Controller
 		$this->load->view($this->_container,$data);	
 	}
 
+	public function gismarker()
+	{
+		// Display Page
+		$this->bep_assets->load_asset_group('LEAFLET');
+		$data['header'] = "GIS";
+		$data['page'] = $this->config->item('template_admin') . "gismarker";
+		$data['module'] = 'reports';
+		$this->load->view($this->_container,$data);	
+	}
+
 }
