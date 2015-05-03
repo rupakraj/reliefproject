@@ -6,29 +6,29 @@ class Admin extends Rsys_Controller
 
 	public function __construct(){
     	parent::__construct();
-        $this->load->model('area_req_item/area_req_item_model');
-        $this->lang->load('area_req_item/area_req_item');
+        $this->load->model('location_category/location_category_model');
+        $this->lang->load('location_category/location_category');
         //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
     }
 
 	public function index()
 	{
 		// Display Page
-		$data['header'] = lang('area_req_item');
+		$data['header'] = lang('location_category');
 		$data['page'] = $this->config->item('template_admin') . "index";
-		$data['module'] = 'area_req_item';
+		$data['module'] = 'location_category';
 		$this->load->view($this->_container,$data);
 	}
 
 	public function json()
 	{
-		//$this->db->where('area_req_items.delete_flag', 0);
+		//$this->db->where('location_categories.delete_flag', 0);
 		$this->_get_search_param();
-		$total=$this->area_req_item_model->count();
+		$total=$this->location_category_model->count();
 		paging('id');
-		//$this->db->where('area_req_items.delete_flag', 0);
+		//$this->db->where('location_categories.delete_flag', 0);
 		$this->_get_search_param();
-		$rows=$this->area_req_item_model->getAreaReqItems()->result_array();
+		$rows=$this->location_category_model->getLocationCategories()->result_array();
 		echo json_encode(array('total'=>$total,'rows'=>$rows));
 	}
 
@@ -119,7 +119,7 @@ class Admin extends Rsys_Controller
 
 	public function combo_json()
     {
-		$rows=$this->area_req_item_model->getAreaReqItems()->result_array();
+		$rows=$this->location_category_model->getLocationCategories()->result_array();
 		echo json_encode($rows);
     }
 
@@ -133,7 +133,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 1;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->area_req_item_model->update('AREA_REQ_ITEMS',$data,array('id'=>$row));
+				$success=$this->location_category_model->update('LOCATION_CATEGORIES',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -148,7 +148,7 @@ class Admin extends Rsys_Controller
         		$data['delete_flag'] = 0;
         		$data['modified_by'] = $this->user_id;
         		$data['modified_date'] = date('Y-m-d H:i:s');
-				$success=$this->area_req_item_model->update('AREA_REQ_ITEMS',$data,array('id'=>$row));
+				$success=$this->location_category_model->update('LOCATION_CATEGORIES',$data,array('id'=>$row));
             endforeach;
 		}
 	}
@@ -162,13 +162,13 @@ class Admin extends Rsys_Controller
         {
         	$data['created_by'] = $data['modified_by'] = $this->user_id;
         	$data['created_date'] = $data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->area_req_item_model->insert('AREA_REQ_ITEMS',$data);
+            $success=$this->location_category_model->insert('LOCATION_CATEGORIES',$data);
         }
         else
         {
         	$data['modified_by'] = $this->user_id;
         	$data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->area_req_item_model->update('AREA_REQ_ITEMS',$data,array('id'=>$data['id']));
+            $success=$this->location_category_model->update('LOCATION_CATEGORIES',$data,array('id'=>$data['id']));
         }
 
 		if($success)
@@ -190,11 +190,7 @@ class Admin extends Rsys_Controller
    {
    		$data=array();
         $data['id'] = $this->input->post('id');
-$data['area_id'] = $this->input->post('area_id');
-$data['item_id'] = $this->input->post('item_id');
-$data['quantity'] = $this->input->post('quantity');
-$data['expected_date'] = $this->input->post('expected_date');
-$data['priority'] = $this->input->post('priority');
+$data['name'] = $this->input->post('name');
 $data['created_by'] = $this->input->post('created_by');
 $data['modified_by'] = $this->input->post('modified_by');
 $data['created_date'] = $this->input->post('created_date');

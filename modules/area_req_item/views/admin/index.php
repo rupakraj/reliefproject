@@ -3,8 +3,8 @@
 	<section class="content-header">
 		<h1><?php echo lang('area_req_item'); ?></h1>
 		<div class="breadcrumb" style="top:7px">
-            <span class="label label-status-active">Active</span>
-            <span class="label label-status-inactive">Inactive</span>
+            <span class="label label-status-active">Active Records</span>
+            <span class="label label-status-inactive">Inactive Records</span>
         </div>
 	</section>
 
@@ -50,6 +50,14 @@
 					<td><label for='quantity'><?php echo lang('quantity')?></label></td>
 					<td><div id='quantity' class='number_general' name='quantity'></div></td>
 				</tr>
+				<tr>
+					<td><label for='expected_date'><?php echo lang('expected_date')?></label></td>
+					<td><div id='expected_date' class='date_box' name='expected_date'></div></td>
+				</tr>
+				<tr>
+					<td><label for='priority'><?php echo lang('priority')?></label></td>
+					<td><div id='priority' class='number_general' name='priority'></div></td>
+				</tr>
                 <tr>
                     <th colspan="2">
                         <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxArea_req_itemSubmitButton"><?php echo lang('general_save'); ?></button>
@@ -75,6 +83,8 @@ $(function(){
 			{ name: 'area_id', type: 'number' },
 			{ name: 'item_id', type: 'number' },
 			{ name: 'quantity', type: 'number' },
+			{ name: 'expected_date', type: 'date' },
+			{ name: 'priority', type: 'number' },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
@@ -163,6 +173,8 @@ $(function(){
 			{ text: '<?php echo lang("area_id"); ?>',datafield: 'area_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("item_id"); ?>',datafield: 'item_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+			{ text: '<?php echo lang("expected_date"); ?>',datafield: 'expected_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+			{ text: '<?php echo lang("priority"); ?>',datafield: 'priority',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			
 		],
 		rendergridrows: function (result) {
@@ -229,6 +241,13 @@ $(function(){
 				}
 			},
 
+			{ input: '#priority', message: 'Required', action: 'blur', 
+				rule: function(input) {
+					val = $('#priority').jqxNumberInput('val');
+					return (val == '' || val == null || val == 0) ? false: true;
+				}
+			},
+
         ]
     });
 
@@ -255,6 +274,8 @@ function editRecord(index){
 		$('#area_id').jqxNumberInput('val', row.area_id);
 		$('#item_id').jqxNumberInput('val', row.item_id);
 		$('#quantity').jqxNumberInput('val', row.quantity);
+		$('#expected_date').jqxDateTimeInput('setDate', row.expected_date);
+		$('#priority').jqxNumberInput('val', row.priority);
 		
         openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }

@@ -11,6 +11,14 @@
         <td><div id='quantity' class='number_general' name='quantity'></div><span id="item_unit"></span></td>
     </tr>
     <tr>
+        <td><label for='expected_date'><?php echo lang('expected_date')?></label></td>
+        <td><div id='expected_date' class='date_box' name='expected_date'></div></td>
+    </tr>
+    <tr>
+        <td><label for='priority'><?php echo lang('priority')?></label></td>
+        <td><div id='priority' class='number_general' name='priority'></div></td>
+    </tr>
+    <tr>
         <th colspan="2">
             <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxArea_req_itemSubmitButton"><?php echo lang('general_save'); ?></button>
             <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxArea_req_itemCancelButton"><?php echo lang('general_cancel'); ?></button>
@@ -26,6 +34,37 @@
 
 
     $(function(){
+
+        //priority
+        var priorityDataSource = {
+            url : base_url + 'admin/priority/combo_json',
+            datatype: 'json',
+            datafields: [
+                { name: 'id', type: 'number' },
+                { name: 'name', type: 'string' },
+            ],
+            async: false
+        }
+
+        var priorityDataAdapter = new $.jqx.dataAdapter(priorityDataSource);
+
+        $("#priority").jqxComboBox({
+            theme: theme_combo,
+            width: 195,
+            height: 25,
+            selectionMode: 'dropDownList',
+            autoComplete: true,
+            searchMode: 'containsignorecase',
+            source: priorityDataAdapter,
+            displayMember: "name",
+            valueMember: "id"
+        });
+
+        var array_priority = new Array();
+        $.each(priorityDataAdapter.records, function(key,val) {
+            array_priority.push(val.name);
+        });
+        //end priority
 
         //items combo
         var itemsDataSource = {
@@ -79,6 +118,9 @@
                 { name: 'item_id', type: 'number' },
                 { name: 'item_name', value: 'item_id', values: { source: itemsDataAdapter.records, value: 'id', name: 'item_name'}, type: 'string' },
                 { name: 'quantity', type: 'number' },
+                { name: 'expected_date', type: 'date' },
+                { name: 'priority', type: 'number' },
+                { name: 'priority_name', type: 'string', value:'priority', values: { source: priorityDataAdapter.records, value: 'id', name: 'name'}},
                 { name: 'created_by', type: 'number' },
                 { name: 'modified_by', type: 'number' },
                 { name: 'created_date', type: 'date' },
@@ -122,6 +164,16 @@
                                 v = 'filtervalue' + i;
                                 if ( itemsDataAdapter.records[j].item_name == data[val]) {
                                     data[v] = itemsDataAdapter.records[j].id;
+                                    break;
+                                }
+                            }
+                        }
+                        if (data[key] == 'priority_name') {
+                            data[key] = 'priority';
+                            for (var j = 0; j < priorityDataAdapter.records.length; j++){
+                                v = 'filtervalue' + i;
+                                if ( priorityDataAdapter.records[j].name == data[val]) {
+                                    data[v] = priorityDataAdapter.records[j].id;
                                     break;
                                 }
                             }
@@ -180,6 +232,7 @@
                 addfilter();
             },
             columns: [
+                { text: 'Area',datafield: 'area_id',hidden:true},
                 { text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
                 {
                     text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center',
@@ -197,6 +250,8 @@
                 },
                 { text: '<?php echo lang("item_id"); ?>',datafield: 'item_name',width: 300,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_items },
                 { text: '<?php echo lang("quantity"); ?>',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
+                { text: '<?php echo lang("expected_date"); ?>',datafield: 'expected_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
+                { text: '<?php echo lang("priority"); ?>',datafield: 'priority_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_priority },
 
             ],
             rendergridrows: function (result) {
@@ -221,7 +276,7 @@
         });
 
 
-        $('#form-area_req_item').jqxValidator({
+        /*$('#form-area_req_item').jqxValidator({
             hintType: 'label',
             animationDuration: 500,
             rules: [
@@ -247,7 +302,7 @@
                 },
 
             ]
-        });
+        });*/
 
         $("#jqxArea_req_itemSubmitButton").on('click', function () {
             saveRecord();
@@ -272,8 +327,8 @@
             //$('#item_id').jqxNumberInput('val', row.item_id);
             $('#item_id').jqxComboBox('val', row.item_id);
             $('#quantity').jqxNumberInput('val', row.quantity);
-
-
+            $('#expected_date').jqxDateTimeInput('setDate', row.expected_date);
+            $('#priority').jqxComboBox('val', row.priority);
         }
     }
 

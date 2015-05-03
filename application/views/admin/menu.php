@@ -49,9 +49,16 @@
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/skill'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_skill'); ?></a></li>
                     <?php $css = (isset($uri[1]) && $uri[1] == 'unit') ? 'class="active"' : ''; ?> 
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/unit'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_unit');?></a></li>
+
+                    <?php $css = (isset($uri[1]) && $uri[1] == 'priority') ? 'class="active"' : ''; ?>
+                    <li <?php echo $css; ?>><a href="<?php echo site_url('admin/priority'); ?>"><i class="fa fa-angle-double-right"></i>Priority</a></li>
+                    <?php $css = (isset($uri[1]) && $uri[1] == 'location_category') ? 'class="active"' : ''; ?>
+                    <li <?php echo $css; ?>><a href="<?php echo site_url('admin/location_category'); ?>"><i class="fa fa-angle-double-right"></i>Location category</a></li>
+
+
                     <?php $css = (isset($uri[1]) && $uri[1] == 'specialization') ? 'class="active"' : ''; ?> 
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/specialization'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_specialization');?></a></li>
-                    <?php $css = (isset($uri[1]) && $uri[1] == 'item') ? 'class="active"' : ''; ?> 
+                    <?php $css = (isset($uri[1]) && $uri[1] == 'item') ? 'class="active"' : ''; ?>
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/item'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_item');?></a></li>
                     <?php $css = (isset($uri[1]) && $uri[1] == 'accessibility') ? 'class="active"' : ''; ?> 
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/accessibility'); ?>"><i class="fa fa-angle-double-right"></i><?php echo lang('rfsys_accessibility');?></a></li>
