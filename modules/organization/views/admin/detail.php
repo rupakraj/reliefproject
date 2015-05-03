@@ -9,10 +9,10 @@ $(function(){
             { name: 'code', type: 'string' },
             { name: 'name', type: 'string' },
         ],
-        async: false
+        async: true
     }
 
-    areaDataAdapter = new $.jqx.dataAdapter(areaDataSource, {autoBind: true});
+    areaDataAdapter = new $.jqx.dataAdapter(areaDataSource);
 
     if ($(".area_id")[0]){
     $(".area_id").jqxComboBox({ 
@@ -42,10 +42,10 @@ $(function(){
             { name: 'id', type: 'number' },
             { name: 'name', type: 'string' }
         ],
-        async: false
+        async: true
     }
 
-    itemDataAdapter = new $.jqx.dataAdapter(itemItemDataSource, {autoBind: true});
+    itemDataAdapter = new $.jqx.dataAdapter(itemItemDataSource);
 
     if ($(".item_id")[0]){
     $(".item_id").jqxComboBox({ 
