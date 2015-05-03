@@ -194,6 +194,7 @@ class Admin extends Rsys_Controller
 $data['code'] = $this->input->post('code');
 $data['name'] = $this->input->post('name');
 $data['district'] = $this->input->post('district');
+$data['vdc_mun_id'] = $this->input->post('vdc_mun_id');
 $data['ward'] = $this->input->post('ward');
 $data['address'] = $this->input->post('address');
 $data['location_category'] = $this->input->post('location_category');

@@ -47,15 +47,20 @@
 				<tr>
 					<td><label for='district'><?php echo lang('district')?></label></td>
 					<td><div id='district' class='number_general' name='district'></div></td>
-                    <td><label for='ward'><?php echo lang('ward')?></label></td>
-                    <td><div id='ward' class='number_general' name='ward'></div></td>
+                    <td><label for='vdc_mun_id'>VDC/Municipality</label></td>
+                    <td><div id='vdc_mun_id' class='number_general' name='vdc_mun_id'></div></td>
 				</tr>
 				<tr>
 					<td><label for='address'><?php echo lang('address')?></label></td>
 					<td><input id='address' class='text_input' name='address'></td>
+                    <td><label for='ward'><?php echo lang('ward')?></label></td>
+                    <td><div id='ward' class='number_general' name='ward'></div></td>
+				</tr>
+                <tr>
                     <td><label for='location_category'><?php echo lang('location_category')?></label></td>
                     <td><div id='location_category' class='number_general' name='location_category'></td>
-				</tr>
+                    <td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
 				<tr>
 					<td><label for='population_male'><?php echo lang('population_male')?></label></td>
 					<td><div id='population_male' class='number_general' name='population_male'></div></td>
@@ -183,6 +188,40 @@
 
 
 $(function(){
+    //vdc/mun
+    $("#vdc_mun_id").jqxComboBox({
+        theme: theme_combo,
+        width: 195,
+        height: 25,
+        selectionMode: 'dropDownList',
+        autoComplete: true,
+        searchMode: 'containsignorecase',
+        source: munVdcDataAdapter,
+        displayMember: "name_en",
+        valueMember: "id"
+    });
+    var munVdcDataSource, munVdcDataAdapter,val;
+    $("#district").on('select', function (event) {
+        val = $("#district").jqxComboBox('val');
+        //districts
+        munVdcDataSource  = {
+            url : base_url + 'admin/district_vdc/combo_json',
+            datatype: 'json',
+            datafields: [
+                { name: 'id', type: 'number' },
+                { name: 'name_en', type: 'string' },
+            ],
+            data: {
+                parent_location_id: val
+            },
+            async: false
+        }
+
+        munVdcDataAdapter = new $.jqx.dataAdapter(munVdcDataSource, { autobind: true });
+        $("#vdc_mun_id").jqxComboBox({source: munVdcDataAdapter});
+
+    });
+    //end vdc/mun
 
     //accessibility
     var accessibilityDataSource = {
@@ -331,6 +370,17 @@ $(function(){
     });
     //end location category
 
+    var locationDataSource = {
+        url : base_url + 'admin/district_vdc/combo_json',
+        datatype: 'json',
+        datafields: [
+            { name: 'id', type: 'number' },
+            { name: 'name_en', type: 'string' },
+        ],
+        async: false
+    }
+
+    var locationDataAdapter = new $.jqx.dataAdapter(locationDataSource, {autoBind: true});
 
     var areaDataSource =
 	{
@@ -341,6 +391,8 @@ $(function(){
 			{ name: 'name', type: 'string' },
             { name: 'district', type: 'number' },
 			{ name: 'district_name', value:'district', type: 'string',values: { source: districtDataAdapter.records, value: 'id', name: 'name_en'} },
+            { name: 'vdc_mun_id', type: 'number' },
+            { name: 'vdc_mun_name', value: 'vdc_mun_id', values: { source: locationDataAdapter.records, value: 'id', name: 'name_en'}, type: 'string' },
 			{ name: 'ward', type: 'number' },
 			{ name: 'address', type: 'string' },
             { name: 'location_category', type: 'string' },
@@ -524,6 +576,7 @@ $(function(){
 			{ text: '<?php echo lang("code"); ?>',datafield: 'code',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("name"); ?>',datafield: 'name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("district"); ?>',datafield: 'district_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_district },
+            { text: 'VDC/Municipality',datafield: 'vdc_mun_name',width: 150,filterable: false,renderer: gridColumnsRenderer, cellclassname: cellclassname},
 			{ text: '<?php echo lang("ward"); ?>',datafield: 'ward',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("address"); ?>',datafield: 'address',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("location_category"); ?>',datafield: 'location_category_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_loc_category },
@@ -925,6 +978,7 @@ function editRecord(index){
 		$('#name').val(row.name);
 		//$('#district').val(row.district);
         $('#district').jqxComboBox('val', row.district);
+        $('#vdc_mun_id').jqxComboBox('val', row.vdc_mun_id);
 		$('#ward').jqxNumberInput('val', row.ward);
 		$('#address').val(row.address);
 		//$('#location_category').val(row.location_category);
