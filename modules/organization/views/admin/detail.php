@@ -2,6 +2,7 @@
 var areaDataSource, areaDataAdapter, array_area, itemDataSource, itemDataAdapter, array_item;
 $(function(){
     areaDataSource = {
+        cache: true,
         url : base_url + 'admin/area/combo_json',
         datatype: 'json',
         datafields: [ 
@@ -36,6 +37,7 @@ $(function(){
     });
 
     itemItemDataSource = {
+        cache: true,
         url : base_url + 'admin/item/combo_json',
         datatype: 'json',
         datafields: [ 
