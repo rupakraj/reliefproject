@@ -7,8 +7,7 @@ $(function(){
         datatype: 'json',
         datafields: [
             { name: 'id', type: 'number' },
-            { name: 'organization_name', type: 'string' },
-            { name: 'country', type: 'string' }
+            { name: 'organization_name', type: 'string' }
         ],
         async: false
     }
@@ -39,7 +38,6 @@ $(function(){
             { name: 'area_id', type: 'number' },
             { name: 'organization_id', type: 'number' },
             { name: 'organization_name', value: 'organization_id', values: { source: organizationsDataAdapter.records, value: 'id', name: 'organization_name'}, type: 'string' },
-            { name: 'country', value: 'organization_id', values: { source: organizationsDataAdapter.records, value: 'id', name: 'country'}, type: 'string' },
             { name: 'start_date', type: 'date' },
             { name: 'end_date', type: 'date' },
             { name: 'created_by', type: 'number' },
@@ -142,10 +140,9 @@ $(function(){
             addfilter();
         },
         columns: [
-            { text: 'Area',datafield: 'area_id',hidden:true},
             { text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
+
             { text: 'Organization',datafield: 'organization_name',width: 300,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_organizations },
-            { text: 'Country',datafield: 'country',width: 300,filterable: false,renderer: gridColumnsRenderer, cellclassname: cellclassname },
             { text: 'Start date',datafield: 'start_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd },
             { text: 'End date',datafield: 'end_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd },
 

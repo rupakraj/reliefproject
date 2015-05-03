@@ -142,7 +142,7 @@
                 return 'status-inactive';
         };
 
-        var addAreaDeliveredfilter = function () {
+        var addfilter = function () {
 
             var filtergroup = new $.jqx.filter(),
 
@@ -180,7 +180,7 @@
             enableanimations: false,
             pagesizeoptions: pagesizeoptions,
             ready: function () {
-                addAreaDeliveredfilter();
+                addfilter();
             },
             columns: [
                 { text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
@@ -188,7 +188,6 @@
                 { text: 'Quantity',datafield: 'quantity',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
                 { text: 'Delivering Organization',datafield: 'organization_name',width: 300,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_organizationsItemDeliv },
                 { text: 'Delivered date',datafield: 'delivered_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd },
-                { text: 'Area',datafield: 'area_id',hidden:true},
 
             ],
             rendergridrows: function (result) {

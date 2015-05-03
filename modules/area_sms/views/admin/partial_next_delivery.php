@@ -181,7 +181,7 @@
                 return 'status-inactive';
         };
 
-        var addAreaDeliveryfilter = function () {
+        var addfilter = function () {
 
             var filtergroup = new $.jqx.filter(),
 
@@ -219,7 +219,7 @@
             enableanimations: false,
             pagesizeoptions: pagesizeoptions,
             ready: function () {
-                addAreaDeliveryfilter();
+                addfilter();
             },
             columns: [
                 { text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
@@ -232,7 +232,6 @@
                 { text: 'Reporting time',datafield: 'reporting_time',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd_HH_mm_ss },
                 { text: 'Contact name',datafield: 'contact_name',width: 150,filterable: false,renderer: gridColumnsRenderer, cellclassname: cellclassname},
                 { text: 'Contact phone',datafield: 'contact_phone',width: 150,filterable: false,renderer: gridColumnsRenderer, cellclassname: cellclassname},
-                { text: 'Area',datafield: 'area_id',hidden:true},
 
 
             ],

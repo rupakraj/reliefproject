@@ -29,6 +29,7 @@ $lang['general_edit'] = "Edit";
 $lang['general_delete'] = "Delete";
 $lang['general_restore'] = "Restore";
 $lang['general_save'] = "Save";
+$lang['general_submit'] = "Submit";
 $lang['general_cancel'] = "Cancel";
 $lang['general_back'] = "Back";
 $lang['general_documentation'] = "Documentation";

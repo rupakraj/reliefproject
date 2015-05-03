@@ -1,7 +1,7 @@
 <aside class="right-side">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<h1><?php echo lang('area'); ?></h1>
+		<h1><?php echo lang('area_sms'); ?></h1>
 		<div class="breadcrumb" style="top:7px">
             <span class="label label-status-active">Active</span>
             <span class="label label-status-inactive">Inactive</span>
@@ -17,7 +17,7 @@
 
 				<?php echo displayStatus(); ?>
 
-				<button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridAreaInsert"><?php echo lang('create'); ?></button>
+				<!-- <button type="button" class="btn btn-primary btn-flat btn-xs" id="jqxGridAreaInsert"><?php echo lang('create'); ?></button> -->
 				<button type="button" class="btn btn-danger btn-flat btn-xs" id="jqxGridAreaFilterClear"><?php echo lang('clear'); ?></button>
 
 				<br /><br />
@@ -54,7 +54,7 @@
 					<td><label for='address'><?php echo lang('address')?></label></td>
 					<td><input id='address' class='text_input' name='address'></td>
                     <td><label for='location_category'><?php echo lang('location_category')?></label></td>
-                    <td><div id='location_category' class='number_general' name='location_category'></td>
+                    <td><input id='location_category' class='text_input' name='location_category'></td>
 				</tr>
 				<tr>
 					<td><label for='population_male'><?php echo lang('population_male')?></label></td>
@@ -169,11 +169,12 @@
 				</tr>
                 <tr>
                     <th colspan="4">
-                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxAreaSubmitButton"><?php echo lang('general_save'); ?></button>
+                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxButton"><?php echo lang('sync'); ?></button>
+                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxButton"><?php echo lang('invalid'); ?></button>
                         <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxAreaCancelButton"><?php echo lang('general_cancel'); ?></button>
                     </th>
                 </tr>
-               
+
           </table>
         <?php echo form_close(); ?>
     </div>
@@ -269,7 +270,7 @@ $(function(){
 
     var array_district = new Array();
     $.each(districtDataAdapter.records, function(key,val) {
-        array_district.push(val.name_en);
+        array_district.push(val.name);
     });
     //obstruction type
     var obstructionDataSource = {
@@ -300,36 +301,6 @@ $(function(){
     $.each(obstructionDataAdapter.records, function(key,val) {
         array_obstruction.push(val.name);
     });
-    //location category
-    var locCategoryDataSource = {
-        url : base_url + 'admin/location_category/combo_json',
-        datatype: 'json',
-        datafields: [
-            { name: 'id', type: 'number' },
-            { name: 'name', type: 'string' },
-        ],
-        async: false
-    }
-
-    var locCategoryDataAdapter = new $.jqx.dataAdapter(locCategoryDataSource);
-
-    $("#location_category").jqxComboBox({
-        theme: theme_combo,
-        width: 195,
-        height: 25,
-        selectionMode: 'dropDownList',
-        autoComplete: true,
-        searchMode: 'containsignorecase',
-        source: locCategoryDataAdapter,
-        displayMember: "name",
-        valueMember: "id"
-    });
-
-    var array_loc_category = new Array();
-    $.each(locCategoryDataAdapter.records, function(key,val) {
-        array_loc_category.push(val.name);
-    });
-    //end location category
 
 
     var areaDataSource =
@@ -339,12 +310,10 @@ $(function(){
 			{ name: 'id', type: 'number' },
 			{ name: 'code', type: 'string' },
 			{ name: 'name', type: 'string' },
-            { name: 'district', type: 'number' },
-			{ name: 'district_name', value:'district', type: 'string',values: { source: districtDataAdapter.records, value: 'id', name: 'name_en'} },
+			{ name: 'district', type: 'string',values: { source: districtDataAdapter.records, value: 'id', name: 'name_en'} },
 			{ name: 'ward', type: 'number' },
 			{ name: 'address', type: 'string' },
-            { name: 'location_category', type: 'string' },
-			{ name: 'location_category_name', value:'location_category', type: 'string',values: { source: locCategoryDataAdapter.records, value: 'id', name: 'name'} },
+			{ name: 'location_category', type: 'string' },
 			{ name: 'population_male', type: 'number' },
 			{ name: 'population_female', type: 'number' },
 			{ name: 'population_children', type: 'number' },
@@ -365,14 +334,11 @@ $(function(){
 			{ name: 'death', type: 'number' },
 			{ name: 'trapped', type: 'number' },
 			{ name: 'sick', type: 'number' },
-            { name: 'accessibility_id', type: 'string' },
-			{ name: 'accessibility_name', type: 'string', value:'accessibility_id',values: { source: accessibilityDataAdapter.records, value: 'id', name: 'name'} },
+			{ name: 'accessibility_id', type: 'string',values: { source: accessibilityDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'distance_ktm', type: 'number' },
-            { name: 'area_type', type: 'string' },
-			{ name: 'area_type_name', type: 'string',value:'area_type',values: { source: areatypeDataAdapter.records, value: 'id', name: 'name'} },
+			{ name: 'area_type', type: 'string',values: { source: areatypeDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'road_obstructed', type: 'bool' },
-            { name: 'road_obstruct_detail', type: 'string' },
-			{ name: 'road_obstruct_detail_name', value:'road_obstruct_detail', type: 'string',values: { source: obstructionDataAdapter.records, value: 'id', name: 'name'} },
+			{ name: 'road_obstruct_detail', type: 'string',values: { source: obstructionDataAdapter.records, value: 'id', name: 'name'} },
 			{ name: 'created_by', type: 'number' },
 			{ name: 'modified_by', type: 'number' },
 			{ name: 'created_date', type: 'date' },
@@ -389,9 +355,9 @@ $(function(){
 			{ name: 'longitude', type: 'string' },
 			{ name: 'latitude', type: 'string' },
 			{ name: 'delete_flag', type: 'number' },
-			
+
         ],
-		url: '<?php echo site_url("admin/area/json"); ?>',
+		url: '<?php echo site_url("admin/area_sms/json"); ?>',
 		pagesize: defaultPageSize,
 		root: 'rows',
 		id : 'id',
@@ -417,60 +383,10 @@ $(function(){
                     key = 'filterdatafield' + i;
                     val = 'filtervalue' + i;
 
-                    //NOTE if DATE FIELD 
+                    //NOTE if DATE FIELD
                     //use following chunk of codes
                     //if (data[key] == 'FIELD_NAME') {
                     //    data[val] = Date.parse(data[val]).toString('yyyy-MM-dd');
-                    if (data[key] == 'location_category_name') {
-                        data[key] = 'location_category';
-                        for (var j = 0; j < locCategoryDataAdapter.records.length; j++){
-                            v = 'filtervalue' + i;
-                            if ( locCategoryDataAdapter.records[j].name == data[val]) {
-                                data[v] = locCategoryDataAdapter.records[j].id;
-                                break;
-                            }
-                        }
-                    }
-                    if (data[key] == 'district') {
-                        data[key] = 'district';
-                        for (var j = 0; j < districtDataAdapter.records.length; j++){
-                            v = 'filtervalue' + i;
-                            if ( districtDataAdapter.records[j].name_en == data[val]) {
-                                data[v] = districtDataAdapter.records[j].id;
-                                break;
-                            }
-                        }
-                    }
-                    if (data[key] == 'road_obstruct_detail_name') {
-                        data[key] = 'road_obstruct_detail';
-                        for (var j = 0; j < obstructionDataAdapter.records.length; j++){
-                            v = 'filtervalue' + i;
-                            if ( obstructionDataAdapter.records[j].name == data[val]) {
-                                data[v] = obstructionDataAdapter.records[j].id;
-                                break;
-                            }
-                        }
-                    }
-                    if (data[key] == 'accessibility_name') {
-                        data[key] = 'accessibility_id';
-                        for (var j = 0; j < accessibilityDataAdapter.records.length; j++){
-                            v = 'filtervalue' + i;
-                            if ( accessibilityDataAdapter.records[j].name == data[val]) {
-                                data[v] = accessibilityDataAdapter.records[j].id;
-                                break;
-                            }
-                        }
-                    }
-                    if (data[key] == 'area_type_name') {
-                        data[key] = 'area_type';
-                        for (var j = 0; j < areatypeDataAdapter.records.length; j++){
-                            v = 'filtervalue' + i;
-                            if ( areatypeDataAdapter.records[j].name == data[val]) {
-                                data[v] = areatypeDataAdapter.records[j].id;
-                                break;
-                            }
-                        }
-                    }
                 }
             }
 	    }
@@ -483,7 +399,7 @@ $(function(){
         else if (data.delete_flag == '1')
             return 'status-inactive';
     };
-	
+
 	$("#jqxGridArea").jqxGrid({
 		theme: theme_grid,
 		width: '100%',
@@ -506,27 +422,27 @@ $(function(){
 		columns: [
 			{ text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
 			{
-				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center', 
+				text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center',
 				cellsrenderer: function (index) {
 					var e = '', d='', detail = '', row =  $("#jqxGridArea").jqxGrid('getrowdata', index);
-					e = '<a href="javascript:void(0)" onclick="editRecord(' + index + '); return false;" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>';
+					e = '<a href="javascript:void(0)" onclick="viewRecord(' + index + '); return false;" title="View"><i class="glyphicon glyphicon-edit"></i></a>';
 					if (row.delete_flag == 0) {
 						d = '<a href="javascript:void(0)" onclick="deleteRecord(' + index + '); return false;" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
 					} else {
 						d = '<a href="javascript:void(0)" onclick="restoreRecord(' + index + '); return false;" title="Restore"><i class="glyphicon glyphicon-repeat"></i></a>';
 					}
-                    var link = '<?php echo site_url('admin/area/detail');?>'  + '/' + row.id;
-                    detail = '<a target="_blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
+                    var link = '<?php echo site_url('admin/area_sms/detail');?>'  + '/' + row.id;
+                    detail = '<a target="blank" href="' + link + '" title="Detail"><i class="glyphicon glyphicon-align-justify"></i></a>';
 
 					return '<div style="text-align: center; margin-top: 8px;">' + e + '&nbsp;' + d + '&nbsp;' + detail + '</div>';
 				}
 			},
 			{ text: '<?php echo lang("code"); ?>',datafield: 'code',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("name"); ?>',datafield: 'name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("district"); ?>',datafield: 'district_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_district },
+			{ text: '<?php echo lang("district"); ?>',datafield: 'district',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("ward"); ?>',datafield: 'ward',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("address"); ?>',datafield: 'address',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("location_category"); ?>',datafield: 'location_category_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_loc_category },
+			{ text: '<?php echo lang("location_category"); ?>',datafield: 'location_category',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("population_male"); ?>',datafield: 'population_male',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("population_female"); ?>',datafield: 'population_female',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("population_children"); ?>',datafield: 'population_children',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -547,11 +463,11 @@ $(function(){
 			{ text: '<?php echo lang("death"); ?>',datafield: 'death',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("trapped"); ?>',datafield: 'trapped',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("sick"); ?>',datafield: 'sick',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("accessibility_id"); ?>',datafield: 'accessibility_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_accessibility },
+			{ text: '<?php echo lang("accessibility_id"); ?>',datafield: 'accessibility_id',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("distance_ktm"); ?>',datafield: 'distance_ktm',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			{ text: '<?php echo lang("area_type"); ?>',datafield: 'area_type_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_areatype },
+			{ text: '<?php echo lang("area_type"); ?>',datafield: 'area_type',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("road_obstructed"); ?>',datafield: 'road_obstructed',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,columntype: 'checkbox', filtertype: 'bool' },
-			{ text: '<?php echo lang("road_obstruct_detail"); ?>',datafield: 'road_obstruct_detail_name',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname,filtertype:'list',filteritems:array_obstruction },
+			{ text: '<?php echo lang("road_obstruct_detail"); ?>',datafield: 'road_obstruct_detail',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("reported_date"); ?>',datafield: 'reported_date',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("first_followup"); ?>',datafield: 'first_followup',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname, columntype: 'date', filtertype: 'date', cellsformat:  formatString_yyyy_MM_dd},
 			{ text: '<?php echo lang("priority"); ?>',datafield: 'priority',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
@@ -563,7 +479,7 @@ $(function(){
 			{ text: '<?php echo lang("nearest_hospital_contact"); ?>',datafield: 'nearest_hospital_contact',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("longitude"); ?>',datafield: 'longitude',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
 			{ text: '<?php echo lang("latitude"); ?>',datafield: 'latitude',width: 150,filterable: true,renderer: gridColumnsRenderer, cellclassname: cellclassname },
-			
+
 		],
 		rendergridrows: function (result) {
 			return result.data;
@@ -576,33 +492,26 @@ $(function(){
 	    $("#jqxGridArea").jqxGrid('refresh');
 	});
 
-	$('#jqxGridAreaFilterClear').on('click', function () { 
+	$('#jqxGridAreaFilterClear').on('click', function () {
 		$('#jqxGridArea').jqxGrid('clearfilters');
 	});
 
 	$('#jqxGridAreaInsert').on('click', function(){
-        $('#form-area')[0].reset();
 		openPopupWindow('<?php echo lang("general_add")  . "&nbsp;" .  $header; ?>');
-        //$('#first_followup').jqxDateTimeInput('setDate', null);
-        $("#jqxPopupWindow").on('open', resetFollowup);
+        $('#first_followup').jqxDateTimeInput('setDate', null);
     });
 
-    var resetFollowup = function() {
-        $('#first_followup').jqxDateTimeInput('setDate', null);
-        $("#jqxPopupWindow").off('open', resetFollowup);
-    }
-
 	// initialize the popup window
-    $("#jqxPopupWindow").jqxWindow({ 
+    $("#jqxPopupWindow").jqxWindow({
         theme: theme_window,
         width: '75%',
         maxWidth: '75%',
-        height: '75%',  
-        maxHeight: '75%',  
-        isModal: true, 
+        height: '75%',
+        maxHeight: '75%',
+        isModal: true,
         autoOpen: false,
         modalOpacity: 0.7,
-        showCollapseButton: false 
+        showCollapseButton: false
     });
 
      $("#jqxAreaCancelButton").on('click', function () {
@@ -616,280 +525,280 @@ $(function(){
         hintType: 'label',
         animationDuration: 500,
         rules: [
-			{ input: '#code', message: 'Required', action: 'blur', 
+			{ input: '#code', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#code').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#name', message: 'Required', action: 'blur', 
+			{ input: '#name', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#name').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#district', message: 'Required', action: 'blur', 
+			{ input: '#district', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#district').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#ward', message: 'Required', action: 'blur', 
+			{ input: '#ward', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#ward').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#address', message: 'Required', action: 'blur', 
+			{ input: '#address', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#address').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#location_category', message: 'Required', action: 'blur', 
+			{ input: '#location_category', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#location_category').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#population_male', message: 'Required', action: 'blur', 
+			{ input: '#population_male', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#population_male').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#population_female', message: 'Required', action: 'blur', 
+			{ input: '#population_female', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#population_female').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#population_children', message: 'Required', action: 'blur', 
+			{ input: '#population_children', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#population_children').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#population_adult', message: 'Required', action: 'blur', 
+			{ input: '#population_adult', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#population_adult').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#population_old', message: 'Required', action: 'blur', 
+			{ input: '#population_old', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#population_old').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#household', message: 'Required', action: 'blur', 
+			{ input: '#household', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#household').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#houses', message: 'Required', action: 'blur', 
+			{ input: '#houses', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#houses').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#schools', message: 'Required', action: 'blur', 
+			{ input: '#schools', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#schools').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#effected_male', message: 'Required', action: 'blur', 
+			{ input: '#effected_male', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#effected_male').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#effected_female', message: 'Required', action: 'blur', 
+			{ input: '#effected_female', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#effected_female').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#effected_children', message: 'Required', action: 'blur', 
+			{ input: '#effected_children', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#effected_children').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#effected_adult', message: 'Required', action: 'blur', 
+			{ input: '#effected_adult', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#effected_adult').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#effected_old', message: 'Required', action: 'blur', 
+			{ input: '#effected_old', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#effected_old').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#effected_household', message: 'Required', action: 'blur', 
+			{ input: '#effected_household', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#effected_household').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#houses_collapsed', message: 'Required', action: 'blur', 
+			{ input: '#houses_collapsed', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#houses_collapsed').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#houses_damaged', message: 'Required', action: 'blur', 
+			{ input: '#houses_damaged', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#houses_damaged').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#houses_cracked', message: 'Required', action: 'blur', 
+			{ input: '#houses_cracked', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#houses_cracked').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#death', message: 'Required', action: 'blur', 
+			{ input: '#death', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#death').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#trapped', message: 'Required', action: 'blur', 
+			{ input: '#trapped', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#trapped').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#sick', message: 'Required', action: 'blur', 
+			{ input: '#sick', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#sick').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#accessibility_id', message: 'Required', action: 'blur', 
+			{ input: '#accessibility_id', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#accessibility_id').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#distance_ktm', message: 'Required', action: 'blur', 
+			{ input: '#distance_ktm', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#distance_ktm').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#area_type', message: 'Required', action: 'blur', 
+			{ input: '#area_type', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#area_type').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#road_obstructed', message: 'Required', action: 'blur', 
+			{ input: '#road_obstructed', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#road_obstructed').jqxNumberInput('val');
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#road_obstruct_detail', message: 'Required', action: 'blur', 
+			{ input: '#road_obstruct_detail', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#road_obstruct_detail').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#priority', message: 'Required', action: 'blur', 
+			{ input: '#priority', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#priority').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#contact_detail', message: 'Required', action: 'blur', 
+			{ input: '#contact_detail', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#contact_detail').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#internal_contact', message: 'Required', action: 'blur', 
+			{ input: '#internal_contact', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#internal_contact').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#security_contact', message: 'Required', action: 'blur', 
+			{ input: '#security_contact', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#security_contact').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#nearest_hospital_distance', message: 'Required', action: 'blur', 
+			{ input: '#nearest_hospital_distance', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#nearest_hospital_distance').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#nearest_hospital_name', message: 'Required', action: 'blur', 
+			{ input: '#nearest_hospital_name', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#nearest_hospital_name').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#nearest_hospital_contact', message: 'Required', action: 'blur', 
+			{ input: '#nearest_hospital_contact', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#nearest_hospital_contact').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#longitude', message: 'Required', action: 'blur', 
+			{ input: '#longitude', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#longitude').val();
 					return (val == '' || val == null || val == 0) ? false: true;
 				}
 			},
 
-			{ input: '#latitude', message: 'Required', action: 'blur', 
+			{ input: '#latitude', message: 'Required', action: 'blur',
 				rule: function(input) {
 					val = $('#latitude').val();
 					return (val == '' || val == null || val == 0) ? false: true;
@@ -909,26 +818,24 @@ $(function(){
             };
 
         $('#form-area').jqxValidator('validate', validationResult);*/
-       
+
     });
 
 });
 
 
-function editRecord(index){
+function viewRecord(index){
 
     var row =  $("#jqxGridArea").jqxGrid('getrowdata', index);
   	if (row) {
-        //console.log(row);
+        console.log(row.road_obstructed);
         $('#id').val(row.id);
 		$('#code').val(row.code);
 		$('#name').val(row.name);
-		//$('#district').val(row.district);
-        $('#district').jqxComboBox('val', row.district);
+		$('#district').val(row.district);
 		$('#ward').jqxNumberInput('val', row.ward);
 		$('#address').val(row.address);
-		//$('#location_category').val(row.location_category);
-        $('#location_category').jqxComboBox('val', row.location_category);
+		$('#location_category').val(row.location_category);
 		$('#population_male').jqxNumberInput('val', row.population_male);
 		$('#population_female').jqxNumberInput('val', row.population_female);
 		$('#population_children').jqxNumberInput('val', row.population_children);
@@ -949,8 +856,7 @@ function editRecord(index){
 		$('#death').jqxNumberInput('val', row.death);
 		$('#trapped').jqxNumberInput('val', row.trapped);
 		$('#sick').jqxNumberInput('val', row.sick);
-		//$('#accessibility_id').jqxNumberInput('val', row.accessibility_id);
-        $('#accessibility_id').jqxComboBox('val', row.accessibility_id);
+		$('#accessibility_id').jqxNumberInput('val', row.accessibility_id);
 		$('#distance_ktm').jqxNumberInput('val', row.distance_ktm);
 		$('#area_type').val(row.area_type);
 		//$('#road_obstructed').jqxNumberInput('val', row.road_obstructed);
@@ -976,8 +882,9 @@ function editRecord(index){
 		$('#nearest_hospital_contact').val(row.nearest_hospital_contact);
 		$('#longitude').val(row.longitude);
 		$('#latitude').val(row.latitude);
-		
+
         openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
+        $('#jqxPopupWindow input').attr('readonly', true);
     }
 }
 
@@ -988,14 +895,14 @@ function deleteRecord(index){
 		var r = confirm("Do you want to delete this Record???");
 		if (r == true) {
 			$.ajax({
-                url: "<?php echo site_url('admin/area/delete_json'); ?>",
+                url: "<?php echo site_url('admin/area_sms/delete_json'); ?>",
                 type: 'POST',
                 data: {id:[row.id]},
                 success: function (result) {
                    $('#jqxGridArea').jqxGrid('updatebounddata');
                 }
             });
-		}  
+		}
     }
 }
 
@@ -1006,23 +913,23 @@ function restoreRecord(index){
 		var r = confirm("Do you want to restore this Record???");
 		if (r == true) {
 			$.ajax({
-                url: "<?php echo site_url('admin/area/restore_json'); ?>",
+                url: "<?php echo site_url('admin/area_sms/restore_json'); ?>",
                 type: 'POST',
                 data: {id:[row.id]},
                 success: function (result) {
                    $('#jqxGridArea').jqxGrid('updatebounddata');
                 }
             });
-		}  
+		}
     }
 }
 
 function saveRecord(){
     var data = $("#form-area").serialize();
-   
+
     $.ajax({
         type: "POST",
-        url: '<?php echo site_url("admin/area/save"); ?>',
+        url: '<?php echo site_url("admin/area_sms/save"); ?>',
         data: data,
         success: function (result) {
             var result = eval('('+result+')');
