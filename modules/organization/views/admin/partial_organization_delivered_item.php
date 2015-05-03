@@ -284,7 +284,6 @@ $(function(){
      $("#jqxDelivered_itemCancelButton").on('click', function () {
         $('#id').val('');
         $('#form-delivered_item')[0].reset();
-        $('#jqxPopupWindow').jqxWindow('close');
     });
 
 
@@ -304,14 +303,13 @@ function editOrgDeliveredRecord(index){
     var row =  $("#jqxGridDelivered_item").jqxGrid('getrowdata', index);
   	if (row) {
         $('#id').val(row.id);
-		$('#area_id').jqxNumberInput('val', row.area_id);
+		$('#delivered_item_area_id').jqxNumberInput('val', row.area_id);
 		$('#organization_id').jqxNumberInput('val', row.organization_id);
-		$('#item_id').jqxNumberInput('val', row.item_id);
+		$('#delivered_item_item_id').jqxNumberInput('val', row.item_id);
 
 		$('#delivered_date').jqxDateTimeInput('setDate', row.delivered_date);
 		$('#quantity').jqxNumberInput('val', row.quantity);
 		
-        openPopupWindow('<?php echo lang("general_edit")  . "&nbsp;" .  $header; ?>');
     }
 }
 
@@ -348,7 +346,6 @@ function saveOrgDeliveredRecord(){
                 $('#id').val('');
                 $('#form-delivered_item')[0].reset();
                 $('#jqxGridDelivered_item').jqxGrid('updatebounddata');
-                $('#jqxPopupWindow').jqxWindow('close');
             }
 
         }
