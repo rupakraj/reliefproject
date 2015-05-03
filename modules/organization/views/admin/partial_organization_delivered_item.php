@@ -284,7 +284,6 @@ $(function(){
      $("#jqxDelivered_itemCancelButton").on('click', function () {
         $('#id').val('');
         $('#form-delivered_item')[0].reset();
-        $('#jqxPopupWindow').jqxWindow('close');
     });
 
 
@@ -348,7 +347,6 @@ function saveOrgDeliveredRecord(){
                 $('#id').val('');
                 $('#form-delivered_item')[0].reset();
                 $('#jqxGridDelivered_item').jqxGrid('updatebounddata');
-                $('#jqxPopupWindow').jqxWindow('close');
             }
 
         }
