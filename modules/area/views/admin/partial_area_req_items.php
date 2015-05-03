@@ -232,6 +232,7 @@
                 addfilter();
             },
             columns: [
+                { text: 'Area',datafield: 'area_id',hidden:true},
                 { text: 'SN', width: 50, pinned: true, exportable: false,  columntype: 'number', cellclassname: 'jqx-widget-header', renderer: gridColumnsRenderer, cellsrenderer: rownumberRenderer , filterable: false},
                 {
                     text: 'Action', datafield: 'action', width:75, sortable:false,filterable:false, pinned:true, align: 'center' , cellsalign: 'center', cellclassname: 'grid-column-center',
