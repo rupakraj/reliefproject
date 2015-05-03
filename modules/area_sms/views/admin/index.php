@@ -169,8 +169,8 @@
 				</tr>
                 <tr>
                     <th colspan="4">
-                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxButton"><?php echo lang('sync'); ?></button>
-                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxButton"><?php echo lang('invalid'); ?></button>
+                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxSyncButton"><?php echo lang('sync'); ?></button>
+                        <button type="button" class="btn btn-success btn-xs btn-flat" id="jqxInvalidButton"><?php echo lang('invalid'); ?></button>
                         <button type="button" class="btn btn-default btn-xs btn-flat" id="jqxAreaCancelButton"><?php echo lang('general_cancel'); ?></button>
                     </th>
                 </tr>
@@ -808,8 +808,8 @@ $(function(){
         ]
     });*/
 
-    $("#jqxAreaSubmitButton").on('click', function () {
-        saveRecord();
+    $("#jqxSyncButton").on('click', function () {
+        syncRecord();
 
         /*var validationResult = function (isValid) {
                 if (isValid) {
@@ -819,6 +819,10 @@ $(function(){
 
         $('#form-area').jqxValidator('validate', validationResult);*/
 
+    });
+
+    $("#jqxInvalidButton").on('click', function () {
+        invalidRecord();
     });
 
 });
@@ -924,12 +928,32 @@ function restoreRecord(index){
     }
 }
 
-function saveRecord(){
+function syncRecord(){
     var data = $("#form-area").serialize();
 
     $.ajax({
         type: "POST",
-        url: '<?php echo site_url("admin/area_sms/save"); ?>',
+        url: '<?php echo site_url("admin/area_sms/sync"); ?>',
+        data: data,
+        success: function (result) {
+            var result = eval('('+result+')');
+            if (result.success) {
+                $('#id').val('');
+                $('#form-area')[0].reset();
+                $('#jqxGridArea').jqxGrid('updatebounddata');
+                $('#jqxPopupWindow').jqxWindow('close');
+            }
+
+        }
+    });
+}
+
+function invalidRecord(){
+    var data = $("#form-area").serialize();
+
+    $.ajax({
+        type: "POST",
+        url: '<?php echo site_url("admin/area_sms/invalid"); ?>',
         data: data,
         success: function (result) {
             var result = eval('('+result+')');

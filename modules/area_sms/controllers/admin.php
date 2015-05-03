@@ -154,23 +154,46 @@ class Admin extends Rsys_Controller
 		}
 	}
 
-	public function save()
+	public function sync()
 	{
 
-        $data=$this->_get_posted_data(); //Retrive Posted Data
+        $data=$this->_get_posted_data(); //Retrive Posted Data        
+        
+    	$data['modified_by'] = $this->user_id;
+    	$data['modified_date'] = $data['sync_date'] = date('Y-m-d H:i:s');
+    	$data['status'] = "d";
+        $success=$this->area_sms_model->update('AREAS',$data,array('id'=>$data['id']));
 
-        if(!$this->input->post('id'))
-        {
-        	$data['created_by'] = $data['modified_by'] = $this->user_id;
-        	$data['created_date'] = $data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->area_sms_model->insert('AREAS',$data);
-        }
-        else
-        {
-        	$data['modified_by'] = $this->user_id;
-        	$data['modified_date'] = date('Y-m-d H:i:s');
-            $success=$this->area_sms_model->update('AREAS',$data,array('id'=>$data['id']));
-        }
+		if($success)
+		{
+			$success = TRUE;
+			$msg=lang('success_message');
+
+			$this->load->model('area/area_model');
+			unset($data['id']);
+			unset($data['sync_date']);
+			unset($data['status']);
+			$this->area_model->insert('AREAS',$data);
+		}
+		else
+		{
+			$success = FALSE;
+			$msg=lang('failure_message');
+		}
+
+		 echo json_encode(array('msg'=>$msg,'success'=>$success));
+
+	}
+
+	public function invalid()
+	{
+
+        $data=$this->_get_posted_data(); //Retrive Posted Data        
+        
+    	$data['modified_by'] = $this->user_id;
+    	$data['modified_date'] = $data['sync_date'] = date('Y-m-d H:i:s');
+    	$data['status'] = "i";
+        $success=$this->area_sms_model->update('AREAS',$data,array('id'=>$data['id']));
 
 		if($success)
 		{
@@ -261,8 +284,16 @@ $data['delete_flag'] = $this->input->post('delete_flag');
     }
 
     public function getPostedData(){
-		//$data = $this->input->post('MSG');
-		$data = "0.01  123sakhu temple        12 1212 45645";
+		$data = $this->input->post('MSG');
+
+		if(isset($data)){
+			$success = FALSE;
+			$msg=lang('failure_message');
+			echo json_encode(array('msg'=>$msg,'success'=>$success));
+			die;
+		}
+
+		//$data = "0.01  123sakhu temple        12 1212 45645";
 		$dataArray = array('version'=>'4',	'code'=>'5',	'name'=>'20',	'district'=>'2',	'vdc'=>'3',	'municipal'=>'3', 'ward'=>'2',	'location_category'=>'2',	'total'=>'5',	'population_male'=>'4',	'population_female'=>'4',	'population_children'=>'4',	'population_old'=>'4',	'death'=>'4',	'trapped'=>'4',	'sick'=>'4',	'household'=>'4',	'houses_damaged'=>'4',	'houses_collapsed'=>'4',	'houses_cracked'=>'4',	'accessibility_id'=>'2',	'area_type'=>'2',	'priority'=>'2',	'road_obstructed'=>'2',	'dal-bhat'=>'4',	'dry-food'=>'4',	'water/drinks'=>'4',	'baby-food'=>'4',	'antiseptics'=>'4',	'first-aid'=>'4',	'effected_female'=>'4',	'effected_children'=>'4',	'general'=>'4',	'tent'=>'4',	'blanket/mat'=>'4',	'cooking_untential'=>'4',	'lights'=>'4');
 		$total = 0;
 		$temp = null;

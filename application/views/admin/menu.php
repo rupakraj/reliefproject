@@ -92,6 +92,11 @@
                 </a>
             </li>
             <li>
+                <a href="<?php echo site_url('admin/area_sms'); ?>">
+                    <i class="fa fa-tag"></i> <span>Area SMS</span>
+                </a>
+            </li>
+            <li>
                 <a href="<?php echo site_url('admin/organization'); ?>">
                     <i class="fa fa-tag"></i> <span>Organization</span>
                 </a>
