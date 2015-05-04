@@ -114,6 +114,7 @@
                     <li><a href="<?php echo site_url('admin/reports'); ?>"><i class="fa fa-angle-double-right"></i>Table</a></li>
                     <li><a href="<?php echo site_url('admin/reports/gis'); ?>"><i class="fa fa-angle-double-right"></i>GIS CLUSTER</a></li>
                     <li><a href="<?php echo site_url('admin/reports/gismarker'); ?>"><i class="fa fa-angle-double-right"></i>GIS MARKER</a></li>
+                    <li><a href="<?php echo site_url('admin/reports/vdc'); ?>"><i class="fa fa-angle-double-right"></i>VDC Wise(GIS)</a></li>
                     <li><a href="<?php echo site_url('admin/reports'); ?>"><i class="fa fa-angle-double-right"></i>Charts</a></li>
                     
                 </ul>
