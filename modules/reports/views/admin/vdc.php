@@ -19,6 +19,12 @@
     	<div class="row">
     		<div class="col-xs-12 connectedSortable">
     			<?php echo displayStatus(); ?>
+
+    			<?php
+    			// foreach ($coordinate as $row) {
+    			// 	print_r( $row );
+    			// }
+    			?>
     			<div id="map"></div>
     		</div><!-- /.col -->
     	</div>
@@ -51,8 +57,13 @@
 	function onEachFeature(feature, layer) {
 		var popupContent ="";
 		popupContent += "Distict: <b>"+feature.district+"</b><br>";
-		popupContent += "VDC: <b>"+feature.vdc+"</b><br>";
-		popupContent += "Ward No: <b>"+feature.ward+"</b><br>"; 
+		popupContent += "VDC: <b>"+feature.vdc+"</b><br>"; 
+
+		
+		// $.post( "test.php", { name: "John", time: "2pm" } )
+		// 	.done(function( data ) {
+		// 		alert( "Data Loaded: " + data );
+		// 	}); 
 
 		if (feature.properties && feature.properties.popupContent) {
 			popupContent += feature.properties.popupContent;
@@ -61,8 +72,36 @@
 		layer.bindPopup(popupContent);
 	}
 
+	var rescue = {
+		"type": "FeatureCollection",
+		"features": [
+		<?php 
+		
+		foreach ($coordinate as $row) {
+			echo('{
+				"geometry": {
+					"type": "Polygon",
+					"coordinates": 
+					[  '.$row['boundary_coordinate'].' ]
+				},
+				"type": "Feature",
+				"district": "'.$row['district_name_np'].'",
+				"vdc": "'.$row['name_np'].'", 
+				"properties": {
+					"popupContent": "Data Goes here"
+				},
+				"id": 56
+			},');
+
+		} 
+
+		?>
+		
+		]
+	};
 
 
+/*
 	var rescue = {
 		"type": "FeatureCollection",
 		"features": [
@@ -161,6 +200,7 @@
 		]
 	};
 	
+	*/
 
 
 	L.geoJson([rescue], {

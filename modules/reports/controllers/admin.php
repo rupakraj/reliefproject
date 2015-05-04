@@ -10,8 +10,8 @@ class Admin extends Rsys_Controller
         //$this->lang->load('reports/reports');
         //$this->bep_assets->load_asset('jquery.upload'); // uncomment if image ajax upload
 
-        $this->load->model('area/area_model');
-        $this->lang->load('area/area');
+		$this->load->model('area/area_model');
+		$this->lang->load('area/area');
 	}
 
 	public function index()
@@ -40,6 +40,11 @@ class Admin extends Rsys_Controller
 		$data['header'] = "VDC Wise Map";
 		$data['page'] = $this->config->item('template_admin') . "vdc";
 		$data['module'] = 'reports';
+		// $this->load->database();
+		// select * from vw_vdc_mun_boundary where district_name_en='Kathmandu';
+		$query = $this->db->query("select name_np, district_name_np, boundary_coordinate from vw_vdc_mun_boundary where district_name_en='Kathmandu';");
+		$data['coordinate'] = $query->result_array();
+
 		$this->load->view($this->_container,$data);	
 	}
 
