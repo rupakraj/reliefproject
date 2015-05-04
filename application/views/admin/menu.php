@@ -54,6 +54,8 @@
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/priority'); ?>"><i class="fa fa-angle-double-right"></i>Priority</a></li>
                     <?php $css = (isset($uri[1]) && $uri[1] == 'location_category') ? 'class="active"' : ''; ?>
                     <li <?php echo $css; ?>><a href="<?php echo site_url('admin/location_category'); ?>"><i class="fa fa-angle-double-right"></i>Location category</a></li>
+                    <?php $css = (isset($uri[1]) && $uri[1] == 'item_type') ? 'class="active"' : ''; ?>
+                    <li <?php echo $css; ?>><a href="<?php echo site_url('admin/item_type'); ?>"><i class="fa fa-angle-double-right"></i>Item type</a></li>
 
 
                     <?php $css = (isset($uri[1]) && $uri[1] == 'specialization') ? 'class="active"' : ''; ?> 

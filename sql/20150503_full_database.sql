@@ -5261,6 +5261,27 @@ CREATE TABLE IF NOT EXISTS `tbl_volunteers` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
+CREATE TABLE IF NOT EXISTS `tbl_item_types` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `modified_by` int(11) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `delete_flag` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `tbl_item_types`
+--
+
+INSERT INTO `tbl_item_types` (`id`, `name`, `created_by`, `modified_by`, `created_date`, `modified_date`, `delete_flag`) VALUES
+(1, 'Food', 1, 1, '2015-05-04 08:50:26', '2015-05-04 03:05:26', 0),
+(2, 'Medicine', 1, 1, '2015-05-04 08:51:36', '2015-05-04 03:06:36', 0),
+(3, 'Non food', 1, 1, '2015-05-04 08:51:48', '2015-05-04 03:06:48', 0);
+
 --
 -- Constraints for dumped tables
 --
