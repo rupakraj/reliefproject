@@ -33,6 +33,17 @@ class Admin extends Rsys_Controller
 		$this->load->view($this->_container,$data);	
 	}
 
+	public function vdc()
+	{
+		// Display Page
+		$this->bep_assets->load_asset_group('LEAFLET');
+		$data['header'] = "VDC Wise Map";
+		$data['page'] = $this->config->item('template_admin') . "vdc";
+		$data['module'] = 'reports';
+		$this->load->view($this->_container,$data);	
+	}
+
+
 	public function gismarker()
 	{
 		// Display Page
